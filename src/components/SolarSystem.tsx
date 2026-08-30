@@ -561,7 +561,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
           // so the chevron center sits exactly one margin left of the panel.
           indicator.style.right = `${22 + measuredInsets.right}px`;
         } else if (desktopPanelOpen && (placement.edge === 'top' || placement.edge === 'bottom')) {
-          indicator.style.left = `${Math.min(placement.x, Math.max(34, panelLocalLeft - 34))}px`;
+          indicator.style.left = `${Math.min(placement.x, Math.max(34, panelLocalLeft - 46))}px`;
           indicator.style.right = 'auto';
         } else {
           indicator.style.left = `${placement.x}px`;

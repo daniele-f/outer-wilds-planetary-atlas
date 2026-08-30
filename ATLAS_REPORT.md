@@ -256,6 +256,7 @@ For desktop panels, the right safe distance is explicitly panel width plus its r
 Right-edge placement writes that safe distance to CSS `right` directly, avoiding stale projected left coordinates.
 If a projected entity point lies inside the panel rectangle, placement is forced to the adjacent panel edge so it cannot be hidden beneath the overlay.
 When the desktop indicator is on the top or bottom edge, its x-position is preserved unless it would overlap the panel, in which case it is clamped leftward.
+The clamp uses a 46px visual offset to match the right-edge indicator’s center distance.
 The station label is outside the rotating artwork wrapper, so it remains upright and below the station.
 It is rendered as the final settings-menu option with a separator above it.
 Orbit and label controls use matching state-aware Show/Hide wording.
