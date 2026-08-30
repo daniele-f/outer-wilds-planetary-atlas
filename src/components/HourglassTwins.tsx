@@ -350,6 +350,12 @@ export const HourglassTwins = forwardRef<HourglassTwinsHandle, HourglassTwinsPro
         className="hourglass-system"
         transform={`translate(${initialBarycenter.x} ${initialBarycenter.y})`}
       >
+        <circle
+          className="hourglass-binary-orbit"
+          data-orbit="hourglass-binary"
+          r={29}
+          aria-hidden="true"
+        />
         <defs>
           <linearGradient
             ref={gradientRef}

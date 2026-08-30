@@ -419,6 +419,7 @@ describe('planetary atlas application UI', () => {
     screen.getByRole('button', { name: 'Sun, Star' }).focus();
     await user.keyboard('{Enter}');
     const outwardOrder = [
+      'Hourglass Twins',
       'Ash Twin',
       'Ember Twin',
       'Timber Hearth',
@@ -449,7 +450,7 @@ describe('planetary atlas application UI', () => {
 
     expect(buttons.map((button) => button.getAttribute('aria-label'))).toEqual([
       'Previous destination: Quantum Moon',
-      'Next destination: Ash Twin',
+      'Next destination: Hourglass Twins',
       'Focus camera on Sun',
     ]);
   });
@@ -485,6 +486,30 @@ describe('planetary atlas application UI', () => {
 
     finishFocusTransition();
     expect(cameraWorld?.getAttribute('transform')).not.toBe(focusedAtStart);
+  });
+
+  it('selects and follows the composite Hourglass Twins target between the planets', async () => {
+    const user = userEvent.setup();
+    const restoreBounds = mockMobileSvgBounds();
+    const { container } = render(<App />);
+    act(() => frames.step(0));
+    const twins = getBody('hourglass-twins');
+    if (twins?.orbit === undefined) throw new Error('Missing Hourglass Twins orbit fixture.');
+    const point = worldPointToClient(
+      circularPosition(twins.orbit, 0),
+      { offset: { x: 0, y: 0 }, scale: 1 },
+      { width: 390, height: 844 },
+      ATLAS_VIEW_BOX,
+    );
+    const hit = container.querySelector('[data-hit-body-id="hourglass-twins"]');
+    if (hit === null) throw new Error('Missing Hourglass Twins composite target.');
+
+    fireEvent.click(hit, { clientX: point.x, clientY: point.y });
+    expect(screen.getByRole('complementary', { name: 'Hourglass Twins' })).toBeVisible();
+    await user.click(screen.getByRole('button', { name: 'Focus camera on Hourglass Twins' }));
+    finishFocusTransition();
+    expect(container.querySelector('.camera-world')).not.toHaveAttribute('transform', 'translate(0 0) scale(1)');
+    restoreBounds.mockRestore();
   });
 
   it('invites the user to select a world to learn more', () => {

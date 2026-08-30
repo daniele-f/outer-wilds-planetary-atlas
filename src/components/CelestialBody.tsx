@@ -24,6 +24,7 @@ type CelestialBodyProps = Readonly<{
 
 export const BODY_VISUAL_RADII: Readonly<Record<BodyId, number>> = {
   sun: 43,
+  'hourglass-twins': 0,
   'timber-hearth': 19,
   attlerock: 8,
   'brittle-hollow': 23,
@@ -38,6 +39,7 @@ export const BODY_VISUAL_RADII: Readonly<Record<BodyId, number>> = {
 
 export const BODY_HIT_RADII: Readonly<Record<BodyId, number>> = {
   sun: 56,
+  'hourglass-twins': 64,
   'timber-hearth': 30,
   attlerock: 23,
   'brittle-hollow': 32,
