@@ -30,6 +30,7 @@ export const BODY_VISUAL_RADII: Readonly<Record<BodyId, number>> = {
   'sun-station': 10,
   'white-hole-station': 15,
   'white-hole': 18,
+  'orbital-probe-cannon': 11,
   'hourglass-twins': 0,
   'timber-hearth': 19,
   attlerock: 8,
@@ -48,6 +49,7 @@ export const BODY_HIT_RADII: Readonly<Record<BodyId, number>> = {
   'sun-station': 24,
   'white-hole-station': 28,
   'white-hole': 30,
+  'orbital-probe-cannon': 22,
   'hourglass-twins': 64,
   'timber-hearth': 30,
   attlerock: 23,
@@ -137,6 +139,28 @@ function BodyArtwork({ id, radius, idPrefix }: Readonly<{ id: BodyId; radius: nu
   }
 
   if (id === 'white-hole') return <circle className="white-hole" r="12" />;
+
+if (id === 'orbital-probe-cannon') {
+  return (
+      <g className="orbital-probe-cannon-art" transform="scale(.50)">
+	  <path className="probe-cannon-rail" d="M-27,-8 H-17 L27,-6 V-4 L-17,-6 H-27 Z" />
+	  <path className="probe-cannon-rail" d="M-27,6 H-17 L27,4 V6 L-17,8 H-27 Z" />
+
+      <path className="probe-cannon-brace" d="M-25,6 L-17,-6 M-25,-6 L-17,6" />
+      <path className="probe-cannon-brace" d="M-17,6 L-9,-5.5 M-17,-6 L-9,5.5" />
+      <path className="probe-cannon-brace" d="M-9,5.5 L-1,-5 M-9,-5.5 L-1,5" />
+      <path className="probe-cannon-brace" d="M-1,5 L7,-4.5 M-1,-5 L7,4.5" />
+      <path className="probe-cannon-brace" d="M7,4.5 L15,-4 M7,-4.5 L15,4" />
+      <path className="probe-cannon-brace" d="M15,4 L23,-3.5 M15,-4 L23,3.5" />
+
+      <rect className="probe-cannon-base" x="-35" y="-10" width="11" height="20" rx="1" />
+	  <rect className="probe-cannon-cap" x="26" y="-7" width="4" height="14" />
+
+      <path className="probe-cannon-fin" d="M-33,-10 L-26,-10 L-29,-20 L-32,-20 Z" />
+      <path className="probe-cannon-fin" d="M-33,10 L-26,10 L-29,20 L-32,20 Z" />
+    </g>
+  );
+}
 
   return (
     <g className={`body-art body-art--${id}`}>

@@ -15,7 +15,7 @@ For the entity-by-entity numerical and mathematical reference, see [`ATLAS_REPOR
 ### Current status
 
 - The application is implemented and runnable locally.
-- The project contains 17 test files and 130 automated tests.
+- The project contains 17 test files and 132 automated tests.
 - The latest verified build completed successfully.
 - Desktop and mobile layouts are supported.
 - Keyboard, pointer, touch, and reduced-motion behavior are considered.
@@ -496,7 +496,10 @@ The implementation includes:
 - White Hole Station remains stationary in space while its artwork rotates independently on its own axis every 12 seconds.
 - The station’s rotation pivot is explicitly the center of `white-hole-station-ring` at local coordinates (0, 0).
 - Sun Station labels remain below the station because only the artwork layer rotates; the label stays in the translated parent group.
-- White Hole Station focus uses its own registered fixed position, so camera focus centers the station rather than the Sun.
+- Orbital Probe Cannon is spoiler-gated and follows a clockwise local orbit around Giant’s Deep as one attached launcher/probe unit.
+- OPC artwork and hit radius were reduced slightly to 11 and 22 atlas units respectively.
+- The OPC artwork now applies a 0.50× SVG scale so its visible geometry matches the reduced radius.
+- OPC now orbits closer to Giant’s Deep at a 48-unit local radius.
 - The spoiler toggle is listed last in the settings menu with a separator above it.
 - Orbit-line and planet-name controls also switch between “Show” and “Hide” labels to reflect their current state.
 - The settings order is planet names, orbit lines, then the separated spoiler control.
@@ -514,7 +517,7 @@ The Quantum Moon remains intentionally nonstandard: keyboard activation triggers
 
 ## 14. Automated test coverage
 
-The current suite contains **17 test files and 130 tests**. Coverage is behavior-focused and includes:
+The current suite contains **17 test files and 132 tests**. Coverage is behavior-focused and includes:
 
 1. Top-level application rendering and integration.
 2. Selecting bodies and opening/closing the information panel.

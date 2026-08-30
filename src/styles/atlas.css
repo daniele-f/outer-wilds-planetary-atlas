@@ -263,6 +263,12 @@
 .sun-station-wing { fill: #d99020; stroke: #f2bf4c; stroke-width: .5; }
 .sun-station-rail { fill: none; stroke: #d8891e; stroke-width: 1.1; }
 .white-hole { fill: #ffffff; filter: drop-shadow(0 0 5px rgb(255 255 255 / .75)); }
+.orbital-probe-cannon-art { filter: drop-shadow(0 0 3px rgb(225 165 45 / .35)); }
+.probe-cannon-rail { fill: #e1a52d; stroke: #f6cf63; stroke-width: .6; }
+.probe-cannon-brace { fill: none; stroke: #e1a52d; stroke-width: 2; stroke-linecap: square; stroke-linejoin: miter; }
+.probe-cannon-base { fill: #d8891e; stroke: #f6cf63; stroke-width: .7; }
+.probe-cannon-cap { fill: #b9751d; stroke: #f6cf63; stroke-width: .7; }
+.probe-cannon-fin { fill: #e1a52d; stroke: #f6cf63; stroke-width: .6; }
 .white-hole-station-ring { fill: none; stroke: #f6cf63; stroke-width: 1.5; }
 .white-hole-station-core { fill: #d8891e; stroke: #f2bd4a; stroke-width: .6; }
 .white-hole-station-beam { fill: #e1a52d; stroke: #f6cf63; stroke-width: .5; }

@@ -233,6 +233,9 @@ At every frame, station rotation is derived from its position: feet face radiall
 
 White Hole is a separate stationary anomaly at (-1200, 35), always rendered and interactive only when spoilers are enabled; its spoiler-enabled hit radius is 30 atlas units.
 White Hole Station’s fixed position is registered independently for camera focus.
+Orbital Probe Cannon uses a 48-unit, 22-second clockwise local orbit around Giant’s Deep and is rendered as one attached unit when spoilers are enabled.
+Its current visual radius is 11 atlas units with a 22-unit hit radius.
+The fixed-coordinate artwork is rendered at 0.50× scale to match that visual radius.
 Its artwork has a 12-second linear self-rotation; the world position and interaction target remain fixed.
 The SVG rotation origin is explicitly `(0, 0)`, the center of `white-hole-station-ring`.
 The station label is outside the rotating artwork wrapper, so it remains upright and below the station.
