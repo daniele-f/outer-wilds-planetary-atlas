@@ -84,6 +84,23 @@
   transform: scale(1.08);
 }
 
+/* Keep the Sun's corona as vector strokes while focused. The generic group
+   drop-shadow rasterizes the whole artwork before scaling, which softens the
+   segmented corona at high zoom. The Sun surface already owns its glow. */
+.celestial-entity[data-body-id="sun"]:hover .body-visual,
+.celestial-entity[data-body-id="sun"].celestial-entity--hovered .body-visual,
+.celestial-entity[data-body-id="sun"].celestial-entity--selected .body-visual,
+.celestial-entity[data-body-id="sun"]:focus-visible .body-visual {
+  filter: none;
+}
+
+.celestial-entity[data-body-id="sun"]:hover .sun-surface,
+.celestial-entity[data-body-id="sun"].celestial-entity--hovered .sun-surface,
+.celestial-entity[data-body-id="sun"].celestial-entity--selected .sun-surface,
+.celestial-entity[data-body-id="sun"]:focus-visible .sun-surface {
+  filter: brightness(1.16) drop-shadow(0 0 13px rgb(232 147 55 / .85));
+}
+
 .body-label {
   fill: #ead9b8;
   font-family: Inter, Segoe UI, sans-serif;

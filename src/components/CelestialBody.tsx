@@ -99,8 +99,10 @@ function BodyArtwork({ id, radius, idPrefix }: Readonly<{ id: BodyId; radius: nu
   if (id === 'sun') {
     return (
       <g className="sun-art">
-        <circle className="sun-corona sun-corona--outer" r={radius + 19} />
-        <circle className="sun-corona sun-corona--inner" r={radius + 10} />
+        <g className="sun-corona-layer">
+          <circle className="sun-corona sun-corona--outer" r={radius + 19} />
+          <circle className="sun-corona sun-corona--inner" r={radius + 10} />
+        </g>
         <circle className="sun-surface" r={radius} />
         <path className="sun-current" d="M-31,-8 C-15,-20 3,-17 29,-29 M-35,12 C-10,1 8,10 34,-2 M-24,28 C-5,19 13,25 27,15" />
         <circle className="sun-flare" cx="-12" cy="-18" r="4" />

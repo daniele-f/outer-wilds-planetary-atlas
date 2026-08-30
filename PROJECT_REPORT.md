@@ -499,6 +499,8 @@ The implementation includes:
 - White Hole is a separate stationary entity at (-1200, 35), hidden with spoilers off and selectable/focusable with spoilers on.
 - White Hole Station remains stationary in space while its artwork rotates independently on its own axis every 12 seconds.
 - The station’s rotation pivot is explicitly the center of `white-hole-station-ring` at local coordinates (0, 0).
+- Sun focus/hover removes the generic parent drop-shadow filter from the artwork group; brightness and glow are applied to the surface instead so corona strokes remain crisp.
+- Sun corona remains in its own layer and follows the enlarged Sun during focus/hover without the competing counter-scale that caused a visible in/out jump.
 - Sun Station labels remain below the station because only the artwork layer rotates; the label stays in the translated parent group.
 - Orbital Probe Cannon is spoiler-gated and follows a clockwise local orbit around Giant’s Deep as one attached launcher/probe unit.
 - The info panel is immediately hidden when its selected spoiler-gated entity is hidden.
