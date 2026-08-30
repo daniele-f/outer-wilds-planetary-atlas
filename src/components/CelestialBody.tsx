@@ -4,6 +4,7 @@ import {
   type KeyboardEvent,
   type MouseEvent,
   type PointerEvent,
+  type Ref,
 } from 'react';
 import type { BodyId, CelestialBody as CelestialBodyRecord } from '../data/celestialBodies';
 import type { SelectableActivationSource } from '../lib/selectableTargets';
@@ -21,6 +22,7 @@ type CelestialBodyProps = Readonly<{
   hitRadius?: number | undefined;
   labelFontSize?: number | undefined;
   interactive?: boolean;
+  artworkRef?: Ref<SVGGElement>;
 }>;
 
 export const BODY_VISUAL_RADII: Readonly<Record<BodyId, number>> = {
@@ -198,7 +200,7 @@ function BodyArtwork({ id, radius, idPrefix }: Readonly<{ id: BodyId; radius: nu
 }
 
 export const CelestialBody = forwardRef<SVGGElement, CelestialBodyProps>(function CelestialBody(
-  { body, selected, hovered = false, onActivate, compact = false, idPrefix, hitRadius, labelFontSize, interactive = true },
+  { body, selected, hovered = false, onActivate, compact = false, idPrefix, hitRadius, labelFontSize, interactive = true, artworkRef },
   ref,
 ) {
   const reactId = useId();
@@ -226,7 +228,9 @@ export const CelestialBody = forwardRef<SVGGElement, CelestialBodyProps>(functio
       onKeyDown={interactive ? onKeyDown : undefined}
     >
       <g className="body-visual" pointerEvents="none">
-        <BodyArtwork id={body.id} radius={radius} idPrefix={definitionPrefix} />
+        <g ref={artworkRef}>
+          <BodyArtwork id={body.id} radius={radius} idPrefix={definitionPrefix} />
+        </g>
       </g>
       <text
         className="body-label"
