@@ -98,6 +98,10 @@ const QUANTUM_PROXIMITY_PIXELS = 34;
 const QUANTUM_COOLDOWN_MILLISECONDS = 450;
 const FOCUS_TRANSITION_MILLISECONDS = 220;
 
+function randomQuantumPhaseEpoch(simulationTime: number): number {
+  return simulationTime - Math.random() * QUANTUM_ORBIT_PERIOD;
+}
+
 export type SolarSystemHandle = Readonly<{
   zoomIn: () => void;
   zoomOut: () => void;
@@ -534,7 +538,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       ...active,
       hostId: chooseQuantumHost(active.hostId),
       escapeCount: active.escapeCount + 1,
-      phaseEpoch: clock.getTime(),
+      phaseEpoch: randomQuantumPhaseEpoch(clock.getTime()),
       cooldownUntil: performance.now() + QUANTUM_COOLDOWN_MILLISECONDS,
       lastEscapeMovement: pointerMovementRef.current,
       orbitDirection: chooseQuantumOrbitDirection(),
@@ -610,12 +614,15 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
           moonClientPosition,
           QUANTUM_PROXIMITY_PIXELS,
         )) {
-          const nextQuantumState = attemptQuantumEscape(activeQuantumState, {
+          const escapedState = attemptQuantumEscape(activeQuantumState, {
             now: performance.now(),
             simulationTime: clock.getTime(),
             pointerMovement: pointerMovementRef.current,
             cooldown: QUANTUM_COOLDOWN_MILLISECONDS,
           });
+          const nextQuantumState = escapedState === activeQuantumState
+            ? escapedState
+            : Object.freeze({ ...escapedState, phaseEpoch: randomQuantumPhaseEpoch(clock.getTime()) });
           if (nextQuantumState !== activeQuantumState) {
             quantumStateRef.current = nextQuantumState;
             setQuantumState(nextQuantumState);
