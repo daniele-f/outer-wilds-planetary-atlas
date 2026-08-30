@@ -22,6 +22,7 @@ The visual radius is the SVG artwork radius. The hit radius is the minimum inter
 | Entity | Visual radius | Hit radius | Satellites / host |
 | --- | ---: | ---: | --- |
 | Sun | 43 | 56 | None |
+| Hourglass Twins (composite) | 0 (no separate artwork) | 64 | Ash Twin + Ember Twin |
 | Timber Hearth | 19 | 30 | Attlerock |
 | Attlerock | 8 | 23 | Timber Hearth |
 | Brittle Hollow | 23 | 32 | Hollow’s Lantern |
@@ -204,6 +205,9 @@ The Quantum Moon artwork retains its procedural swirl/mottle paths and rim while
 | Mobile panel focus offset | Half panel height plus bottom inset | Centers a followed body in the map area above the bottom sheet |
 | Quantum hover threshold | 34 px | Client-space proximity trigger |
 | Quantum cooldown | 450 ms | Minimum time between escapes |
+
+Planet labels retain a 14px minimum screen size; on viewports 760px wide or smaller their outline is reduced to 1.5px for readability.
+The simulation toggle icon is rendered with CSS geometry rather than a Unicode pause/play character, keeping its appearance consistent across operating systems and installed fonts.
 
 ## What is deliberately not modeled
 

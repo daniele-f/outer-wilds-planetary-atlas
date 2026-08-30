@@ -32,7 +32,16 @@ function ToolButton({
       title={label}
       onClick={onClick}
     >
-      <span aria-hidden="true">{symbol}</span>
+      {symbol === 'pause' ? (
+        <span className="atlas-control-icon atlas-control-icon--pause" aria-hidden="true">
+          <span />
+          <span />
+        </span>
+      ) : symbol === 'play' ? (
+        <span className="atlas-control-icon atlas-control-icon--play" aria-hidden="true" />
+      ) : (
+        <span aria-hidden="true">{symbol}</span>
+      )}
     </button>
   );
 }
@@ -57,7 +66,7 @@ export function Controls({
       <div className="atlas-controls__group" role="group" aria-label="Simulation controls">
         <ToolButton
           label="Pause simulation toggle"
-          symbol={paused ? '▶' : 'Ⅱ'}
+          symbol={paused ? 'play' : 'pause'}
           pressed={paused}
           onClick={onTogglePaused}
         />

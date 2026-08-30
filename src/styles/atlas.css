@@ -283,6 +283,10 @@
   .map-hint { bottom: .8rem; max-width: calc(100% - 2rem); text-align: center; }
 }
 
+@media (max-width: 760px) {
+  .body-label { stroke-width: 1.5px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .atlas-star,
   .sun-corona { animation: none; }
