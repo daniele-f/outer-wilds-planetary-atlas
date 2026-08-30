@@ -500,6 +500,7 @@ The implementation includes:
 - OPC artwork and hit radius were reduced slightly to 11 and 22 atlas units respectively.
 - The OPC artwork now applies a 0.50× SVG scale so its visible geometry matches the reduced radius.
 - OPC now orbits closer to Giant’s Deep at a 48-unit local radius.
+- The OPC rotates to align its tip with the clockwise orbital travel direction.
 - The spoiler toggle is listed last in the settings menu with a separator above it.
 - Orbit-line and planet-name controls also switch between “Show” and “Hide” labels to reflect their current state.
 - The settings order is planet names, orbit lines, then the separated spoiler control.

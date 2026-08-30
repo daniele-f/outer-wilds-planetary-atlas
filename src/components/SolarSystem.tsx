@@ -226,6 +226,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   const whiteHoleHitRef = useRef<SVGGElement | null>(null);
   const probeCannonPositionRef = useRef<SVGGElement | null>(null);
   const probeCannonHitRef = useRef<SVGGElement | null>(null);
+  const probeCannonArtworkRef = useRef<SVGGElement | null>(null);
   const selectableRadiiRef = useRef<Partial<Record<BodyId, number>>>({});
   const gestureRef = useRef<Gesture | null>(null);
   const pointerMovementRef = useRef(0);
@@ -446,12 +447,15 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
     if (showQuantumMoon && ORBITAL_PROBE_CANNON.orbit !== undefined) {
       const giantPosition = registry.get('giants-deep');
       if (giantPosition !== undefined) {
-        const probePosition = composePoint(giantPosition, circularPosition(ORBITAL_PROBE_CANNON.orbit, time));
+        const localPosition = circularPosition(ORBITAL_PROBE_CANNON.orbit, time);
+        const probePosition = composePoint(giantPosition, localPosition);
+        const travelAngle = Math.atan2(localPosition.y, localPosition.x) * 180 / Math.PI + 90 + 12;
         registry.update(ORBITAL_PROBE_CANNON.id, probePosition);
         selectableRegistry.update(ORBITAL_PROBE_CANNON.id, probePosition, selectableRadiiRef.current[ORBITAL_PROBE_CANNON.id] ?? 0);
         const transform = `translate(${probePosition.x.toFixed(3)} ${probePosition.y.toFixed(3)})`;
         probeCannonPositionRef.current?.setAttribute('transform', transform);
         probeCannonHitRef.current?.setAttribute('transform', transform);
+        probeCannonArtworkRef.current?.setAttribute('transform', `rotate(${travelAngle.toFixed(3)})`);
       }
     } else selectableRegistry.remove(ORBITAL_PROBE_CANNON.id);
     twinsRef.current?.renderAtTime(time);
@@ -842,7 +846,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
             <CelestialBody body={WHITE_HOLE} selected={selectedId === WHITE_HOLE.id} hovered={hoveredId === WHITE_HOLE.id} interactive={showQuantumMoon} onActivate={activate} idPrefix={`${sceneId}-${WHITE_HOLE.id}`} hitRadius={selectableRadius(WHITE_HOLE.id)} labelFontSize={labelFontSize} />
           </g>
           {showQuantumMoon ? <g ref={whiteHoleStationPositionRef} className="white-hole-station-position" transform={`translate(${WHITE_HOLE_STATION_POSITION.x} ${WHITE_HOLE_STATION_POSITION.y})`} data-body-id={WHITE_HOLE_STATION.id}><CelestialBody body={WHITE_HOLE_STATION} selected={selectedId === WHITE_HOLE_STATION.id} hovered={hoveredId === WHITE_HOLE_STATION.id} onActivate={activate} idPrefix={`${sceneId}-${WHITE_HOLE_STATION.id}`} hitRadius={selectableRadius(WHITE_HOLE_STATION.id)} labelFontSize={labelFontSize} /></g> : null}
-          {showQuantumMoon ? <g ref={probeCannonPositionRef} className="orbital-probe-cannon-position" data-body-id={ORBITAL_PROBE_CANNON.id}><CelestialBody body={ORBITAL_PROBE_CANNON} selected={selectedId === ORBITAL_PROBE_CANNON.id} hovered={hoveredId === ORBITAL_PROBE_CANNON.id} onActivate={activate} idPrefix={`${sceneId}-${ORBITAL_PROBE_CANNON.id}`} hitRadius={selectableRadius(ORBITAL_PROBE_CANNON.id)} labelFontSize={labelFontSize} /></g> : null}
+          {showQuantumMoon ? <g ref={probeCannonPositionRef} className="orbital-probe-cannon-position" data-body-id={ORBITAL_PROBE_CANNON.id}><CelestialBody artworkRef={probeCannonArtworkRef} body={ORBITAL_PROBE_CANNON} selected={selectedId === ORBITAL_PROBE_CANNON.id} hovered={hoveredId === ORBITAL_PROBE_CANNON.id} onActivate={activate} idPrefix={`${sceneId}-${ORBITAL_PROBE_CANNON.id}`} hitRadius={selectableRadius(ORBITAL_PROBE_CANNON.id)} labelFontSize={labelFontSize} /></g> : null}
 
           {ORDINARY_WORLDS.map(({ body, moon }) => (
             <g
