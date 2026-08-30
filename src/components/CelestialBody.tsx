@@ -24,6 +24,7 @@ type CelestialBodyProps = Readonly<{
 
 export const BODY_VISUAL_RADII: Readonly<Record<BodyId, number>> = {
   sun: 43,
+  'sun-station': 10,
   'hourglass-twins': 0,
   'timber-hearth': 19,
   attlerock: 8,
@@ -39,6 +40,7 @@ export const BODY_VISUAL_RADII: Readonly<Record<BodyId, number>> = {
 
 export const BODY_HIT_RADII: Readonly<Record<BodyId, number>> = {
   sun: 56,
+  'sun-station': 24,
   'hourglass-twins': 64,
   'timber-hearth': 30,
   attlerock: 23,
@@ -94,6 +96,23 @@ function BodyArtwork({ id, radius, idPrefix }: Readonly<{ id: BodyId; radius: nu
         <path className="sun-current" d="M-31,-8 C-15,-20 3,-17 29,-29 M-35,12 C-10,1 8,10 34,-2 M-24,28 C-5,19 13,25 27,15" />
         <circle className="sun-flare" cx="-12" cy="-18" r="4" />
         <circle className="sun-flare" cx="19" cy="13" r="3" />
+      </g>
+    );
+  }
+
+  if (id === 'sun-station') {
+    return (
+      <g className="sun-station-art">
+        <path className="sun-station-dome" d="M-9,1 A9,9 0 0 1 9,1 Z" />
+        <rect className="sun-station-crossbar" x="-10" y="-1.5" width="20" height="3" />
+        <path className="sun-station-wing sun-station-wing--left" d="M-4,1 L-8,7 H-5 L0,3" />
+        <path className="sun-station-wing sun-station-wing--right" d="M4,1 L8,7 H5 L0,3" />
+        <path className="sun-station-body" d="M-4,1 L-2.5,9 H2.5 L4,1 L1.25,4 H-1.25 Z" />
+        <rect className="sun-station-spine" x="-0.85" y="-8" width="1.7" height="21" />
+        <path className="sun-station-spine" d="M-2,-8 H2 L1,-10 H-1 Z" />
+        <path className="sun-station-rail" d="M-5,7 V20" />
+        <path className="sun-station-rail" d="M5,7 V20" />
+        <rect className="sun-station-crossbar" x="-5" y="15" width="10" height="1" />
       </g>
     );
   }

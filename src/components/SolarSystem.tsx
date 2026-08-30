@@ -81,6 +81,7 @@ const ORDINARY_WORLDS: readonly OrdinaryWorld[] = [
   { body: requireBody('dark-bramble') },
 ];
 const SUN = requireBody('sun');
+const SUN_STATION = requireBody('sun-station');
 const HOURGLASS_TWINS = requireBody('hourglass-twins');
 const ASH_TWIN = requireBody('ash-twin');
 const EMBER_TWIN = requireBody('ember-twin');
@@ -212,6 +213,8 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   const interloperRef = useRef<InterloperHandle | null>(null);
   const quantumMoonRef = useRef<SVGGElement | null>(null);
   const hourglassCompositeHitRef = useRef<SVGGElement | null>(null);
+  const sunStationPositionRef = useRef<SVGGElement | null>(null);
+  const sunStationHitRef = useRef<SVGGElement | null>(null);
   const selectableRadiiRef = useRef<Partial<Record<BodyId, number>>>({});
   const gestureRef = useRef<Gesture | null>(null);
   const pointerMovementRef = useRef(0);
@@ -369,6 +372,16 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       sunPosition,
       selectableRadiiRef.current.sun ?? BODY_HIT_RADII.sun,
     );
+    if (showQuantumMoon && SUN_STATION.orbit !== undefined) {
+      const stationPosition = circularPosition(SUN_STATION.orbit, time);
+      const inwardAngle = Math.atan2(-stationPosition.y, -stationPosition.x) * 180 / Math.PI;
+      const stationRotation = inwardAngle - 90;
+      registry.update(SUN_STATION.id, stationPosition);
+      selectableRegistry.update(SUN_STATION.id, stationPosition, selectableRadiiRef.current[SUN_STATION.id] ?? 0);
+      const stationTransform = `translate(${stationPosition.x.toFixed(3)} ${stationPosition.y.toFixed(3)}) rotate(${stationRotation.toFixed(3)})`;
+      sunStationPositionRef.current?.setAttribute('transform', stationTransform);
+      sunStationHitRef.current?.setAttribute('transform', stationTransform);
+    }
 
     ORDINARY_WORLDS.forEach(({ body, moon }) => {
       if (body.orbit === undefined) return;
@@ -453,7 +466,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       displayedCameraRef.current = focusedCamera();
     }
     applyCameraTransform();
-  }, [applyCameraTransform, focusedCamera, registry, selectableRegistry]);
+  }, [applyCameraTransform, focusedCamera, registry, selectableRegistry, showQuantumMoon]);
 
   useEffect(() => {
     renderAtTime(clock.getTime());
@@ -633,6 +646,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   });
   const effectiveRadii: Partial<Record<BodyId, number>> = {
     sun: selectableRadius('sun'),
+    'sun-station': showQuantumMoon ? selectableRadius('sun-station') : 0,
     'hourglass-twins': selectableRadius('hourglass-twins'),
   };
   ORDINARY_WORLDS.forEach(({ body, moon }) => {
@@ -649,7 +663,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
     Object.entries(effectiveRadii).forEach(([id, radius]) => {
       if (radius !== undefined) selectableRegistry.updateRadius(id as BodyId, radius);
     });
-  }, [camera.camera.scale, selectableRegistry, viewport.height, viewport.width]);
+  }, [camera.camera.scale, selectableRegistry, showQuantumMoon, viewport.height, viewport.width]);
 
   const viewBox = `${ATLAS_VIEW_BOX.x} ${ATLAS_VIEW_BOX.y} ${ATLAS_VIEW_BOX.width} ${ATLAS_VIEW_BOX.height}`;
 
@@ -679,6 +693,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
         <Starfield idPrefix={`${sceneId}-stars`} />
         <g ref={cameraWorldRef} className="camera-world" transform={displayedCameraTransform}>
           <g className="ordinary-orbits">
+            {showQuantumMoon && SUN_STATION.orbit !== undefined ? <Orbit orbit={SUN_STATION.orbit} selected={selectedId === SUN_STATION.id} /> : null}
             {ORDINARY_WORLDS.map(({ body }) => body.orbit === undefined ? null : (
               <Orbit
                 key={body.id}
@@ -701,6 +716,11 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
               onActivate={activate}
               onHoverChange={updateHitAreaHover}
             />
+            {showQuantumMoon ? (
+              <g ref={sunStationHitRef}>
+                <CelestialHitArea body={SUN_STATION} radius={selectableRadius(SUN_STATION.id)} onActivate={activate} onHoverChange={updateHitAreaHover} />
+              </g>
+            ) : null}
             <g ref={hourglassCompositeHitRef}>
               <CelestialHitArea
                 body={HOURGLASS_TWINS}
@@ -766,6 +786,11 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
             hitRadius={selectableRadius(SUN.id)}
             labelFontSize={labelFontSize}
           />
+          {showQuantumMoon ? (
+            <g ref={sunStationPositionRef} className="sun-station-position" data-body-id={SUN_STATION.id}>
+              <CelestialBody body={SUN_STATION} selected={selectedId === SUN_STATION.id} hovered={hoveredId === SUN_STATION.id} onActivate={activate} idPrefix={`${sceneId}-${SUN_STATION.id}`} hitRadius={selectableRadius(SUN_STATION.id)} labelFontSize={labelFontSize} />
+            </g>
+          ) : null}
 
           {ORDINARY_WORLDS.map(({ body, moon }) => (
             <g

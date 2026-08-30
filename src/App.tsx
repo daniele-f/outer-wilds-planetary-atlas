@@ -60,7 +60,7 @@ export default function App() {
   const selectedBody = selectedId === null ? undefined : getBody(selectedId);
   const navigationBodyIds = spoilersEnabled
     ? NAVIGATION_BODY_IDS
-    : NAVIGATION_BODY_IDS.filter((id) => id !== 'quantum-moon');
+    : NAVIGATION_BODY_IDS.filter((id) => id !== 'quantum-moon' && id !== 'sun-station');
   const simulationSpeed = paused ? 0 : speed;
 
   useEffect(() => writeStoredBoolean(ORBITS_HIDDEN_STORAGE_KEY, orbitsHidden), [orbitsHidden]);
@@ -69,7 +69,7 @@ export default function App() {
     if (!spoilerPromptOpen) writeStoredBoolean(SPOILERS_ENABLED_STORAGE_KEY, spoilersEnabled);
   }, [spoilerPromptOpen, spoilersEnabled]);
   useEffect(() => {
-    if (!spoilersEnabled && selectedId === 'quantum-moon') {
+    if (!spoilersEnabled && (selectedId === 'quantum-moon' || selectedId === 'sun-station')) {
       solarSystemRef.current?.unfocusBody();
       setSelectedId(null);
       setPanelOpen(false);
