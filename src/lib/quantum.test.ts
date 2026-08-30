@@ -4,6 +4,7 @@ import { ATLAS_VIEW_BOX } from './svgViewport';
 import {
   QUANTUM_HOSTS,
   attemptQuantumEscape,
+  chooseQuantumOrbitDirection,
   chooseQuantumHost,
   createQuantumState,
   isPointerNear,
@@ -51,6 +52,27 @@ describe('Quantum Moon host selection', () => {
 
     expect(choices).not.toContain('timber-hearth');
     expect(new Set(choices).size).toBeGreaterThan(1);
+  });
+});
+
+describe('Quantum Moon orbit direction', () => {
+  it('chooses either direction from an injected random source', () => {
+    expect(chooseQuantumOrbitDirection(() => 0)).toBe(-1);
+    expect(chooseQuantumOrbitDirection(() => 0.999)).toBe(1);
+  });
+
+  it('keeps one direction until an escape rerolls it', () => {
+    const initial = createQuantumState('timber-hearth', 0, () => 0.9);
+    const escaped = attemptQuantumEscape(initial, {
+      now: 1_000,
+      simulationTime: 12,
+      pointerMovement: 1,
+      cooldown: 0,
+      rng: sequenceRng(0, 0.1),
+    });
+
+    expect(initial.orbitDirection).toBe(1);
+    expect(escaped.orbitDirection).toBe(-1);
   });
 });
 

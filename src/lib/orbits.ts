@@ -55,7 +55,8 @@ function cycleFraction(time: number, period: number): number {
 }
 
 function phaseOf(orbit: OrbitConfig, time: number): number {
-  return (orbit.phase ?? 0) + TAU * cycleFraction(time, orbit.period);
+  return (orbit.phase ?? 0)
+    + (orbit.direction ?? 1) * TAU * cycleFraction(time, orbit.period);
 }
 
 /** Returns a point at an orbit's radius for the supplied simulation time. */

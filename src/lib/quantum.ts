@@ -6,7 +6,9 @@ import {
   type SvgViewBox,
 } from './svgViewport';
 import type { WorldPositionSnapshot } from './worldPositions';
-import type { Point } from '../types/celestial';
+import type { OrbitDirection, Point } from '../types/celestial';
+
+export const QUANTUM_ORBIT_PERIOD = 90;
 
 export const QUANTUM_HOSTS = [
   'timber-hearth',
@@ -24,6 +26,7 @@ export type QuantumState = Readonly<{
   phaseEpoch: number;
   cooldownUntil: number;
   lastEscapeMovement: number | null;
+  orbitDirection: OrbitDirection;
 }>;
 
 export type QuantumEscapeOptions = Readonly<{
@@ -56,6 +59,13 @@ export function chooseQuantumHost(
   return chosen;
 }
 
+/** Rerolls one of the two on-screen orbit directions with equal probability. */
+export function chooseQuantumOrbitDirection(
+  rng: () => number = Math.random,
+): OrbitDirection {
+  return finiteOrZero(rng()) < 0.5 ? -1 : 1;
+}
+
 /** Uses physical client pixels so the configured threshold is inclusive and zoom independent. */
 export function isPointerNear(pointer: Point, moon: Point, radius: number): boolean {
   const threshold = Math.max(0, finiteOrZero(radius));
@@ -63,13 +73,18 @@ export function isPointerNear(pointer: Point, moon: Point, radius: number): bool
 }
 
 /** Creates the event-driven state without coupling it to React render frequency. */
-export function createQuantumState(hostId: QuantumHostId, phaseEpoch: number): QuantumState {
+export function createQuantumState(
+  hostId: QuantumHostId,
+  phaseEpoch: number,
+  rng: () => number = Math.random,
+): QuantumState {
   return Object.freeze({
     hostId,
     escapeCount: 0,
     phaseEpoch,
     cooldownUntil: Number.NEGATIVE_INFINITY,
     lastEscapeMovement: null,
+    orbitDirection: chooseQuantumOrbitDirection(rng),
   });
 }
 
@@ -97,6 +112,7 @@ export function attemptQuantumEscape(
     phaseEpoch: options.simulationTime,
     cooldownUntil: options.now + Math.max(0, finiteOrZero(options.cooldown)),
     lastEscapeMovement: options.pointerMovement,
+    orbitDirection: chooseQuantumOrbitDirection(options.rng),
   });
 }
 
@@ -130,6 +146,7 @@ type QuantumWorldPositionOptions = Readonly<{
   phaseEpoch: number;
   orbitRadius: number;
   orbitPeriod: number;
+  orbitDirection?: OrbitDirection;
 }>;
 
 /** Composes a live host position with a phase-reset local circular orbit. */
@@ -138,6 +155,9 @@ export function quantumMoonWorldPosition(options: QuantumWorldPositionOptions): 
   const local = circularPosition({
     radius: options.orbitRadius,
     period: options.orbitPeriod,
+    ...(options.orbitDirection === undefined
+      ? {}
+      : { direction: options.orbitDirection }),
   }, options.simulationTime - options.phaseEpoch);
   return composePoint(host, local);
 }

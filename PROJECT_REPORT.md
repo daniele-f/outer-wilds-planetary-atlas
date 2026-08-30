@@ -13,7 +13,7 @@ Visitors can inspect worlds, read playful travel-pamphlet descriptions, navigate
 ### Current status
 
 - The application is implemented and runnable locally.
-- The project contains 17 test files and 110 automated tests.
+- The project contains 17 test files and 114 automated tests.
 - The latest verified build completed successfully.
 - Desktop and mobile layouts are supported.
 - Keyboard, pointer, touch, and reduced-motion behavior are considered.
@@ -212,16 +212,16 @@ The Quantum Moon can only be selected through these sidebar arrows. Direct activ
 | Body | Classification and presentation | Orbit configuration | Satellites in catalog |
 | --- | --- | --- | --- |
 | Sun | Glowing center of the system and default Home focus | Stationary system origin | None |
-| Timber Hearth | Green/blue home world | Radius 260, period 42, phase 0.35 | Attlerock |
-| Attlerock | Small rocky moon | Local radius 28, period 10, phase 1.2 | None |
-| Brittle Hollow | Dark-blue fractured world with glowing cracks | Radius 370, period 58, phase 2.3 | Hollow’s Lantern |
-| Hollow’s Lantern | Volcanic moon | Local radius 35, period 13, phase 0.5 | None |
-| Giant’s Deep | Large green, turbulent world | Radius 470, period 74, phase 4.7 | None |
-| Ash Twin | One half of the Hourglass Twins | Shared barycenter radius 170, period 30, phase 3.8 | None |
-| Ember Twin | Other half of the Hourglass Twins | Shared barycenter radius 170, period 30, phase 3.8 | None |
-| Dark Bramble | Large dark world with icy fractures/vines | Radius 570, period 118, phase 5.45 | None |
-| Interloper | Icy comet with an anti-solar tail | Semi-major radius 690, period 160, phase 0.25, eccentricity 0.82 | None |
-| Quantum Moon | Elusive moon that changes host | Dynamically orbits one eligible host at local radius 48, period 21 | None |
+| Timber Hearth | Green/blue home world | Radius 260, period 42, phase 0.35, counterclockwise | Attlerock |
+| Attlerock | Small rocky moon | Local radius 28, period 10, phase 1.2, counterclockwise | None |
+| Brittle Hollow | Dark-blue fractured world with glowing cracks | Radius 370, period 58, phase 2.3, counterclockwise | Hollow’s Lantern |
+| Hollow’s Lantern | Volcanic moon | Local radius 35, period 13, phase 0.5, counterclockwise | None |
+| Giant’s Deep | Large green, turbulent world | Radius 470, period 74, phase 4.7, counterclockwise | None |
+| Ash Twin | One half of the Hourglass Twins | Shared barycenter radius 170, period 30, phase 3.8, counterclockwise | None |
+| Ember Twin | Other half of the Hourglass Twins | Shared barycenter radius 170, period 30, phase 3.8, counterclockwise | None |
+| Dark Bramble | Large dark world with icy fractures/vines | Radius 570, period 118, phase 5.45, counterclockwise | None |
+| Interloper | Icy comet with an anti-solar tail | Semi-major radius 690, period 160, phase 0.25, eccentricity 0.82, clockwise | None |
+| Quantum Moon | Elusive moon that changes host | Dynamically orbits one eligible host at local radius 48, period 90, randomized direction | None |
 
 Every catalog entry also contains spoiler-conscious travel content: a tagline, pitch, attraction list, travel tips, and satellite IDs.
 
@@ -244,6 +244,7 @@ The Quantum Moon is intentionally different from every other target:
 
 - It chooses among Timber Hearth, Brittle Hollow, Giant’s Deep, the Hourglass Twins, and Dark Bramble as eligible hosts.
 - A new host never repeats the current host.
+- It orbits very slowly, choosing clockwise or counterclockwise at random on initial placement and every jump.
 - Hovering or approaching it can make it jump.
 - It can keep jumping indefinitely; there is no five-jump stabilization limit.
 - A 450 ms cooldown prevents uncontrolled repeat triggering.
@@ -255,6 +256,8 @@ The Quantum Moon is intentionally different from every other target:
 ### Hourglass Twins behavior
 
 Ash Twin and Ember Twin share a barycentric orbit. Their local positions are computed as a binary pair, and animated sand grains transfer between them. The sand transfer is reversible and respects reduced-motion preferences.
+
+The shared barycenter moves counterclockwise around the Sun. The two twins retain their clockwise local rotation around one another.
 
 ## 8. Camera system
 
@@ -306,6 +309,8 @@ The orbit utilities calculate:
 - Point composition for parent/local orbit nesting.
 
 Moon positions are composed from their host’s current world position plus a local orbit. A live world-position registry lets the camera and pointer-interaction systems use the same moving coordinates rendered by the components.
+
+Orbit direction is explicit in SVG screen space: `1` means clockwise and `-1` means counterclockwise. The five planetary systems and the two regular moons use counterclockwise motion; the Interloper uses clockwise motion; the Quantum Moon holds one randomly chosen direction until its next relocation.
 
 ### Orbit-line appearance
 
@@ -475,7 +480,7 @@ The Quantum Moon remains intentionally nonstandard: keyboard activation triggers
 
 ## 14. Automated test coverage
 
-The current suite contains **17 test files and 110 tests**. Coverage is behavior-focused and includes:
+The current suite contains **17 test files and 114 tests**. Coverage is behavior-focused and includes:
 
 1. Top-level application rendering and integration.
 2. Selecting bodies and opening/closing the information panel.
@@ -489,9 +494,9 @@ The current suite contains **17 test files and 110 tests**. Coverage is behavior
 10. Settings-menu visibility and display toggles.
 11. Simulation pause and speed changes.
 12. Camera coordinate transforms and zoom clamping.
-13. Circular, elliptical, binary, and comet orbit math.
+13. Circular, elliptical, binary, and comet orbit math, including explicit direction handling.
 14. Interloper periapsis and tail behavior.
-15. Quantum host selection, no-repeat jumps, proximity escape, cooldown, indefinite jumping, and focused following.
+15. Quantum host selection, randomized orbit direction, no-repeat jumps, proximity escape, cooldown, indefinite jumping, and focused following.
 16. Hourglass Twins, Interloper, and Quantum Moon frame/render behavior.
 17. SVG ID uniqueness across repeated components.
 18. Starfield determinism and confirmation that space dust is absent.

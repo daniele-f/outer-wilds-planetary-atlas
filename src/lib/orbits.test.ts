@@ -24,6 +24,16 @@ describe('circularPosition', () => {
     expect(point.x).toBeCloseTo(expected.x, precision);
     expect(point.y).toBeCloseTo(expected.y, precision);
   });
+
+  it('moves clockwise by default and counterclockwise when requested', () => {
+    const clockwise = circularPosition({ radius: 10, period: 4 }, 1);
+    const counterclockwise = circularPosition({ radius: 10, period: 4, direction: -1 }, 1);
+
+    expect(clockwise.x).toBeCloseTo(0, precision);
+    expect(clockwise.y).toBeCloseTo(10, precision);
+    expect(counterclockwise.x).toBeCloseTo(0, precision);
+    expect(counterclockwise.y).toBeCloseTo(-10, precision);
+  });
 });
 
 describe('composePoint', () => {

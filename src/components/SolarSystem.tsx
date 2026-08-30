@@ -22,9 +22,11 @@ import { circularPosition, composePoint } from '../lib/orbits';
 import {
   attemptQuantumEscape,
   chooseQuantumHost,
+  chooseQuantumOrbitDirection,
   createQuantumState,
   isPointerNear,
   renderQuantumMoonFrame,
+  QUANTUM_ORBIT_PERIOD,
   type QuantumState,
 } from '../lib/quantum';
 import {
@@ -84,7 +86,6 @@ const INTERLOPER = requireBody('interloper');
 const QUANTUM_MOON = requireBody('quantum-moon');
 const SPECIAL_BODY_IDS = [ASH_TWIN.id, EMBER_TWIN.id, INTERLOPER.id] as const;
 const QUANTUM_ORBIT_RADIUS = 48;
-const QUANTUM_ORBIT_PERIOD = 21;
 const QUANTUM_PROXIMITY_PIXELS = 34;
 const QUANTUM_COOLDOWN_MILLISECONDS = 450;
 const FOCUS_TRANSITION_MILLISECONDS = 220;
@@ -381,6 +382,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       phaseEpoch: activeQuantumState.phaseEpoch,
       orbitRadius: QUANTUM_ORBIT_RADIUS,
       orbitPeriod: QUANTUM_ORBIT_PERIOD,
+      orbitDirection: activeQuantumState.orbitDirection,
       target: quantumMoonRef.current,
       onPositionUpdate: (position) => {
         registry.update(QUANTUM_MOON.id, position);
@@ -431,6 +433,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       phaseEpoch: clock.getTime(),
       cooldownUntil: performance.now() + QUANTUM_COOLDOWN_MILLISECONDS,
       lastEscapeMovement: pointerMovementRef.current,
+      orbitDirection: chooseQuantumOrbitDirection(),
     });
     quantumStateRef.current = nextState;
     setQuantumState(nextState);
