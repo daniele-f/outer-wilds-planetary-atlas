@@ -11,7 +11,7 @@
 
 .offscreen-indicator {
   position: absolute;
-  z-index: 4;
+  z-index: 7;
   width: 1.5rem;
   height: 1.7rem;
   pointer-events: none;

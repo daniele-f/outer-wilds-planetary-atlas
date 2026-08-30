@@ -520,6 +520,14 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
     const indicator = offscreenIndicatorRef.current;
     if (svg !== null && indicator !== null) {
       const bounds = svg.getBoundingClientRect();
+      const panel = document.querySelector<HTMLElement>('.info-panel');
+      const panelRect = panel?.getBoundingClientRect();
+      const measuredInsets = panelRect === undefined ? offscreenInsets : (() => {
+        const mobilePanel = panelRect.width >= bounds.width * .7;
+        return mobilePanel
+          ? { right: 0, bottom: Math.max(0, panelRect.height + (bounds.bottom - panelRect.bottom)) }
+          : { right: Math.max(0, panelRect.width + (bounds.right - panelRect.right)), bottom: 0 };
+      })();
       const targetId = selectedId ?? SUN.id;
       const target = registry.get(targetId);
       const targetScreen = target === undefined ? undefined : worldPointToClient(
@@ -528,14 +536,37 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
         { width: bounds.width, height: bounds.height },
         ATLAS_VIEW_BOX,
       );
-      const placement = targetScreen === undefined ? null : placeOffscreenIndicator(
-        targetScreen,
+      const panelLocalLeft = panelRect === undefined ? Number.POSITIVE_INFINITY : panelRect.left - bounds.left;
+      const panelLocalTop = panelRect === undefined ? Number.POSITIVE_INFINITY : panelRect.top - bounds.top;
+      const panelCoversTarget = targetScreen !== undefined && panelRect !== undefined && (
+        (panelRect.width < bounds.width * .7 && targetScreen.x >= panelLocalLeft)
+        || (panelRect.width >= bounds.width * .7 && targetScreen.y >= panelLocalTop)
+      );
+      const placementTarget = panelCoversTarget && targetScreen !== undefined
+        ? panelRect !== undefined && panelRect.width < bounds.width * .7
+          ? { x: bounds.width + 1, y: targetScreen.y }
+          : { x: targetScreen.x, y: bounds.height + 1 }
+        : targetScreen;
+      const placement = placementTarget === undefined ? null : placeOffscreenIndicator(
+        placementTarget,
         selectedId === null ? 'Solar System' : (getBody(selectedId)?.name ?? 'Solar System'),
-        { width: bounds.width, height: bounds.height, ...offscreenInsets },
+        { width: bounds.width, height: bounds.height, ...measuredInsets },
       );
       indicator.hidden = placement === null;
       if (placement !== null) {
-        indicator.style.left = `${placement.x}px`;
+        const desktopPanelOpen = panelRect !== undefined && panelRect.width < bounds.width * .7;
+        if (placement.edge === 'right') {
+          indicator.style.left = 'auto';
+          // `right` anchors the 24px indicator box; subtract half its width
+          // so the chevron center sits exactly one margin left of the panel.
+          indicator.style.right = `${22 + measuredInsets.right}px`;
+        } else if (desktopPanelOpen && (placement.edge === 'top' || placement.edge === 'bottom')) {
+          indicator.style.left = `${Math.min(placement.x, Math.max(34, panelLocalLeft - 34))}px`;
+          indicator.style.right = 'auto';
+        } else {
+          indicator.style.left = `${placement.x}px`;
+          indicator.style.right = 'auto';
+        }
         indicator.style.top = `${placement.y}px`;
         indicator.style.setProperty('--offscreen-angle', `${placement.angle}deg`);
         indicator.className = `offscreen-indicator offscreen-indicator--${placement.edge}`;

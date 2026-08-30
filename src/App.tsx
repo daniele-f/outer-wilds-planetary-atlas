@@ -123,20 +123,18 @@ export default function App() {
       return;
     }
     const updateOffset = () => {
+      const stageRect = stage.getBoundingClientRect();
+      const panelRect = panel.getBoundingClientRect();
       if (window.matchMedia('(max-width: 760px)').matches) {
         setFocusViewportOffsetX(0);
-        const panelHeight = panel.getBoundingClientRect().height;
-        const panelBottom = Number.parseFloat(window.getComputedStyle(panel).bottom);
-        const panelInset = panelHeight + (Number.isFinite(panelBottom) ? panelBottom : 0);
-        const offset = -(panelHeight + (Number.isFinite(panelBottom) ? panelBottom : 0)) / 2;
+        const panelInset = Math.max(0, stageRect.bottom - panelRect.top);
+        const offset = -panelInset / 2;
         setFocusViewportOffsetY((current) => Math.abs(current - offset) < 0.01 ? current : offset);
         setOffscreenInsets((current) => current.right === 0 && Math.abs(current.bottom - panelInset) < 0.01 ? current : { right: 0, bottom: panelInset });
         return;
       }
       setFocusViewportOffsetY(0);
-      const panelWidth = panel.getBoundingClientRect().width;
-      const panelRight = Number.parseFloat(window.getComputedStyle(panel).right);
-      const panelInset = panelWidth + (Number.isFinite(panelRight) ? panelRight : 0);
+      const panelInset = Math.max(0, stageRect.right - panelRect.left);
       const offset = -panelInset / 2;
       setFocusViewportOffsetX((current) => Math.abs(current - offset) < 0.01 ? current : offset);
       setOffscreenInsets((current) => current.bottom === 0 && Math.abs(current.right - panelInset) < 0.01 ? current : { right: panelInset, bottom: 0 });
