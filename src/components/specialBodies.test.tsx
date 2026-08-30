@@ -38,6 +38,7 @@ describe('HourglassTwins', () => {
     expect(markup).toContain('aria-label="Ash Twin, Planet"');
     expect(markup).toContain('aria-label="Ember Twin, Planet"');
     expect(markup).toContain('data-sand-stream="ash-twin-to-ember-twin"');
+    expect(markup).toContain('data-orbit="hourglass-binary"');
     expect(markup).not.toContain('body-focus-ring');
     expect(markup).not.toContain('body-selection-ring');
   });

@@ -15,7 +15,7 @@ For the entity-by-entity numerical and mathematical reference, see [`ATLAS_REPOR
 ### Current status
 
 - The application is implemented and runnable locally.
-- The project contains 17 test files and 119 automated tests.
+- The project contains 17 test files and 121 automated tests.
 - The latest verified build completed successfully.
 - Desktop and mobile layouts are supported.
 - Keyboard, pointer, touch, and reduced-motion behavior are considered.
@@ -196,24 +196,28 @@ Closing the panel therefore does not silently clear the selected body, and relea
 The previous and next buttons wrap through this fixed order:
 
 1. Sun
-2. Ash Twin
-3. Ember Twin
-4. Timber Hearth
-5. Attlerock
-6. Brittle Hollow
-7. Hollow’s Lantern
-8. Giant’s Deep
-9. Dark Bramble
-10. Interloper
-11. Quantum Moon
+2. Hourglass Twins
+3. Ash Twin
+4. Ember Twin
+5. Timber Hearth
+6. Attlerock
+7. Brittle Hollow
+8. Hollow’s Lantern
+9. Giant’s Deep
+10. Dark Bramble
+11. Interloper
+12. Quantum Moon
 
 The Quantum Moon can only be selected through these sidebar arrows. Direct activation always makes it relocate.
+
+The Hourglass Twins are also a composite destination: clicking near the pair or on the sand beam selects the shared system, while clicking directly on either planet still selects that individual twin.
 
 ## 7. Celestial-body catalog
 
 | Body | Classification and presentation | Orbit configuration | Satellites in catalog |
 | --- | --- | --- | --- |
 | Sun | Glowing center of the system and default Home focus | Stationary system origin | None |
+| Hourglass Twins | Composite binary-system destination and sand-beam spectacle | Shared barycenter radius 170, period 30, phase 3.8, counterclockwise; internal binary period 18, clockwise | Ash Twin, Ember Twin |
 | Timber Hearth | Green/blue home world | Radius 260, period 42, phase 0.35, counterclockwise | Attlerock |
 | Attlerock | Small rocky moon | Local radius 28, period 10, phase 1.2, counterclockwise | None |
 | Brittle Hollow | Dark-blue fractured world with glowing cracks | Radius 370, period 58, phase 2.3, counterclockwise | Hollow’s Lantern |
@@ -484,7 +488,7 @@ The Quantum Moon remains intentionally nonstandard: keyboard activation triggers
 
 ## 14. Automated test coverage
 
-The current suite contains **17 test files and 119 tests**. Coverage is behavior-focused and includes:
+The current suite contains **17 test files and 121 tests**. Coverage is behavior-focused and includes:
 
 1. Top-level application rendering and integration.
 2. Selecting bodies and opening/closing the information panel.

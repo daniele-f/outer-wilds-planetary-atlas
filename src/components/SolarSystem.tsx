@@ -81,6 +81,7 @@ const ORDINARY_WORLDS: readonly OrdinaryWorld[] = [
   { body: requireBody('dark-bramble') },
 ];
 const SUN = requireBody('sun');
+const HOURGLASS_TWINS = requireBody('hourglass-twins');
 const ASH_TWIN = requireBody('ash-twin');
 const EMBER_TWIN = requireBody('ember-twin');
 const INTERLOPER = requireBody('interloper');
@@ -208,6 +209,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   const twinsRef = useRef<HourglassTwinsHandle | null>(null);
   const interloperRef = useRef<InterloperHandle | null>(null);
   const quantumMoonRef = useRef<SVGGElement | null>(null);
+  const hourglassCompositeHitRef = useRef<SVGGElement | null>(null);
   const selectableRadiiRef = useRef<Partial<Record<BodyId, number>>>({});
   const gestureRef = useRef<Gesture | null>(null);
   const pointerMovementRef = useRef(0);
@@ -403,6 +405,24 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       );
     });
     twinsRef.current?.renderAtTime(time);
+    const ashPosition = registry.get(ASH_TWIN.id);
+    const emberPosition = registry.get(EMBER_TWIN.id);
+    if (ashPosition !== undefined && emberPosition !== undefined) {
+      const barycenter = {
+        x: (ashPosition.x + emberPosition.x) / 2,
+        y: (ashPosition.y + emberPosition.y) / 2,
+      };
+      registry.update(HOURGLASS_TWINS.id, barycenter);
+      selectableRegistry.update(
+        HOURGLASS_TWINS.id,
+        barycenter,
+        selectableRadiiRef.current[HOURGLASS_TWINS.id] ?? BODY_HIT_RADII[HOURGLASS_TWINS.id],
+      );
+      hourglassCompositeHitRef.current?.setAttribute(
+        'transform',
+        `translate(${barycenter.x.toFixed(3)} ${barycenter.y.toFixed(3)})`,
+      );
+    }
     interloperRef.current?.renderAtTime(time);
     const activeQuantumState = quantumStateRef.current;
     renderQuantumMoonFrame({
@@ -611,6 +631,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   });
   const effectiveRadii: Partial<Record<BodyId, number>> = {
     sun: selectableRadius('sun'),
+    'hourglass-twins': selectableRadius('hourglass-twins'),
   };
   ORDINARY_WORLDS.forEach(({ body, moon }) => {
     effectiveRadii[body.id] = selectableRadius(body.id);
@@ -678,6 +699,14 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
               onActivate={activate}
               onHoverChange={updateHitAreaHover}
             />
+            <g ref={hourglassCompositeHitRef}>
+              <CelestialHitArea
+                body={HOURGLASS_TWINS}
+                radius={selectableRadius(HOURGLASS_TWINS.id)}
+                onActivate={activate}
+                onHoverChange={updateHitAreaHover}
+              />
+            </g>
             {ORDINARY_WORLDS.flatMap(({ body, moon }) => {
               const targets = [
                 <g key={body.id} ref={(node) => { hitRefs.current[body.id] = node; }}>

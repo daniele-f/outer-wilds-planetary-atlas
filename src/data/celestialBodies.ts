@@ -2,6 +2,7 @@ import type { OrbitConfig } from '../types/celestial';
 
 export const BODY_IDS = [
   'sun',
+  'hourglass-twins',
   'timber-hearth',
   'attlerock',
   'brittle-hollow',
@@ -18,6 +19,7 @@ export type BodyId = (typeof BODY_IDS)[number];
 
 export const NAVIGATION_BODY_IDS = [
   'sun',
+  'hourglass-twins',
   'ash-twin',
   'ember-twin',
   'timber-hearth',
@@ -97,6 +99,14 @@ export const celestialBodies: readonly CelestialBody[] = [
     attractions: ['Cyclone spotting from a safe-ish distance', 'The system’s most committed ocean panorama'],
     travelTips: ['Waterproof everything.', 'If the horizon starts rotating, hold on and enjoy the ride.'],
     satelliteIds: [], orbit: orbit(470, 74, 4.7, { direction: -1 }),
+  },
+  {
+    id: 'hourglass-twins', name: 'Hourglass Twins', classification: 'Binary system', type: 'Paired desert worlds',
+    tagline: 'Go for the twin-world spectacle, stay for the moving sand bridge.',
+    pitch: 'Two contrasting desert destinations share one orbit and one unforgettable centerpiece: a living hourglass performance between them.',
+    attractions: ['A perfect twin-world photo opportunity', 'A sweeping sand beam that links the pair'],
+    travelTips: ['Watch both horizons at once.', 'The best views are somewhere between the two worlds.'],
+    satelliteIds: ['ash-twin', 'ember-twin'], orbit: orbit(170, 30, 3.8, { direction: -1 }),
   },
   {
     id: 'ash-twin', name: 'Ash Twin', classification: 'Planet', type: 'Hourglass twin',

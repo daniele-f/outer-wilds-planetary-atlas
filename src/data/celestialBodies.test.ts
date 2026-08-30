@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { BODY_IDS, celestialBodies, getBody } from './celestialBodies';
+import { BODY_IDS, celestialBodies, getBody, NAVIGATION_BODY_IDS } from './celestialBodies';
 
 const requiredIds = [
   'sun',
+  'hourglass-twins',
   'timber-hearth',
   'attlerock',
   'brittle-hollow',
@@ -25,6 +26,13 @@ describe('celestial body catalog', () => {
     for (const id of requiredIds) {
       expect(getBody(id)?.id).toBe(id);
     }
+  });
+
+  it('includes a composite Hourglass Twins destination before the individual twins', () => {
+    expect(getBody('hourglass-twins')?.name).toBe('Hourglass Twins');
+    expect(NAVIGATION_BODY_IDS.slice(0, 4)).toEqual([
+      'sun', 'hourglass-twins', 'ash-twin', 'ember-twin',
+    ]);
   });
 
   it('does not allow duplicate IDs to make selection ambiguous', () => {

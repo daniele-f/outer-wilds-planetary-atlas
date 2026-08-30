@@ -47,6 +47,10 @@ The visual radius is the SVG artwork radius. The hit radius is the minimum inter
 
 ### Hourglass Twins — shared system
 
+- Composite selection target: the shared barycenter and sand beam can be selected as “Hourglass Twins”; exact planet hit areas retain priority for Ash Twin or Ember Twin.
+- Composite camera focus follows the live barycenter, so the pair remains centered while their binary orbit evolves.
+- Composite visual radius: 0 (no third planet is drawn); composite hit radius: 64 atlas units.
+- Catalog satellites: Ash Twin and Ember Twin.
 - Ash Twin and Ember Twin share one barycenter orbit.
 - Barycenter orbit radius: 170.
 - Barycenter period around the Sun: 30 seconds.
