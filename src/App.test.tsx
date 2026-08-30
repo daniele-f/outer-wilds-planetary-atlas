@@ -524,7 +524,7 @@ describe('planetary atlas application UI', () => {
       frames.step(2_000);
     });
 
-    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(236.892 107.156)');
+    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(250.216 70.652)');
   });
 
   it('freezes orbital time while paused and resumes at the selected two-times speed', async () => {
@@ -535,7 +535,7 @@ describe('planetary atlas application UI', () => {
       frames.step(1_000);
       frames.step(2_000);
     });
-    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(228.221 124.559)');
+    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(254.797 51.756)');
 
     const pause = screen.getByRole('button', { name: 'Pause simulation toggle' });
     expect(pause).toHaveAttribute('aria-pressed', 'false');
@@ -543,7 +543,7 @@ describe('planetary atlas application UI', () => {
     expect(pause).toHaveAccessibleName('Pause simulation toggle');
     expect(pause).toHaveAttribute('aria-pressed', 'true');
     act(() => frames.step(3_000));
-    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(228.221 124.559)');
+    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(254.797 51.756)');
 
     const doubleSpeed = screen.getByRole('button', { name: 'Set simulation speed to 2x' });
     await user.click(doubleSpeed);
@@ -551,7 +551,7 @@ describe('planetary atlas application UI', () => {
     expect(pause).toHaveAttribute('aria-pressed', 'true');
     await user.click(pause);
     act(() => frames.step(4_000));
-    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(181.368 186.295)');
+    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(258.732 -25.646)');
   });
 
   it('gives every control an accessible name, tooltip, and current state', () => {

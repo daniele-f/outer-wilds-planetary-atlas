@@ -110,6 +110,24 @@ describe('celestial body catalog', () => {
     }
   });
 
+  it('assigns the requested on-screen direction to planets and regular moons', () => {
+    const counterclockwiseIds = [
+      'ash-twin',
+      'ember-twin',
+      'timber-hearth',
+      'attlerock',
+      'brittle-hollow',
+      'hollows-lantern',
+      'giants-deep',
+      'dark-bramble',
+    ] as const;
+
+    for (const id of counterclockwiseIds) {
+      expect(getBody(id)?.orbit?.direction).toBe(-1);
+    }
+    expect(getBody('interloper')?.orbit?.direction ?? 1).toBe(1);
+  });
+
   it('spaces the inner planets outward without moving Dark Bramble or the Interloper', () => {
     const twins = getBody('ash-twin')?.orbit?.radius;
     const timber = getBody('timber-hearth')?.orbit?.radius;
