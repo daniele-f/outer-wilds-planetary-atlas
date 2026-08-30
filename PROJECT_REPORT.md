@@ -15,7 +15,7 @@ For the entity-by-entity numerical and mathematical reference, see [`ATLAS_REPOR
 ### Current status
 
 - The application is implemented and runnable locally.
-- The project contains 17 test files and 118 automated tests.
+- The project contains 17 test files and 119 automated tests.
 - The latest verified build completed successfully.
 - Desktop and mobile layouts are supported.
 - Keyboard, pointer, touch, and reduced-motion behavior are considered.
@@ -282,7 +282,7 @@ The camera library supplies reversible world-to-screen and screen-to-world trans
 
 ### Focus and follow
 
-Focusing is not a one-time jump. The camera first interpolates smoothly to the target, then reads the body’s live world position every animation frame. It therefore remains centered while the body continues orbiting. With the desktop information panel open, the focus point shifts left to the center of the unobscured map area and smoothly returns to screen center when the panel closes. Narrow-screen bottom sheets leave the horizontal focus center unchanged. Manual panning cancels follow mode, allowing the user to explore freely.
+Focusing is not a one-time jump. The camera first interpolates smoothly to the target, then reads the body’s live world position every animation frame. It therefore remains centered while the body continues orbiting. With the desktop information panel open, the focus point shifts left to the center of the unobscured map area; with the mobile bottom sheet open, it shifts upward to the center of the remaining map area. Both offsets smoothly return to screen center when the panel closes. Manual panning cancels follow mode, allowing the user to explore freely.
 
 The solar-system component exposes an imperative camera API:
 
@@ -484,13 +484,13 @@ The Quantum Moon remains intentionally nonstandard: keyboard activation triggers
 
 ## 14. Automated test coverage
 
-The current suite contains **17 test files and 118 tests**. Coverage is behavior-focused and includes:
+The current suite contains **17 test files and 119 tests**. Coverage is behavior-focused and includes:
 
 1. Top-level application rendering and integration.
 2. Selecting bodies and opening/closing the information panel.
 3. Sidebar previous/next navigation order and wrapping.
 4. Camera focus through buttons, Home, and double-click.
-5. Smooth focus transitions, camera following, and side-panel-aware focus centering.
+5. Smooth focus transitions, camera following, and desktop/mobile panel-aware focus centering.
 6. Manual pan releasing focus.
 7. Center-based mouse-wheel zoom.
 8. Mouse, touch, and pinch camera input.

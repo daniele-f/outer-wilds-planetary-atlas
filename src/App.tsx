@@ -37,6 +37,7 @@ export default function App() {
   const [orbitsHidden, setOrbitsHidden] = useState(() => readStoredBoolean(ORBITS_HIDDEN_STORAGE_KEY));
   const [labelsHidden, setLabelsHidden] = useState(() => readStoredBoolean(LABELS_HIDDEN_STORAGE_KEY));
   const [focusViewportOffsetX, setFocusViewportOffsetX] = useState(0);
+  const [focusViewportOffsetY, setFocusViewportOffsetY] = useState(0);
   const solarSystemRef = useRef<SolarSystemHandle | null>(null);
   const stageRef = useRef<HTMLElement | null>(null);
   const infoPanelRef = useRef<HTMLElement | null>(null);
@@ -87,13 +88,19 @@ export default function App() {
     const panel = infoPanelRef.current;
     if (!panelVisible || stage === null || panel === null) {
       setFocusViewportOffsetX(0);
+      setFocusViewportOffsetY(0);
       return;
     }
     const updateOffset = () => {
       if (window.matchMedia('(max-width: 760px)').matches) {
         setFocusViewportOffsetX(0);
+        const panelHeight = panel.getBoundingClientRect().height;
+        const panelBottom = Number.parseFloat(window.getComputedStyle(panel).bottom);
+        const offset = -(panelHeight + (Number.isFinite(panelBottom) ? panelBottom : 0)) / 2;
+        setFocusViewportOffsetY((current) => Math.abs(current - offset) < 0.01 ? current : offset);
         return;
       }
+      setFocusViewportOffsetY(0);
       const panelWidth = panel.getBoundingClientRect().width;
       const panelRight = Number.parseFloat(window.getComputedStyle(panel).right);
       const offset = -(panelWidth + (Number.isFinite(panelRight) ? panelRight : 0)) / 2;
@@ -126,6 +133,7 @@ export default function App() {
           showLabels={!labelsHidden}
           onQuantumStatusChange={setQuantumStatus}
           focusViewportOffsetX={focusViewportOffsetX}
+          focusViewportOffsetY={focusViewportOffsetY}
         />
         {!panelOpen || selectedBody === undefined ? null : (
           <InfoPanel

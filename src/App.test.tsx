@@ -37,9 +37,11 @@ class TestResizeObserver {
   disconnect(): void {}
 }
 
+let mobileViewport = false;
+
 function matchMedia(query: string): MediaQueryList {
   return {
-    matches: false,
+    matches: mobileViewport && query === '(max-width: 760px)',
     media: query,
     onchange: null,
     addListener: () => {},
@@ -54,6 +56,7 @@ let frames: ControlledFrames;
 
 beforeEach(() => {
   frames = new ControlledFrames();
+  mobileViewport = false;
   localStorage.clear();
   vi.stubGlobal('PointerEvent', MouseEvent);
   vi.stubGlobal('requestAnimationFrame', frames.request);
@@ -200,6 +203,34 @@ describe('planetary atlas application UI', () => {
     await user.click(screen.getByRole('button', { name: 'Close Sun details' }));
     finishFocusTransition(2_000);
 
+    expect(container.querySelector('.camera-world')).toHaveAttribute('transform', 'translate(0 0) scale(1)');
+  });
+
+  it('moves the focused world upward into the remaining map area on mobile', async () => {
+    mobileViewport = true;
+    const user = userEvent.setup();
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function bounds(this: HTMLElement) {
+      if (this.classList.contains('atlas-stage')) return new DOMRect(0, 0, 390, 844);
+      if (this.classList.contains('info-panel')) return new DOMRect(10, 534, 370, 300);
+      return new DOMRect(0, 0, 0, 0);
+    });
+    const nativeGetComputedStyle = window.getComputedStyle;
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(((element: Element) => {
+      const style = nativeGetComputedStyle(element);
+      if (element.classList.contains('info-panel')) style.setProperty('bottom', '10px');
+      return style;
+    }) as typeof window.getComputedStyle);
+
+    const { container } = render(<App />);
+    screen.getByRole('button', { name: 'Sun, Star' }).focus();
+    await user.keyboard('{Enter}');
+    expect(container.querySelector('.camera-world')).not.toHaveAttribute('transform', 'translate(0 -155) scale(1)');
+    finishFocusTransition();
+
+    expect(container.querySelector('.camera-world')).toHaveAttribute('transform', 'translate(0 -155) scale(1)');
+
+    await user.click(screen.getByRole('button', { name: 'Close Sun details' }));
+    finishFocusTransition(2_000);
     expect(container.querySelector('.camera-world')).toHaveAttribute('transform', 'translate(0 0) scale(1)');
   });
 

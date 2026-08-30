@@ -112,6 +112,8 @@ export type SolarSystemProps = Readonly<{
   onQuantumStatusChange?: (message: string) => void;
   /** Horizontal CSS-pixel shift that centers a focused body in visible map space. */
   focusViewportOffsetX?: number;
+  /** Vertical CSS-pixel shift that centers a focused body above a mobile bottom sheet. */
+  focusViewportOffsetY?: number;
 }>;
 
 type Gesture = {
@@ -131,13 +133,14 @@ function cameraFocusedOn(
   camera: Camera,
   position: Point | undefined,
   focusOffsetX = 0,
+  focusOffsetY = 0,
 ): Camera {
   if (position === undefined) return camera;
   return {
     ...camera,
     offset: {
       x: camera.offset.x - position.x * camera.scale + focusOffsetX,
-      y: camera.offset.y - position.y * camera.scale,
+      y: camera.offset.y - position.y * camera.scale + focusOffsetY,
     },
   };
 }
@@ -177,6 +180,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
     onRegistryReady,
     onQuantumStatusChange,
     focusViewportOffsetX = 0,
+    focusViewportOffsetY = 0,
   },
   ref,
 ) {
@@ -245,7 +249,8 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
     cameraStateRef.current,
     focusedBodyRef.current === null ? undefined : registry.get(focusedBodyRef.current),
     focusViewportOffsetX / svgViewportScale(viewport, ATLAS_VIEW_BOX),
-  ), [focusViewportOffsetX, registry, viewport]);
+    focusViewportOffsetY / svgViewportScale(viewport, ATLAS_VIEW_BOX),
+  ), [focusViewportOffsetX, focusViewportOffsetY, registry, viewport]);
   const getDisplayedCamera = useCallback(() => displayedCameraRef.current, []);
   const applyCameraTransform = useCallback(() => {
     cameraWorldRef.current?.setAttribute('transform', cameraTransform(getDisplayedCamera()));
@@ -292,7 +297,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
 
   useLayoutEffect(() => {
     if (focusedBodyRef.current !== null) transitionToFocusedCamera();
-  }, [focusViewportOffsetX, transitionToFocusedCamera]);
+  }, [focusViewportOffsetX, focusViewportOffsetY, transitionToFocusedCamera]);
 
   const unfocusBody = useCallback(() => {
     if (focusedBodyRef.current === null) return false;

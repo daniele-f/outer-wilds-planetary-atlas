@@ -197,6 +197,7 @@ The Quantum Moon artwork retains its procedural swirl/mottle paths and rim while
 | Wheel zoom rate | 0.0015 | Exponential wheel scaling coefficient |
 | Drag threshold | 4 px | Minimum pointer movement for panning |
 | Focus transition | 220 ms | Cubic ease-out camera movement |
+| Mobile panel focus offset | Half panel height plus bottom inset | Centers a followed body in the map area above the bottom sheet |
 | Quantum hover threshold | 34 px | Client-space proximity trigger |
 | Quantum cooldown | 450 ms | Minimum time between escapes |
 
