@@ -13,7 +13,7 @@ Visitors can inspect worlds, read playful travel-pamphlet descriptions, navigate
 ### Current status
 
 - The application is implemented and runnable locally.
-- The project contains 17 test files and 106 automated tests.
+- The project contains 17 test files and 110 automated tests.
 - The latest verified build completed successfully.
 - Desktop and mobile layouts are supported.
 - Keyboard, pointer, touch, and reduced-motion behavior are considered.
@@ -194,13 +194,13 @@ Closing the panel therefore does not silently clear the selected body, and relea
 The previous and next buttons wrap through this fixed order:
 
 1. Sun
-2. Timber Hearth
-3. Attlerock
-4. Brittle Hollow
-5. Hollow’s Lantern
-6. Giant’s Deep
-7. Ash Twin
-8. Ember Twin
+2. Ash Twin
+3. Ember Twin
+4. Timber Hearth
+5. Attlerock
+6. Brittle Hollow
+7. Hollow’s Lantern
+8. Giant’s Deep
 9. Dark Bramble
 10. Interloper
 11. Quantum Moon
@@ -212,13 +212,13 @@ The Quantum Moon can only be selected through these sidebar arrows. Direct activ
 | Body | Classification and presentation | Orbit configuration | Satellites in catalog |
 | --- | --- | --- | --- |
 | Sun | Glowing center of the system and default Home focus | Stationary system origin | None |
-| Timber Hearth | Green/blue home world | Radius 155, period 42, phase 0.35 | Attlerock |
+| Timber Hearth | Green/blue home world | Radius 260, period 42, phase 0.35 | Attlerock |
 | Attlerock | Small rocky moon | Local radius 28, period 10, phase 1.2 | None |
-| Brittle Hollow | Dark-blue fractured world with glowing cracks | Radius 250, period 58, phase 2.3 | Hollow’s Lantern |
+| Brittle Hollow | Dark-blue fractured world with glowing cracks | Radius 370, period 58, phase 2.3 | Hollow’s Lantern |
 | Hollow’s Lantern | Volcanic moon | Local radius 35, period 13, phase 0.5 | None |
-| Giant’s Deep | Large green, turbulent world | Radius 355, period 74, phase 4.7 | None |
-| Ash Twin | One half of the Hourglass Twins | Shared barycenter radius 455, period 92, phase 3.8 | None |
-| Ember Twin | Other half of the Hourglass Twins | Shared barycenter radius 455, period 92, phase 3.8 | None |
+| Giant’s Deep | Large green, turbulent world | Radius 470, period 74, phase 4.7 | None |
+| Ash Twin | One half of the Hourglass Twins | Shared barycenter radius 170, period 30, phase 3.8 | None |
+| Ember Twin | Other half of the Hourglass Twins | Shared barycenter radius 170, period 30, phase 3.8 | None |
 | Dark Bramble | Large dark world with icy fractures/vines | Radius 570, period 118, phase 5.45 | None |
 | Interloper | Icy comet with an anti-solar tail | Semi-major radius 690, period 160, phase 0.25, eccentricity 0.82 | None |
 | Quantum Moon | Elusive moon that changes host | Dynamically orbits one eligible host at local radius 48, period 21 | None |
@@ -475,7 +475,7 @@ The Quantum Moon remains intentionally nonstandard: keyboard activation triggers
 
 ## 14. Automated test coverage
 
-The current suite contains **17 test files and 106 tests**. Coverage is behavior-focused and includes:
+The current suite contains **17 test files and 110 tests**. Coverage is behavior-focused and includes:
 
 1. Top-level application rendering and integration.
 2. Selecting bodies and opening/closing the information panel.

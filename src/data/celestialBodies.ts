@@ -16,6 +16,20 @@ export const BODY_IDS = [
 
 export type BodyId = (typeof BODY_IDS)[number];
 
+export const NAVIGATION_BODY_IDS = [
+  'sun',
+  'ash-twin',
+  'ember-twin',
+  'timber-hearth',
+  'attlerock',
+  'brittle-hollow',
+  'hollows-lantern',
+  'giants-deep',
+  'dark-bramble',
+  'interloper',
+  'quantum-moon',
+] as const satisfies readonly BodyId[];
+
 export type CelestialBody = Readonly<{
   id: BodyId;
   name: string;
@@ -48,7 +62,7 @@ export const celestialBodies: readonly CelestialBody[] = [
     pitch: 'This friendly little homeworld bundles forests, rivers, village charm, and big-sky optimism into one extremely cozy getaway.',
     attractions: ['Crater hiking with panoramic village views', 'Lazy river loops beneath towering pines'],
     travelTips: ['Save room for marshmallows.', 'Wave to the locals; half of them probably helped build your ship.'],
-    satelliteIds: ['attlerock'], orbit: orbit(155, 42, 0.35),
+    satelliteIds: ['attlerock'], orbit: orbit(260, 42, 0.35),
   },
   {
     id: 'attlerock', name: 'Attlerock', classification: 'Moon', type: 'Rocky satellite',
@@ -64,7 +78,7 @@ export const celestialBodies: readonly CelestialBody[] = [
     pitch: 'For travelers who think ordinary geology lacks suspense, this fractured world delivers hanging landscapes and vertigo in equal measure.',
     attractions: ['Hanging-city sightseeing', 'Front-row views of a beautifully unstable crust'],
     travelTips: ['Watch your step—and the step after that.', 'A jetpack is less an accessory and more a lifestyle choice.'],
-    satelliteIds: ['hollows-lantern'], orbit: orbit(250, 58, 2.3),
+    satelliteIds: ['hollows-lantern'], orbit: orbit(370, 58, 2.3),
   },
   {
     id: 'hollows-lantern', name: "Hollow's Lantern", classification: 'Moon', type: 'Volcanic satellite',
@@ -80,7 +94,7 @@ export const celestialBodies: readonly CelestialBody[] = [
     pitch: 'A storm-chaser’s paradise where every island comes with ocean views, dramatic weather, and a flexible definition of “ground level.”',
     attractions: ['Cyclone spotting from a safe-ish distance', 'The system’s most committed ocean panorama'],
     travelTips: ['Waterproof everything.', 'If the horizon starts rotating, hold on and enjoy the ride.'],
-    satelliteIds: [], orbit: orbit(355, 74, 4.7),
+    satelliteIds: [], orbit: orbit(470, 74, 4.7),
   },
   {
     id: 'ash-twin', name: 'Ash Twin', classification: 'Planet', type: 'Hourglass twin',
@@ -88,7 +102,7 @@ export const celestialBodies: readonly CelestialBody[] = [
     pitch: 'Minimalist desert scenery meets a spectacular twin-world performance as sand streams overhead with clockwork theatricality.',
     attractions: ['Freshly revealed desert vistas', 'The best view of the interplanetary sand column'],
     travelTips: ['Timing matters more than footwear.', 'Keep one eye on the sand and one on your parking spot.'],
-    satelliteIds: [], orbit: orbit(455, 92, 3.8),
+    satelliteIds: [], orbit: orbit(170, 30, 3.8),
   },
   {
     id: 'ember-twin', name: 'Ember Twin', classification: 'Planet', type: 'Hourglass twin',
@@ -96,7 +110,7 @@ export const celestialBodies: readonly CelestialBody[] = [
     pitch: 'A compact desert escape packed with winding passages, glowing stone, and just enough incoming sand to keep the itinerary brisk.',
     attractions: ['Sunset canyon walks', 'Cave routes for confident navigators'],
     travelTips: ['Travel light and check the time.', 'Claustrophobic visitors may prefer the scenic overlook.'],
-    satelliteIds: [], orbit: orbit(455, 92, 3.8),
+    satelliteIds: [], orbit: orbit(170, 30, 3.8),
   },
   {
     id: 'dark-bramble', name: 'Dark Bramble', classification: 'Planet', type: 'Bramble world',

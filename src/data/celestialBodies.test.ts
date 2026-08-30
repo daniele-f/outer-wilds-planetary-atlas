@@ -78,6 +78,54 @@ describe('celestial body catalog', () => {
     expect(emberOrbit).toEqual(ashOrbit);
   });
 
+  it('places the planets in their correct outward order from the Sun', () => {
+    const orderedPlanetIds = [
+      'ash-twin',
+      'timber-hearth',
+      'brittle-hollow',
+      'giants-deep',
+      'dark-bramble',
+    ] as const;
+    const radii = orderedPlanetIds.map((id) => getBody(id)?.orbit?.radius);
+
+    expect(radii.every((radius) => radius !== undefined)).toBe(true);
+    for (let index = 1; index < radii.length; index += 1) {
+      expect(radii[index]).toBeGreaterThan(radii[index - 1] as number);
+    }
+  });
+
+  it('keeps planetary orbit periods increasing with distance from the Sun', () => {
+    const orderedPlanetIds = [
+      'ash-twin',
+      'timber-hearth',
+      'brittle-hollow',
+      'giants-deep',
+      'dark-bramble',
+    ] as const;
+    const periods = orderedPlanetIds.map((id) => getBody(id)?.orbit?.period);
+
+    expect(periods.every((period) => period !== undefined)).toBe(true);
+    for (let index = 1; index < periods.length; index += 1) {
+      expect(periods[index]).toBeGreaterThan(periods[index - 1] as number);
+    }
+  });
+
+  it('spaces the inner planets outward without moving Dark Bramble or the Interloper', () => {
+    const twins = getBody('ash-twin')?.orbit?.radius;
+    const timber = getBody('timber-hearth')?.orbit?.radius;
+    const brittle = getBody('brittle-hollow')?.orbit?.radius;
+    const giant = getBody('giants-deep')?.orbit?.radius;
+    const darkBramble = getBody('dark-bramble')?.orbit?.radius;
+    const interloper = getBody('interloper')?.orbit?.radius;
+
+    expect(twins).toBeGreaterThanOrEqual(160);
+    expect((timber as number) - (twins as number)).toBeGreaterThanOrEqual(80);
+    expect((brittle as number) - (timber as number)).toBeGreaterThanOrEqual(100);
+    expect((giant as number) - (brittle as number)).toBeGreaterThanOrEqual(100);
+    expect(darkBramble).toBe(570);
+    expect(interloper).toBe(690);
+  });
+
   it('brings the Interloper inside Timber Hearth orbit at periapsis', () => {
     const interloperOrbit = getBody('interloper')?.orbit;
     const timberOrbit = getBody('timber-hearth')?.orbit;

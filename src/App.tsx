@@ -4,7 +4,7 @@ import { Controls, type SimulationSpeed } from './components/Controls';
 import { InfoPanel } from './components/InfoPanel';
 import { SettingsMenu } from './components/SettingsMenu';
 import { SolarSystem, type SolarSystemHandle } from './components/SolarSystem';
-import { BODY_IDS, getBody, type BodyId } from './data/celestialBodies';
+import { NAVIGATION_BODY_IDS, getBody, type BodyId } from './data/celestialBodies';
 import './styles/ui.css';
 
 export default function App() {
@@ -25,9 +25,9 @@ export default function App() {
   const simulationSpeed = paused ? 0 : speed;
   const navigateBody = useCallback((direction: -1 | 1) => {
     if (selectedId === null) return;
-    const currentIndex = BODY_IDS.indexOf(selectedId);
-    const nextIndex = (currentIndex + direction + BODY_IDS.length) % BODY_IDS.length;
-    const nextId = BODY_IDS[nextIndex];
+    const currentIndex = NAVIGATION_BODY_IDS.indexOf(selectedId);
+    const nextIndex = (currentIndex + direction + NAVIGATION_BODY_IDS.length) % NAVIGATION_BODY_IDS.length;
+    const nextId = NAVIGATION_BODY_IDS[nextIndex];
     if (nextId === undefined) return;
     setSelectedId(nextId);
     setPanelOpen(true);
