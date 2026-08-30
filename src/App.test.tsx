@@ -177,7 +177,7 @@ describe('planetary atlas application UI', () => {
     localStorage.setItem('outer-wilds-atlas.spoilers-enabled', 'false');
     const { container } = render(<App />);
     await user.click(screen.getByRole('button', { name: 'Map settings' }));
-    const toggle = screen.getByRole('button', { name: /show quantum moon/i });
+    const toggle = screen.getByRole('button', { name: /show spoilers/i });
     await user.click(toggle);
     expect(container.querySelector('[data-body-id="quantum-moon"]')).toBeInTheDocument();
     expect(localStorage.getItem('outer-wilds-atlas.spoilers-enabled')).toBe('true');
