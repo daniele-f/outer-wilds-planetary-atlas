@@ -1,0 +1,93 @@
+ .gitignore                                         |    5 [32m+[m
+ .pnpm-store/v11/index.db                           |  Bin [31m0[m -> [32m8192[m bytes
+ PROJECT_REPORT.md                                  |  620 [32m+++++[m
+ README.md                                          |   67 [32m+[m
+ Run Atlas.bat                                      |   37 [32m+[m
+ .../2026-08-27-outer-wilds-planetary-atlas.md      |  236 [32m++[m
+ ...026-08-27-outer-wilds-planetary-atlas-design.md |   74 [32m+[m
+ index.html                                         |   12 [32m+[m
+ package-lock.json                                  | 2894 [32m++++++++++++++++++++[m
+ package.json                                       |   28 [32m+[m
+ public/images/ash_twin.png                         |  Bin [31m0[m -> [32m125292[m bytes
+ public/images/ash_twin_outline.png                 |  Bin [31m0[m -> [32m29761[m bytes
+ public/images/attlerock.png                        |  Bin [31m0[m -> [32m86654[m bytes
+ public/images/attlerock_outline.png                |  Bin [31m0[m -> [32m25871[m bytes
+ public/images/brittle_hollow.png                   |  Bin [31m0[m -> [32m142755[m bytes
+ public/images/brittle_hollow_outline.png           |  Bin [31m0[m -> [32m37193[m bytes
+ public/images/dark_bramble.png                     |  Bin [31m0[m -> [32m428663[m bytes
+ public/images/dark_bramble_outline.png             |  Bin [31m0[m -> [32m65693[m bytes
+ public/images/ember_twin.png                       |  Bin [31m0[m -> [32m117341[m bytes
+ public/images/ember_twin_outline.png               |  Bin [31m0[m -> [32m35469[m bytes
+ public/images/giants_deep.png                      |  Bin [31m0[m -> [32m307150[m bytes
+ public/images/giants_deep_outline.png              |  Bin [31m0[m -> [32m38154[m bytes
+ public/images/hollows_lantern.png                  |  Bin [31m0[m -> [32m179208[m bytes
+ public/images/hollows_lantern_outline.png          |  Bin [31m0[m -> [32m29078[m bytes
+ public/images/orbital_probe_cannon.png             |  Bin [31m0[m -> [32m96524[m bytes
+ public/images/orbital_probe_cannon_outline.png     |  Bin [31m0[m -> [32m44475[m bytes
+ public/images/outer_wilds_venture_logo.png         |  Bin [31m0[m -> [32m231005[m bytes
+ public/images/quantum_moon.png                     |  Bin [31m0[m -> [32m76182[m bytes
+ public/images/quantum_moon_outline.png             |  Bin [31m0[m -> [32m23163[m bytes
+ public/images/sand_beam.png                        |  Bin [31m0[m -> [32m19129[m bytes
+ public/images/sand_beam_outline.png                |  Bin [31m0[m -> [32m19608[m bytes
+ public/images/sun.png                              |  Bin [31m0[m -> [32m175586[m bytes
+ public/images/sun_outline.png                      |  Bin [31m0[m -> [32m39062[m bytes
+ public/images/sun_station.png                      |  Bin [31m0[m -> [32m54635[m bytes
+ public/images/sun_station_outline.png              |  Bin [31m0[m -> [32m37697[m bytes
+ public/images/the_interloper.png                   |  Bin [31m0[m -> [32m95525[m bytes
+ public/images/the_interloper_outline.png           |  Bin [31m0[m -> [32m37553[m bytes
+ public/images/the_stranger.png                     |  Bin [31m0[m -> [32m235519[m bytes
+ public/images/the_stranger_outline.png             |  Bin [31m0[m -> [32m38446[m bytes
+ public/images/timber_hearth.png                    |  Bin [31m0[m -> [32m214864[m bytes
+ public/images/timber_hearth_outline.png            |  Bin [31m0[m -> [32m36504[m bytes
+ public/images/white_hole_station.png               |  Bin [31m0[m -> [32m28401[m bytes
+ public/images/white_hole_station_outline.png       |  Bin [31m0[m -> [32m8152[m bytes
+ src/App.test.tsx                                   |  565 [32m++++[m
+ src/App.tsx                                        |  109 [32m+[m
+ src/components/AtlasHeader.tsx                     |   17 [32m+[m
+ src/components/CelestialBody.hover.test.tsx        |   70 [32m+[m
+ src/components/CelestialBody.tsx                   |  202 [32m++[m
+ src/components/Controls.tsx                        |   85 [32m+[m
+ src/components/HourglassTwins.tsx                  |  423 [32m+++[m
+ src/components/InfoPanel.tsx                       |  129 [32m+[m
+ src/components/Interloper.tsx                      |  153 [32m++[m
+ src/components/Moon.tsx                            |   40 [32m+[m
+ src/components/Orbit.tsx                           |   21 [32m+[m
+ src/components/QuantumMoon.test.tsx                |  100 [32m+[m
+ src/components/QuantumMoon.tsx                     |  103 [32m+[m
+ src/components/SettingsMenu.tsx                    |   46 [32m+[m
+ src/components/SolarSystem.quantum.test.tsx        |  654 [32m+++++[m
+ src/components/SolarSystem.tsx                     |  781 [32m++++++[m
+ src/components/Starfield.test.tsx                  |   14 [32m+[m
+ src/components/Starfield.tsx                       |   62 [32m+[m
+ src/components/specialBodies.frames.test.ts        |  227 [32m++[m
+ src/components/specialBodies.test.tsx              |   99 [32m+[m
+ src/components/svgIds.test.tsx                     |   28 [32m+[m
+ src/data/celestialBodies.test.ts                   |   92 [32m+[m
+ src/data/celestialBodies.ts                        |  129 [32m+[m
+ src/hooks/useAnimationClock.test.ts                |   50 [32m+[m
+ src/hooks/useAnimationClock.ts                     |   86 [32m+[m
+ src/hooks/useMapCamera.test.ts                     |  238 [32m++[m
+ src/hooks/useMapCamera.ts                          |  268 [32m++[m
+ src/lib/camera.test.ts                             |   54 [32m+[m
+ src/lib/camera.ts                                  |   53 [32m+[m
+ src/lib/orbits.test.ts                             |  193 [32m++[m
+ src/lib/orbits.ts                                  |  158 [32m++[m
+ src/lib/quantum.test.ts                            |  241 [32m++[m
+ src/lib/quantum.ts                                 |  183 [32m++[m
+ src/lib/selectableTargets.test.ts                  |   44 [32m+[m
+ src/lib/selectableTargets.ts                       |   56 [32m+[m
+ src/lib/svgViewport.test.ts                        |  114 [32m+[m
+ src/lib/svgViewport.ts                             |  101 [32m+[m
+ src/lib/worldPositions.test.ts                     |   19 [32m+[m
+ src/lib/worldPositions.ts                          |   23 [32m+[m
+ src/main.tsx                                       |   16 [32m+[m
+ src/styles/atlas.css                               |  293 [32m++[m
+ src/styles/global.css                              |   42 [32m+[m
+ src/styles/ui.css                                  |  372 [32m+++[m
+ src/types/celestial.ts                             |   15 [32m+[m
+ src/vite-env.d.ts                                  |    1 [32m+[m
+ tsconfig.app.json                                  |   23 [32m+[m
+ tsconfig.json                                      |    7 [32m+[m
+ tsconfig.node.json                                 |   16 [32m+[m
+ vite.config.ts                                     |    7 [32m+[m
+ 92 files changed, 10795 insertions(+)
