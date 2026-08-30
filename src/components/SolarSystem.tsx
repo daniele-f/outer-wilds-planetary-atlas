@@ -49,6 +49,7 @@ import {
   type WorldPositionRegistry,
   type WorldPositionSnapshot,
 } from '../lib/worldPositions';
+import { placeOffscreenIndicator } from '../lib/offscreenIndicator';
 import {
   BODY_HIT_RADII,
   CelestialBody,
@@ -126,6 +127,8 @@ export type SolarSystemProps = Readonly<{
   focusViewportOffsetX?: number;
   /** Vertical CSS-pixel shift that centers a focused body above a mobile bottom sheet. */
   focusViewportOffsetY?: number;
+  /** CSS pixels occupied by overlays that should not contain an indicator. */
+  offscreenInsets?: Readonly<{ right: number; bottom: number }>;
 }>;
 
 type Gesture = {
@@ -194,6 +197,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
     onQuantumStatusChange,
     focusViewportOffsetX = 0,
     focusViewportOffsetY = 0,
+    offscreenInsets = { right: 0, bottom: 0 },
   },
   ref,
 ) {
@@ -237,6 +241,8 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   const quantumHoverArmedRef = useRef(true);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const cameraWorldRef = useRef<SVGGElement | null>(null);
+  const offscreenIndicatorRef = useRef<HTMLDivElement | null>(null);
+  const offscreenIndicatorLabelRef = useRef<HTMLSpanElement | null>(null);
   const focusedBodyRef = useRef<BodyId | null>('sun');
   const displayedCameraRef = useRef<Camera>(camera.camera);
   const cameraTransitionRef = useRef<CameraTransition | null>(null);
@@ -510,7 +516,33 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       displayedCameraRef.current = focusedCamera();
     }
     applyCameraTransform();
-  }, [applyCameraTransform, focusedCamera, registry, selectableRegistry, showQuantumMoon]);
+    const svg = svgRef.current;
+    const indicator = offscreenIndicatorRef.current;
+    if (svg !== null && indicator !== null) {
+      const bounds = svg.getBoundingClientRect();
+      const targetId = selectedId ?? SUN.id;
+      const target = registry.get(targetId);
+      const targetScreen = target === undefined ? undefined : worldPointToClient(
+        target,
+        getDisplayedCamera(),
+        { width: bounds.width, height: bounds.height },
+        ATLAS_VIEW_BOX,
+      );
+      const placement = targetScreen === undefined ? null : placeOffscreenIndicator(
+        targetScreen,
+        selectedId === null ? 'Solar System' : (getBody(selectedId)?.name ?? 'Solar System'),
+        { width: bounds.width, height: bounds.height, ...offscreenInsets },
+      );
+      indicator.hidden = placement === null;
+      if (placement !== null) {
+        indicator.style.left = `${placement.x}px`;
+        indicator.style.top = `${placement.y}px`;
+        indicator.style.setProperty('--offscreen-angle', `${placement.angle}deg`);
+        indicator.setAttribute('aria-label', `${placement.label} is offscreen`);
+        if (offscreenIndicatorLabelRef.current !== null) offscreenIndicatorLabelRef.current.textContent = placement.label;
+      }
+    }
+  }, [applyCameraTransform, focusedCamera, getDisplayedCamera, offscreenInsets, registry, selectedId, selectableRegistry, showQuantumMoon]);
 
   useEffect(() => {
     renderAtTime(clock.getTime());
@@ -929,6 +961,10 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
           /> : null}
         </g>
       </svg>
+      <div ref={offscreenIndicatorRef} className="offscreen-indicator" hidden aria-hidden="true">
+        <span className="offscreen-indicator__chevron" aria-hidden="true" />
+        <span ref={offscreenIndicatorLabelRef} className="offscreen-indicator__label" />
+      </div>
       <p className="map-hint">Drag to pan · scroll to zoom · select a world to learn more</p>
     </div>
   );

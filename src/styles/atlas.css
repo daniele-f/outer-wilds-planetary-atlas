@@ -9,6 +9,41 @@
 
 .atlas-map-surface:active { cursor: grabbing; }
 
+.offscreen-indicator {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  justify-items: center;
+  gap: .28rem;
+  width: max-content;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 2px 7px rgb(0 0 0 / .6));
+}
+
+.offscreen-indicator__chevron {
+  display: block;
+  width: 1.5rem;
+  height: 1.7rem;
+  background: #fff8e6;
+  clip-path: polygon(50% 0, 100% 38%, 100% 100%, 50% 62%, 0 100%, 0 38%);
+  transform: rotate(var(--offscreen-angle, 0deg));
+}
+
+.offscreen-indicator__label {
+  max-width: 12rem;
+  color: #fff1ce;
+  font-family: Inter, 'Segoe UI', sans-serif;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  line-height: 1.2;
+  text-align: center;
+  text-shadow: 0 1px 4px #000;
+}
+
+.offscreen-indicator[hidden] { display: none; }
+
 .solar-system {
   display: block;
   width: 100%;
