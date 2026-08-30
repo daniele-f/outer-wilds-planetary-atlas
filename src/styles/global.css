@@ -1,0 +1,42 @@
+:root {
+  color: #f7e5bd;
+  background: #080d1d;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { width: 100%; min-width: 320px; height: 100%; margin: 0; overflow: hidden; }
+
+body { min-height: 100vh; min-height: 100dvh; }
+
+button, input, textarea, select { font: inherit; }
+
+button:focus-visible { outline: 2px solid #f5b84b; outline-offset: 3px; }
+
+.atlas-shell {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 45%, #1c2a4c 0, #0d142b 38%, #080d1d 77%);
+}
+
+h1 { margin: 0; font-size: clamp(1.65rem, 3vw, 2.5rem); font-weight: 500; letter-spacing: .04em; }
+
+.atlas-stage { position: relative; width: 100%; height: 100%; overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
