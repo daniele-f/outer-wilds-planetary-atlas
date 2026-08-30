@@ -7,6 +7,7 @@ type InfoPanelProps = Readonly<{
   onFocusBody: (id: BodyId) => void;
   onNavigateBody: (direction: -1 | 1) => void;
   spoilerNotes?: readonly string[];
+  panelRef?: (element: HTMLElement | null) => void;
 }>;
 
 function FactList({ items }: Readonly<{ items: readonly string[] }>) {
@@ -18,7 +19,7 @@ function FactList({ items }: Readonly<{ items: readonly string[] }>) {
 }
 
 /** Spoiler-conscious body details shown as a non-modal overlay beside the live map. */
-export function InfoPanel({ body, onClose, onSelectBody, onFocusBody, onNavigateBody, spoilerNotes }: InfoPanelProps) {
+export function InfoPanel({ body, onClose, onSelectBody, onFocusBody, onNavigateBody, spoilerNotes, panelRef }: InfoPanelProps) {
   const headingId = `info-panel-${body.id}-title`;
   const satellites = body.satelliteIds.flatMap((id) => {
     const satellite = getBody(id);
@@ -31,7 +32,7 @@ export function InfoPanel({ body, onClose, onSelectBody, onFocusBody, onNavigate
   const nextBody = nextId === undefined ? undefined : getBody(nextId);
 
   return (
-    <aside className="info-panel" aria-labelledby={headingId}>
+    <aside ref={panelRef} className="info-panel" aria-labelledby={headingId}>
       <div className="info-panel__topline">
         <p className="info-panel__eyebrow">Outer Wilds Travel Bureau</p>
         <button
