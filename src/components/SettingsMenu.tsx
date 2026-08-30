@@ -5,10 +5,12 @@ type SettingsMenuProps = Readonly<{
   panelOpen: boolean;
   orbitsHidden: boolean;
   labelsHidden: boolean;
+  spoilersEnabled: boolean;
   onToggleOpen: () => void;
   onRequestClose: () => void;
   onToggleOrbits: () => void;
   onToggleLabels: () => void;
+  onToggleSpoilers: () => void;
 }>;
 
 export function SettingsMenu({
@@ -20,6 +22,8 @@ export function SettingsMenu({
   onRequestClose,
   onToggleOrbits,
   onToggleLabels,
+  onToggleSpoilers,
+  spoilersEnabled,
 }: SettingsMenuProps) {
   const rootRef = useRef<HTMLDivElement | null>(null);
 
@@ -53,6 +57,10 @@ export function SettingsMenu({
           <button type="button" aria-pressed={labelsHidden} onClick={onToggleLabels}>
             <span aria-hidden="true">{labelsHidden ? '○' : '●'}</span>
             <span>Hide planet names</span>
+          </button>
+          <button type="button" aria-pressed={spoilersEnabled} onClick={onToggleSpoilers}>
+            <span aria-hidden="true">{spoilersEnabled ? '●' : '○'}</span>
+            <span>{spoilersEnabled ? 'Hide Quantum Moon' : 'Show Quantum Moon'}</span>
           </button>
         </div>
       ) : null}

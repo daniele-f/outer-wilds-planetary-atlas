@@ -15,7 +15,7 @@ For the entity-by-entity numerical and mathematical reference, see [`ATLAS_REPOR
 ### Current status
 
 - The application is implemented and runnable locally.
-- The project contains 17 test files and 121 automated tests.
+- The project contains 17 test files and 124 automated tests.
 - The latest verified build completed successfully.
 - Desktop and mobile layouts are supported.
 - Keyboard, pointer, touch, and reduced-motion behavior are considered.
@@ -477,6 +477,7 @@ The implementation includes:
 
 - Accessible names for icon-only controls.
 - A custom SVG favicon is served from `public/favicon.svg` and linked in `index.html`.
+- First visit presents a custom spoiler warning; the choice is persisted in localStorage and controls whether the Quantum Moon is rendered or navigable.
 - `aria-pressed` state on toggle and speed controls.
 - Screen-reader-only live status regions for selection/simulation feedback.
 - Keyboard activation for applicable interactive targets.
@@ -491,7 +492,7 @@ The Quantum Moon remains intentionally nonstandard: keyboard activation triggers
 
 ## 14. Automated test coverage
 
-The current suite contains **17 test files and 121 tests**. Coverage is behavior-focused and includes:
+The current suite contains **17 test files and 124 tests**. Coverage is behavior-focused and includes:
 
 1. Top-level application rendering and integration.
 2. Selecting bodies and opening/closing the information panel.

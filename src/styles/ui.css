@@ -93,6 +93,18 @@
 .atlas-settings__menu button:hover { border-color: rgb(221 176 93 / .28); background: rgb(221 176 93 / .1); }
 .atlas-settings__menu button[aria-pressed='true'] { color: #f1b85d; }
 
+.spoiler-backdrop { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 1.25rem; background: rgb(3 7 16 / .78); backdrop-filter: blur(5px); }
+.spoiler-prompt { width: min(28rem, 100%); padding: 1.6rem; border: 1px solid rgb(219 180 111 / .35); border-radius: .7rem; background: #0b1426; box-shadow: 0 20px 60px rgb(0 0 0 / .5); color: #e6d9bd; font-family: Inter, 'Segoe UI', Arial, sans-serif; }
+.spoiler-prompt h2 { margin: .25rem 0 .7rem; color: #f4e8cd; font-size: 1.35rem; }
+.spoiler-prompt p { margin: .55rem 0; line-height: 1.5; }
+.spoiler-prompt__eyebrow { color: #d89b45; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; }
+.spoiler-prompt__warning { color: #f1b85d; font-weight: 650; }
+.spoiler-prompt__actions { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1.2rem; }
+.spoiler-prompt__actions button { flex: 1 1 10rem; min-height: 2.6rem; border: 1px solid rgb(219 180 111 / .3); border-radius: .35rem; background: rgb(219 180 111 / .08); color: #f1dfbc; cursor: pointer; font: inherit; font-size: .78rem; }
+.spoiler-prompt__actions button:hover, .spoiler-prompt__actions button:focus-visible { border-color: rgb(219 180 111 / .7); background: rgb(219 180 111 / .18); }
+.spoiler-prompt__actions .spoiler-prompt__reveal { border-color: rgb(232 177 82 / .65); background: rgb(213 145 48 / .2); color: #ffd58f; }
+.spoiler-prompt__hint { color: #a99b84; font-size: .72rem; }
+
 .atlas-controls {
   position: absolute;
   z-index: 5;
