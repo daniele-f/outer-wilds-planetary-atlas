@@ -54,6 +54,7 @@ let frames: ControlledFrames;
 
 beforeEach(() => {
   frames = new ControlledFrames();
+  localStorage.clear();
   vi.stubGlobal('PointerEvent', MouseEvent);
   vi.stubGlobal('requestAnimationFrame', frames.request);
   vi.stubGlobal('cancelAnimationFrame', frames.cancel);
@@ -138,6 +139,30 @@ describe('planetary atlas application UI', () => {
 
     await user.click(settings);
     expect(screen.queryByRole('group', { name: 'Map display settings' })).not.toBeInTheDocument();
+  });
+
+  it('closes the settings menu when the user clicks outside it', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole('button', { name: 'Map settings' }));
+    expect(screen.getByRole('group', { name: 'Map display settings' })).toBeVisible();
+
+    fireEvent.pointerDown(document.body);
+
+    expect(screen.queryByRole('group', { name: 'Map display settings' })).not.toBeInTheDocument();
+  });
+
+  it('persists display settings across remounts', async () => {
+    const user = userEvent.setup();
+    const first = render(<App />);
+    await user.click(screen.getByRole('button', { name: 'Map settings' }));
+    await user.click(screen.getByRole('button', { name: 'Hide orbit lines' }));
+    expect(first.container.querySelector('.solar-system')).toHaveClass('solar-system--orbits-hidden');
+
+    first.unmount();
+    const second = render(<App />);
+
+    expect(second.container.querySelector('.solar-system')).toHaveClass('solar-system--orbits-hidden');
   });
 
   it('moves the settings trigger beside an open information panel', async () => {

@@ -7,6 +7,26 @@ import { SolarSystem, type SolarSystemHandle } from './components/SolarSystem';
 import { NAVIGATION_BODY_IDS, getBody, type BodyId } from './data/celestialBodies';
 import './styles/ui.css';
 
+const ORBITS_HIDDEN_STORAGE_KEY = 'outer-wilds-atlas.orbits-hidden';
+const LABELS_HIDDEN_STORAGE_KEY = 'outer-wilds-atlas.labels-hidden';
+
+function readStoredBoolean(key: string): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return window.localStorage.getItem(key) === 'true';
+  } catch {
+    return false;
+  }
+}
+
+function writeStoredBoolean(key: string, value: boolean): void {
+  try {
+    window.localStorage.setItem(key, String(value));
+  } catch {
+    // Storage can be unavailable in privacy-restricted browser contexts.
+  }
+}
+
 export default function App() {
   const [selectedId, setSelectedId] = useState<BodyId | null>(null);
   const [speed, setSpeed] = useState<SimulationSpeed>(1);
@@ -14,8 +34,8 @@ export default function App() {
   const [quantumStatus, setQuantumStatus] = useState('');
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [panelOpen, setPanelOpen] = useState(false);
-  const [orbitsHidden, setOrbitsHidden] = useState(false);
-  const [labelsHidden, setLabelsHidden] = useState(false);
+  const [orbitsHidden, setOrbitsHidden] = useState(() => readStoredBoolean(ORBITS_HIDDEN_STORAGE_KEY));
+  const [labelsHidden, setLabelsHidden] = useState(() => readStoredBoolean(LABELS_HIDDEN_STORAGE_KEY));
   const [focusViewportOffsetX, setFocusViewportOffsetX] = useState(0);
   const solarSystemRef = useRef<SolarSystemHandle | null>(null);
   const stageRef = useRef<HTMLElement | null>(null);
@@ -29,6 +49,9 @@ export default function App() {
   }, []);
   const selectedBody = selectedId === null ? undefined : getBody(selectedId);
   const simulationSpeed = paused ? 0 : speed;
+
+  useEffect(() => writeStoredBoolean(ORBITS_HIDDEN_STORAGE_KEY, orbitsHidden), [orbitsHidden]);
+  useEffect(() => writeStoredBoolean(LABELS_HIDDEN_STORAGE_KEY, labelsHidden), [labelsHidden]);
   const navigateBody = useCallback((direction: -1 | 1) => {
     if (selectedId === null) return;
     const currentIndex = NAVIGATION_BODY_IDS.indexOf(selectedId);
@@ -120,6 +143,7 @@ export default function App() {
           orbitsHidden={orbitsHidden}
           labelsHidden={labelsHidden}
           onToggleOpen={() => setSettingsOpen((current) => !current)}
+          onRequestClose={() => setSettingsOpen(false)}
           onToggleOrbits={() => setOrbitsHidden((current) => !current)}
           onToggleLabels={() => setLabelsHidden((current) => !current)}
         />
