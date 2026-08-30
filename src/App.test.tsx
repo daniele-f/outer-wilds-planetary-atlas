@@ -308,7 +308,7 @@ describe('planetary atlas application UI', () => {
     expect(cameraWorld).toHaveAttribute('transform', 'translate(0 0) scale(1)');
   });
 
-  it('navigates and focuses destinations in catalog order, including the Quantum Moon', async () => {
+  it('wraps focused navigation through the Quantum Moon and back to the Sun', async () => {
     const user = userEvent.setup();
     const { container } = render(<App />);
     act(() => frames.step(0));
@@ -329,6 +329,31 @@ describe('planetary atlas application UI', () => {
     expect(screen.getByRole('complementary', { name: 'Quantum Moon' })).toBeVisible();
   });
 
+  it('navigates outward from the Sun before visiting the Interloper and Quantum Moon', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    screen.getByRole('button', { name: 'Sun, Star' }).focus();
+    await user.keyboard('{Enter}');
+    const outwardOrder = [
+      'Ash Twin',
+      'Ember Twin',
+      'Timber Hearth',
+      'Attlerock',
+      'Brittle Hollow',
+      "Hollow's Lantern",
+      "Giant's Deep",
+      'Dark Bramble',
+      'Interloper',
+      'Quantum Moon',
+      'Sun',
+    ];
+
+    for (const destination of outwardOrder) {
+      await user.click(screen.getByRole('button', { name: `Next destination: ${destination}` }));
+      expect(screen.getByRole('complementary', { name: destination })).toBeVisible();
+    }
+  });
+
   it('keeps Take me there at the bottom after the destination arrows', async () => {
     const user = userEvent.setup();
     render(<App />);
@@ -340,7 +365,7 @@ describe('planetary atlas application UI', () => {
 
     expect(buttons.map((button) => button.getAttribute('aria-label'))).toEqual([
       'Previous destination: Quantum Moon',
-      'Next destination: Timber Hearth',
+      'Next destination: Ash Twin',
       'Focus camera on Sun',
     ]);
   });
@@ -499,7 +524,7 @@ describe('planetary atlas application UI', () => {
       frames.step(2_000);
     });
 
-    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(141.224 63.881)');
+    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(236.892 107.156)');
   });
 
   it('freezes orbital time while paused and resumes at the selected two-times speed', async () => {
@@ -510,7 +535,7 @@ describe('planetary atlas application UI', () => {
       frames.step(1_000);
       frames.step(2_000);
     });
-    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(136.055 74.256)');
+    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(228.221 124.559)');
 
     const pause = screen.getByRole('button', { name: 'Pause simulation toggle' });
     expect(pause).toHaveAttribute('aria-pressed', 'false');
@@ -518,7 +543,7 @@ describe('planetary atlas application UI', () => {
     expect(pause).toHaveAccessibleName('Pause simulation toggle');
     expect(pause).toHaveAttribute('aria-pressed', 'true');
     act(() => frames.step(3_000));
-    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(136.055 74.256)');
+    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(228.221 124.559)');
 
     const doubleSpeed = screen.getByRole('button', { name: 'Set simulation speed to 2x' });
     await user.click(doubleSpeed);
@@ -526,7 +551,7 @@ describe('planetary atlas application UI', () => {
     expect(pause).toHaveAttribute('aria-pressed', 'true');
     await user.click(pause);
     act(() => frames.step(4_000));
-    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(108.123 111.060)');
+    expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(181.368 186.295)');
   });
 
   it('gives every control an accessible name, tooltip, and current state', () => {

@@ -1,4 +1,4 @@
-import { BODY_IDS, getBody, type BodyId, type CelestialBody } from '../data/celestialBodies';
+import { NAVIGATION_BODY_IDS, getBody, type BodyId, type CelestialBody } from '../data/celestialBodies';
 
 type InfoPanelProps = Readonly<{
   body: CelestialBody;
@@ -24,9 +24,9 @@ export function InfoPanel({ body, onClose, onSelectBody, onFocusBody, onNavigate
     const satellite = getBody(id);
     return satellite === undefined ? [] : [satellite];
   });
-  const bodyIndex = BODY_IDS.indexOf(body.id);
-  const previousId = BODY_IDS[(bodyIndex - 1 + BODY_IDS.length) % BODY_IDS.length];
-  const nextId = BODY_IDS[(bodyIndex + 1) % BODY_IDS.length];
+  const bodyIndex = NAVIGATION_BODY_IDS.indexOf(body.id);
+  const previousId = NAVIGATION_BODY_IDS[(bodyIndex - 1 + NAVIGATION_BODY_IDS.length) % NAVIGATION_BODY_IDS.length];
+  const nextId = NAVIGATION_BODY_IDS[(bodyIndex + 1) % NAVIGATION_BODY_IDS.length];
   const previousBody = previousId === undefined ? undefined : getBody(previousId);
   const nextBody = nextId === undefined ? undefined : getBody(nextId);
 
