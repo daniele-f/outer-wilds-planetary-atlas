@@ -117,6 +117,7 @@ The center of the application is a scalable SVG view of the solar system. It inc
 - Animated planets and moons.
 - Circular and elliptical orbit lines.
 - Planet labels that stay readable across zoom levels.
+- The pause/play control uses CSS-drawn bars and a triangle, avoiding platform-dependent text glyphs.
 - A deterministic starfield and subtle nebulae.
 - No space-dust overlay.
 
@@ -468,6 +469,7 @@ The background contains 108 deterministically placed stars and two nebula layers
 - At 470 px and below: control layouts stack more aggressively.
 - The settings gear relocates based on panel state.
 - Map hit targets and label sizes are adjusted to remain usable when the SVG scales.
+- Mobile labels use a thinner 1.5px outline so the minimum-size text remains legible.
 
 ## 13. Accessibility and input support
 

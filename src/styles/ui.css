@@ -137,6 +137,10 @@
 }
 
 .atlas-control-button { font-size: 1.15rem; }
+.atlas-control-icon { display: inline-flex; align-items: center; justify-content: center; width: 1em; height: 1em; }
+.atlas-control-icon--pause { gap: .22em; }
+.atlas-control-icon--pause span { display: block; width: .18em; height: .72em; border-radius: .06em; background: currentColor; }
+.atlas-control-icon--play { width: 0; height: 0; border-top: .42em solid transparent; border-bottom: .42em solid transparent; border-left: .68em solid currentColor; transform: translateX(.06em); }
 .atlas-control-button:hover,
 .atlas-speed__button:hover { background: rgb(223 176 93 / .1); border-color: rgb(223 176 93 / .28); }
 

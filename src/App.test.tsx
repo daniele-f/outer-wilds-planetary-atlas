@@ -648,9 +648,12 @@ describe('planetary atlas application UI', () => {
 
     const pause = screen.getByRole('button', { name: 'Pause simulation toggle' });
     expect(pause).toHaveAttribute('aria-pressed', 'false');
+    expect(pause.querySelector('.atlas-control-icon--pause')).toBeInTheDocument();
+    expect(pause).not.toHaveTextContent('Ⅱ');
     await user.click(pause);
     expect(pause).toHaveAccessibleName('Pause simulation toggle');
     expect(pause).toHaveAttribute('aria-pressed', 'true');
+    expect(pause.querySelector('.atlas-control-icon--play')).toBeInTheDocument();
     act(() => frames.step(3_000));
     expect(timberHearthPosition()).toHaveAttribute('transform', 'translate(254.797 51.756)');
 
