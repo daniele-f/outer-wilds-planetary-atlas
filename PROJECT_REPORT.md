@@ -480,7 +480,8 @@ The implementation includes:
 - First visit presents a custom spoiler warning; the choice is persisted in localStorage and controls whether the Quantum Moon is rendered or navigable.
 - The spoiler prompt uses a prominent “Remember: You cannot unsee spoilers.” warning, a bold settings-menu hint, and a golden “Keep spoilers hidden” safe choice.
 - The settings menu exposes this preference as a “Show spoilers” / “Hide spoilers” toggle.
-- The spoiler toggle is listed first in the settings menu for immediate visibility.
+- The spoiler toggle is listed last in the settings menu with a separator above it.
+- Orbit-line and planet-name controls also switch between “Show” and “Hide” labels to reflect their current state.
 - `aria-pressed` state on toggle and speed controls.
 - Screen-reader-only live status regions for selection/simulation feedback.
 - Keyboard activation for applicable interactive targets.

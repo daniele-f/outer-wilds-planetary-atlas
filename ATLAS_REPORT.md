@@ -212,7 +212,8 @@ The browser tab uses a custom SVG favicon: a glowing Sun with an orbiting Timber
 Spoiler preference key: `outer-wilds-atlas.spoilers-enabled`; absent means the first-visit prompt is shown, and `false` keeps the Quantum Moon artwork, hit target, and navigation hidden.
 The prompt’s safe “Keep spoilers hidden” action uses the atlas gold accent; the gear icon is enlarged for visibility and its settings-menu hint is bold.
 The settings control is labeled “Show spoilers” or “Hide spoilers” while toggling the Quantum Moon visibility preference.
-It is rendered as the first settings-menu option.
+It is rendered as the final settings-menu option with a separator above it.
+Orbit and label controls use matching state-aware Show/Hide wording.
 
 ## What is deliberately not modeled
 

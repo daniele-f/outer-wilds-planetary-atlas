@@ -93,6 +93,7 @@
 }
 .atlas-settings__menu button:hover { border-color: rgb(221 176 93 / .28); background: rgb(221 176 93 / .1); }
 .atlas-settings__menu button[aria-pressed='true'] { color: #f1b85d; }
+.atlas-settings__menu .atlas-settings__spoiler-option { margin-top: .25rem; border-top-color: rgb(219 180 111 / .28); }
 
 .spoiler-backdrop { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 1.25rem; background: rgb(3 7 16 / .78); backdrop-filter: blur(5px); }
 .spoiler-prompt { width: min(28rem, 100%); padding: 1.6rem; border: 1px solid rgb(219 180 111 / .35); border-radius: .7rem; background: #0b1426; box-shadow: 0 20px 60px rgb(0 0 0 / .5); color: #e6d9bd; font-family: Inter, 'Segoe UI', Arial, sans-serif; }
