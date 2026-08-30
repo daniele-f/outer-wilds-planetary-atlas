@@ -78,8 +78,6 @@ export const QuantumMoon = forwardRef<SVGGElement, QuantumMoonProps>(function Qu
         <g clipPath={`url(#${clipId})`}>
           <path className="quantum-mottle quantum-mottle--one" d="M-11,-1 Q-5,-8 1,-5 T11,-7 L12,1 Q5,4 0,2 T-11,5 Z" />
           <path className="quantum-mottle quantum-mottle--two" d="M-9,7 Q-3,2 2,7 T10,5 L12,13 L-11,13 Z" />
-          <circle className="quantum-crater" cx="-4" cy="-4" r="2.2" />
-          <circle className="quantum-crater" cx="4" cy="3" r="1.4" />
         </g>
         <path className="quantum-shadow" d={`M0,-${radius} A${radius},${radius} 0 0 1 0,${radius} A${radius * 0.7},${radius} 0 0 0 0,-${radius} Z`} />
         <circle className="quantum-rim" r={radius} />
