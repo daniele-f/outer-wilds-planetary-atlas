@@ -208,6 +208,7 @@ The Quantum Moon artwork retains its procedural swirl/mottle paths and rim while
 
 Planet labels retain a 14px minimum screen size; on viewports 760px wide or smaller their outline is reduced to 1.5px for readability.
 The simulation toggle icon is rendered with CSS geometry rather than a Unicode pause/play character, keeping its appearance consistent across operating systems and installed fonts.
+The browser tab uses a custom SVG favicon: a glowing Sun with an orbiting Timber Hearth accent on the atlas background.
 
 ## What is deliberately not modeled
 

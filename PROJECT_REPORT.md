@@ -476,6 +476,7 @@ The background contains 108 deterministically placed stars and two nebula layers
 The implementation includes:
 
 - Accessible names for icon-only controls.
+- A custom SVG favicon is served from `public/favicon.svg` and linked in `index.html`.
 - `aria-pressed` state on toggle and speed controls.
 - Screen-reader-only live status regions for selection/simulation feedback.
 - Keyboard activation for applicable interactive targets.
