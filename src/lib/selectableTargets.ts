@@ -8,6 +8,7 @@ type Target = Readonly<{ position: Point; radius: number }>;
 export type SelectableTargetRegistry = Readonly<{
   update: (id: BodyId, position: Point, radius: number) => void;
   updateRadius: (id: BodyId, radius: number) => void;
+  remove: (id: BodyId) => void;
   resolve: (
     requestedId: BodyId,
     source: SelectableActivationSource,
@@ -31,6 +32,7 @@ export function createSelectableTargetRegistry(): SelectableTargetRegistry {
       if (target === undefined) return;
       targets.set(id, { position: target.position, radius: Math.max(0, radius) });
     },
+    remove: (id) => { targets.delete(id); },
     resolve: (requestedId, source, worldPoint) => {
       if (source === 'keyboard') return requestedId;
       if (worldPoint === undefined) return undefined;

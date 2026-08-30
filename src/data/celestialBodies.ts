@@ -3,6 +3,8 @@ import type { OrbitConfig } from '../types/celestial';
 export const BODY_IDS = [
   'sun',
   'sun-station',
+  'white-hole-station',
+  'white-hole',
   'hourglass-twins',
   'timber-hearth',
   'attlerock',
@@ -30,6 +32,8 @@ export const NAVIGATION_BODY_IDS = [
   'hollows-lantern',
   'giants-deep',
   'dark-bramble',
+  'white-hole-station',
+  'white-hole',
   'interloper',
   'quantum-moon',
 ] as const satisfies readonly BodyId[];
@@ -69,6 +73,22 @@ export const celestialBodies: readonly CelestialBody[] = [
     attractions: ['A breathtaking solar panorama', 'The system’s boldest orbital shortcut'],
     travelTips: ['Bring serious heat shielding.', 'Keep your escape route plotted.'],
     satelliteIds: [], orbit: orbit(92, 18, 1.8, { direction: -1 }),
+  },
+  {
+    id: 'white-hole-station', name: 'White Hole Station', classification: 'Station', type: 'Warp research station',
+    tagline: 'Go for the impossible view, stay for the shortcut home.',
+    pitch: 'A bright research outpost hangs at the edge of the map, turning cosmic weirdness into a spectacular landmark.',
+    attractions: ['A gleaming warp-gate silhouette', 'A front-row view of the outer system'],
+    travelTips: ['Bring a clear route and a curious mind.', 'Do not confuse the exit with the entrance.'],
+    satelliteIds: [],
+  },
+  {
+    id: 'white-hole', name: 'White Hole', classification: 'Anomaly', type: 'Spacetime phenomenon',
+    tagline: 'Go for the impossible horizon, stay for the shortcut through space.',
+    pitch: 'A luminous tear in spacetime hangs quietly beyond the planets, offering a landmark no ordinary atlas can explain.',
+    attractions: ['A brilliant white event horizon', 'A one-of-a-kind cosmic landmark'],
+    travelTips: ['Observe from a safe distance.', 'Keep your instruments pointed at the anomaly.'],
+    satelliteIds: [],
   },
   {
     id: 'timber-hearth', name: 'Timber Hearth', classification: 'Planet', type: 'Temperate terrestrial world',

@@ -20,11 +20,14 @@ type CelestialBodyProps = Readonly<{
   idPrefix?: string | undefined;
   hitRadius?: number | undefined;
   labelFontSize?: number | undefined;
+  interactive?: boolean;
 }>;
 
 export const BODY_VISUAL_RADII: Readonly<Record<BodyId, number>> = {
   sun: 43,
   'sun-station': 10,
+  'white-hole-station': 15,
+  'white-hole': 18,
   'hourglass-twins': 0,
   'timber-hearth': 19,
   attlerock: 8,
@@ -41,6 +44,8 @@ export const BODY_VISUAL_RADII: Readonly<Record<BodyId, number>> = {
 export const BODY_HIT_RADII: Readonly<Record<BodyId, number>> = {
   sun: 56,
   'sun-station': 24,
+  'white-hole-station': 28,
+  'white-hole': 30,
   'hourglass-twins': 64,
   'timber-hearth': 30,
   attlerock: 23,
@@ -117,6 +122,20 @@ function BodyArtwork({ id, radius, idPrefix }: Readonly<{ id: BodyId; radius: nu
     );
   }
 
+  if (id === 'white-hole-station') {
+    return (
+      <g className="white-hole-station-art">
+        <animateTransform attributeName="transform" type="rotate" values="0 0 0;360 0 0" dur="12s" repeatCount="indefinite" />
+        <circle className="white-hole-station-ring" r="10" />
+        <path className="white-hole-station-core" d="M-6,-1 H6 V1 H4 V7 H-4 V1 H-6 Z" />
+        <rect className="white-hole-station-beam" x="-4" y="-16" width="2" height="15" />
+        <rect className="white-hole-station-beam" x="2" y="-16" width="2" height="15" />
+      </g>
+    );
+  }
+
+  if (id === 'white-hole') return <circle className="white-hole" r="12" />;
+
   return (
     <g className={`body-art body-art--${id}`}>
       <defs>
@@ -179,7 +198,7 @@ function BodyArtwork({ id, radius, idPrefix }: Readonly<{ id: BodyId; radius: nu
 }
 
 export const CelestialBody = forwardRef<SVGGElement, CelestialBodyProps>(function CelestialBody(
-  { body, selected, hovered = false, onActivate, compact = false, idPrefix, hitRadius, labelFontSize },
+  { body, selected, hovered = false, onActivate, compact = false, idPrefix, hitRadius, labelFontSize, interactive = true },
   ref,
 ) {
   const reactId = useId();
@@ -200,11 +219,11 @@ export const CelestialBody = forwardRef<SVGGElement, CelestialBodyProps>(functio
       ref={ref}
       className={`celestial-entity${selected ? ' celestial-entity--selected' : ''}${hovered ? ' celestial-entity--hovered' : ''}`}
       data-body-id={body.id}
-      role="button"
-      tabIndex={0}
+      role={interactive ? 'button' : undefined}
+      tabIndex={interactive ? 0 : undefined}
       aria-label={`${body.name}, ${body.classification}`}
       aria-pressed={selected}
-      onKeyDown={onKeyDown}
+      onKeyDown={interactive ? onKeyDown : undefined}
     >
       <g className="body-visual" pointerEvents="none">
         <BodyArtwork id={body.id} radius={radius} idPrefix={definitionPrefix} />
@@ -214,7 +233,7 @@ export const CelestialBody = forwardRef<SVGGElement, CelestialBodyProps>(functio
         y={labelY}
         textAnchor="middle"
         style={labelFontSize === undefined ? undefined : { fontSize: labelFontSize }}
-        onClick={(event) => onActivate(body.id, 'label', { x: event.clientX, y: event.clientY })}
+        onClick={interactive ? (event) => onActivate(body.id, 'label', { x: event.clientX, y: event.clientY }) : undefined}
       >
         {body.name}
       </text>

@@ -223,6 +223,18 @@ The gold body stops above the dark central spine rather than ending in a point.
 The station crossbar spans 28 atlas units.
 The side-wing triangles span 22 atlas units in the current silhouette.
 At every frame, station rotation is derived from its position: feet face radially inward and the dome radially outward.
+
+### White Hole Station
+
+- Fixed world position: (-585, 35), inside the Interloper’s orbit and near the map’s far-left edge.
+- No orbit or motion; the station is stationary.
+- Artwork remains visible in both spoiler modes, but its selectable target and keyboard interaction are removed when spoilers are disabled.
+- Spoiler-enabled hit radius: 28 atlas units.
+
+White Hole is a separate stationary anomaly at (-1200, 35), always rendered and interactive only when spoilers are enabled; its spoiler-enabled hit radius is 30 atlas units.
+White Hole Station’s fixed position is registered independently for camera focus.
+Its artwork has a 12-second linear self-rotation; the world position and interaction target remain fixed.
+The SVG rotation origin is explicitly `(0, 0)`, the center of `white-hole-station-ring`.
 It is rendered as the final settings-menu option with a separator above it.
 Orbit and label controls use matching state-aware Show/Hide wording.
 
