@@ -235,8 +235,10 @@ White Hole is a separate stationary anomaly at (-1200, 35), always rendered and 
 White Hole Station’s fixed position is registered independently for camera focus.
 Its artwork has a 12-second linear self-rotation; the world position and interaction target remain fixed.
 The SVG rotation origin is explicitly `(0, 0)`, the center of `white-hole-station-ring`.
+The station label is outside the rotating artwork wrapper, so it remains upright and below the station.
 It is rendered as the final settings-menu option with a separator above it.
 Orbit and label controls use matching state-aware Show/Hide wording.
+The display settings order is planet names followed by orbit lines, with spoilers separated below.
 
 ## What is deliberately not modeled
 

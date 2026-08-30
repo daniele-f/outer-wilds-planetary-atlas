@@ -50,13 +50,13 @@ export function SettingsMenu({
       </button>
       {open ? (
         <div className={`atlas-settings__menu${panelOpen ? ' atlas-settings__menu--panel-open' : ''}`} role="group" aria-label="Map display settings">
-          <button type="button" aria-pressed={orbitsHidden} onClick={onToggleOrbits}>
-            <span aria-hidden="true">{orbitsHidden ? '○' : '●'}</span>
-            <span>{orbitsHidden ? 'Show orbit lines' : 'Hide orbit lines'}</span>
-          </button>
           <button type="button" aria-pressed={labelsHidden} onClick={onToggleLabels}>
             <span aria-hidden="true">{labelsHidden ? '○' : '●'}</span>
             <span>{labelsHidden ? 'Show planet names' : 'Hide planet names'}</span>
+          </button>
+          <button type="button" aria-pressed={orbitsHidden} onClick={onToggleOrbits}>
+            <span aria-hidden="true">{orbitsHidden ? '○' : '●'}</span>
+            <span>{orbitsHidden ? 'Show orbit lines' : 'Hide orbit lines'}</span>
           </button>
           <button className="atlas-settings__spoiler-option" type="button" aria-pressed={spoilersEnabled} onClick={onToggleSpoilers}>
             <span aria-hidden="true">{spoilersEnabled ? '●' : '○'}</span>

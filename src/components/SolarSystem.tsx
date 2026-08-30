@@ -218,6 +218,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   const quantumMoonRef = useRef<SVGGElement | null>(null);
   const hourglassCompositeHitRef = useRef<SVGGElement | null>(null);
   const sunStationPositionRef = useRef<SVGGElement | null>(null);
+  const sunStationArtworkRef = useRef<SVGGElement | null>(null);
   const sunStationHitRef = useRef<SVGGElement | null>(null);
   const whiteHoleStationPositionRef = useRef<SVGGElement | null>(null);
   const whiteHoleStationHitRef = useRef<SVGGElement | null>(null);
@@ -397,9 +398,10 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       const stationRotation = inwardAngle - 90;
       registry.update(SUN_STATION.id, stationPosition);
       selectableRegistry.update(SUN_STATION.id, stationPosition, selectableRadiiRef.current[SUN_STATION.id] ?? 0);
-      const stationTransform = `translate(${stationPosition.x.toFixed(3)} ${stationPosition.y.toFixed(3)}) rotate(${stationRotation.toFixed(3)})`;
+      const stationTransform = `translate(${stationPosition.x.toFixed(3)} ${stationPosition.y.toFixed(3)})`;
       sunStationPositionRef.current?.setAttribute('transform', stationTransform);
       sunStationHitRef.current?.setAttribute('transform', stationTransform);
+      sunStationArtworkRef.current?.setAttribute('transform', `rotate(${stationRotation.toFixed(3)})`);
     }
 
     ORDINARY_WORLDS.forEach(({ body, moon }) => {
@@ -817,7 +819,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
           />
           {showQuantumMoon ? (
             <g ref={sunStationPositionRef} className="sun-station-position" data-body-id={SUN_STATION.id}>
-              <CelestialBody body={SUN_STATION} selected={selectedId === SUN_STATION.id} hovered={hoveredId === SUN_STATION.id} onActivate={activate} idPrefix={`${sceneId}-${SUN_STATION.id}`} hitRadius={selectableRadius(SUN_STATION.id)} labelFontSize={labelFontSize} />
+              <CelestialBody artworkRef={sunStationArtworkRef} body={SUN_STATION} selected={selectedId === SUN_STATION.id} hovered={hoveredId === SUN_STATION.id} onActivate={activate} idPrefix={`${sceneId}-${SUN_STATION.id}`} hitRadius={selectableRadius(SUN_STATION.id)} labelFontSize={labelFontSize} />
             </g>
           ) : null}
           <g className="white-hole-position" transform={`translate(${WHITE_HOLE_POSITION.x} ${WHITE_HOLE_POSITION.y})`} data-body-id={WHITE_HOLE.id}>

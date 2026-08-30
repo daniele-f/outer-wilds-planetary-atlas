@@ -495,9 +495,11 @@ The implementation includes:
 - White Hole is a separate always-visible stationary entity at (-1200, 35); only its interaction is spoiler-gated.
 - White Hole Station remains stationary in space while its artwork rotates independently on its own axis every 12 seconds.
 - The station’s rotation pivot is explicitly the center of `white-hole-station-ring` at local coordinates (0, 0).
+- Sun Station labels remain below the station because only the artwork layer rotates; the label stays in the translated parent group.
 - White Hole Station focus uses its own registered fixed position, so camera focus centers the station rather than the Sun.
 - The spoiler toggle is listed last in the settings menu with a separator above it.
 - Orbit-line and planet-name controls also switch between “Show” and “Hide” labels to reflect their current state.
+- The settings order is planet names, orbit lines, then the separated spoiler control.
 - `aria-pressed` state on toggle and speed controls.
 - Screen-reader-only live status regions for selection/simulation feedback.
 - Keyboard activation for applicable interactive targets.
