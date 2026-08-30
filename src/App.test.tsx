@@ -172,6 +172,17 @@ describe('planetary atlas application UI', () => {
     expect(document.querySelector('[data-body-id="quantum-moon"]')).toBeInTheDocument();
   });
 
+  it('reveals the clickable Sun Station only when spoilers are enabled', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<App />);
+    expect(container.querySelector('[data-body-id="sun-station"]')).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /keep spoilers hidden/i }));
+    await user.click(screen.getByRole('button', { name: 'Map settings' }));
+    await user.click(screen.getByRole('button', { name: /show spoilers/i }));
+    expect(container.querySelector('[data-body-id="sun-station"]')).toBeInTheDocument();
+    expect(container.querySelector('[data-hit-body-id="sun-station"]')).toBeInTheDocument();
+  });
+
   it('toggles Quantum Moon spoilers from settings after the first-visit choice', async () => {
     const user = userEvent.setup();
     localStorage.setItem('outer-wilds-atlas.spoilers-enabled', 'false');

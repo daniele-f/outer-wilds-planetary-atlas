@@ -15,7 +15,7 @@ For the entity-by-entity numerical and mathematical reference, see [`ATLAS_REPOR
 ### Current status
 
 - The application is implemented and runnable locally.
-- The project contains 17 test files and 124 automated tests.
+- The project contains 17 test files and 126 automated tests.
 - The latest verified build completed successfully.
 - Desktop and mobile layouts are supported.
 - Keyboard, pointer, touch, and reduced-motion behavior are considered.
@@ -480,6 +480,17 @@ The implementation includes:
 - First visit presents a custom spoiler warning; the choice is persisted in localStorage and controls whether the Quantum Moon is rendered or navigable.
 - The spoiler prompt uses a prominent “Remember: You cannot unsee spoilers.” warning, a bold settings-menu hint, and a golden “Keep spoilers hidden” safe choice.
 - The settings menu exposes this preference as a “Show spoilers” / “Hide spoilers” toggle.
+- Spoiler mode also gates the close counterclockwise Sun Station orbit, artwork, selection, focus, and navigation entry.
+- Sun Station artwork uses a broad solar crossbar, central spine, blue observation dome, and warm gold/orange structural panels inspired by the supplied reference image.
+- The lower station body ends in a pointed fin silhouette, with no decorative circle around the station.
+- The station silhouette follows the supplied reference with a blue canopy, gold crossbar, central arrow-like body, side wings, and twin lower rails.
+- The latest silhouette tuning widens the crossbar, lowers the canopy behind it, and extends the pointed center and support rails.
+- The paired lower support legs use a thinner 1.1px stroke for a lighter silhouette.
+- Each leg now keeps only its outer vertical support; inner return segments were removed.
+- The gold lower body is cut off above the darker central spine, removing its pointed bottom tip.
+- The top horizontal crossbar was narrowed to a 28-unit span.
+- The side wings/triangles were reduced to a smaller 22-unit span.
+- Sun Station orientation updates continuously so its feet point toward the Sun and its dome points away.
 - The spoiler toggle is listed last in the settings menu with a separator above it.
 - Orbit-line and planet-name controls also switch between “Show” and “Hide” labels to reflect their current state.
 - `aria-pressed` state on toggle and speed controls.
@@ -496,7 +507,7 @@ The Quantum Moon remains intentionally nonstandard: keyboard activation triggers
 
 ## 14. Automated test coverage
 
-The current suite contains **17 test files and 124 tests**. Coverage is behavior-focused and includes:
+The current suite contains **17 test files and 126 tests**. Coverage is behavior-focused and includes:
 
 1. Top-level application rendering and integration.
 2. Selecting bodies and opening/closing the information panel.

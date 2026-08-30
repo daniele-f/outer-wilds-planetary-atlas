@@ -212,6 +212,17 @@ The browser tab uses a custom SVG favicon: a glowing Sun with an orbiting Timber
 Spoiler preference key: `outer-wilds-atlas.spoilers-enabled`; absent means the first-visit prompt is shown, and `false` keeps the Quantum Moon artwork, hit target, and navigation hidden.
 The prompt’s safe “Keep spoilers hidden” action uses the atlas gold accent; the gear icon is enlarged for visibility and its settings-menu hint is bold.
 The settings control is labeled “Show spoilers” or “Hide spoilers” while toggling the Quantum Moon visibility preference.
+Sun Station is spoiler-gated alongside the Quantum Moon: radius 92, period 18 seconds, counterclockwise, with a 24-unit hit radius.
+Its SVG artwork is a compact stylized station: crossbar, central spine, observation dome, and solar-gold structural wings.
+The lower body terminates in a pointed fin and has no enclosing decorative ring.
+The current geometry mirrors the reference silhouette: blue canopy, horizontal crossbar, central gold arrow, side wings, and paired support rails.
+The crossbar and lower point were lengthened in the latest reference pass for a closer proportion match.
+The paired support-rail stroke is 1.1px.
+Only the outer vertical segments of each support rail are rendered.
+The gold body stops above the dark central spine rather than ending in a point.
+The station crossbar spans 28 atlas units.
+The side-wing triangles span 22 atlas units in the current silhouette.
+At every frame, station rotation is derived from its position: feet face radially inward and the dome radially outward.
 It is rendered as the final settings-menu option with a separator above it.
 Orbit and label controls use matching state-aware Show/Hide wording.
 

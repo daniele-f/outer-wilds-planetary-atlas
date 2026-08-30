@@ -2,6 +2,7 @@ import type { OrbitConfig } from '../types/celestial';
 
 export const BODY_IDS = [
   'sun',
+  'sun-station',
   'hourglass-twins',
   'timber-hearth',
   'attlerock',
@@ -19,6 +20,7 @@ export type BodyId = (typeof BODY_IDS)[number];
 
 export const NAVIGATION_BODY_IDS = [
   'sun',
+  'sun-station',
   'hourglass-twins',
   'ash-twin',
   'ember-twin',
@@ -59,6 +61,14 @@ export const celestialBodies: readonly CelestialBody[] = [
     pitch: 'The brightest stop on the itinerary offers unbeatable ambience, effortless navigation, and absolutely no chance of needing a flashlight.',
     attractions: ['Front-row corona watching', 'A nonstop parade of orbiting worlds'],
     travelTips: ['Pack industrial-strength sunscreen.', 'Admire from a very, very respectful distance.'], satelliteIds: [],
+  },
+  {
+    id: 'sun-station', name: 'Sun Station', classification: 'Station', type: 'Solar research station',
+    tagline: 'Go for the close-up solar views, stay for the impossible commute.',
+    pitch: 'A daring research outpost skims the Sun’s edge, offering the most dramatic observation deck in the system.',
+    attractions: ['A breathtaking solar panorama', 'The system’s boldest orbital shortcut'],
+    travelTips: ['Bring serious heat shielding.', 'Keep your escape route plotted.'],
+    satelliteIds: [], orbit: orbit(92, 18, 1.8, { direction: -1 }),
   },
   {
     id: 'timber-hearth', name: 'Timber Hearth', classification: 'Planet', type: 'Temperate terrestrial world',

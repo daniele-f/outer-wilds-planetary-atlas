@@ -256,6 +256,12 @@
 .sun-surface { fill: #e89a3c; stroke: #ffd183; stroke-width: 2; filter: drop-shadow(0 0 13px rgb(232 147 55 / .85)); }
 .sun-current { fill: none; stroke: #ffcf70; stroke-linecap: round; stroke-opacity: .58; stroke-width: 3; }
 .sun-flare { fill: #ffe3a0; fill-opacity: .72; }
+.sun-station-dome { fill: #3d8eae; stroke: #8dc7d3; stroke-width: .55; }
+.sun-station-crossbar { fill: #b9751d; stroke: #e1a536; stroke-width: .45; }
+.sun-station-body { fill: #e7ac2e; stroke: #f6cf63; stroke-width: .55; }
+.sun-station-spine { fill: #d8891e; stroke: #f0bd45; stroke-width: .45; }
+.sun-station-wing { fill: #d99020; stroke: #f2bf4c; stroke-width: .5; }
+.sun-station-rail { fill: none; stroke: #d8891e; stroke-width: 1.1; }
 
 @keyframes corona-breathe {
   from { opacity: .55; transform: rotate(-3deg) scale(.96); }

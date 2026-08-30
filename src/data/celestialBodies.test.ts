@@ -3,6 +3,7 @@ import { BODY_IDS, celestialBodies, getBody, NAVIGATION_BODY_IDS } from './celes
 
 const requiredIds = [
   'sun',
+  'sun-station',
   'hourglass-twins',
   'timber-hearth',
   'attlerock',
@@ -33,6 +34,11 @@ describe('celestial body catalog', () => {
     expect(NAVIGATION_BODY_IDS.slice(0, 4)).toEqual([
       'sun', 'hourglass-twins', 'ash-twin', 'ember-twin',
     ]);
+  });
+
+  it('places Sun Station immediately after the Sun in spoiler navigation', () => {
+    expect(getBody('sun-station')?.classification).toBe('Station');
+    expect(NAVIGATION_BODY_IDS.slice(0, 3)).toEqual(['sun', 'sun-station', 'hourglass-twins']);
   });
 
   it('does not allow duplicate IDs to make selection ambiguous', () => {
