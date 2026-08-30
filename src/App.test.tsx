@@ -150,6 +150,34 @@ describe('planetary atlas application UI', () => {
     expect(screen.getByRole('button', { name: 'Map settings' })).toHaveClass('atlas-settings__trigger--panel-open');
   });
 
+  it('moves the focused world into the remaining map area while the side panel is open', async () => {
+    const user = userEvent.setup();
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function bounds(this: HTMLElement) {
+      if (this.classList.contains('atlas-stage')) return new DOMRect(0, 0, 1_200, 800);
+      if (this.classList.contains('info-panel')) return new DOMRect(788, 12, 400, 776);
+      return new DOMRect(0, 0, 0, 0);
+    });
+    const nativeGetComputedStyle = window.getComputedStyle;
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(((element: Element) => {
+      const style = nativeGetComputedStyle(element);
+      if (element.classList.contains('info-panel')) style.setProperty('right', '12px');
+      return style;
+    }) as typeof window.getComputedStyle);
+
+    const { container } = render(<App />);
+    screen.getByRole('button', { name: 'Sun, Star' }).focus();
+    await user.keyboard('{Enter}');
+    expect(container.querySelector('.camera-world')).not.toHaveAttribute('transform', 'translate(-206 0) scale(1)');
+    finishFocusTransition();
+
+    expect(container.querySelector('.camera-world')).toHaveAttribute('transform', 'translate(-206 0) scale(1)');
+
+    await user.click(screen.getByRole('button', { name: 'Close Sun details' }));
+    finishFocusTransition(2_000);
+
+    expect(container.querySelector('.camera-world')).toHaveAttribute('transform', 'translate(0 0) scale(1)');
+  });
+
   it('dismisses settings, details, camera follow, and selection with successive Escape presses', async () => {
     const user = userEvent.setup();
     render(<App />);

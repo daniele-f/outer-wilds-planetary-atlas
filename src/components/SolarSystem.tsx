@@ -39,6 +39,7 @@ import {
   clientPointToWorld,
   hitRadiusForMinimumPixels,
   labelFontSizeForMinimumPixels,
+  svgViewportScale,
   worldPointToClient,
   type Size,
 } from '../lib/svgViewport';
@@ -109,6 +110,8 @@ export type SolarSystemProps = Readonly<{
   showLabels?: boolean;
   onRegistryReady?: (registry: WorldPositionRegistry) => void;
   onQuantumStatusChange?: (message: string) => void;
+  /** Horizontal CSS-pixel shift that centers a focused body in visible map space. */
+  focusViewportOffsetX?: number;
 }>;
 
 type Gesture = {
@@ -124,12 +127,16 @@ type CameraTransition = {
   frameId: number | null;
 };
 
-function cameraFocusedOn(camera: Camera, position: Point | undefined): Camera {
+function cameraFocusedOn(
+  camera: Camera,
+  position: Point | undefined,
+  focusOffsetX = 0,
+): Camera {
   if (position === undefined) return camera;
   return {
     ...camera,
     offset: {
-      x: camera.offset.x - position.x * camera.scale,
+      x: camera.offset.x - position.x * camera.scale + focusOffsetX,
       y: camera.offset.y - position.y * camera.scale,
     },
   };
@@ -161,7 +168,16 @@ function prefersReducedMotion(): boolean {
 }
 
 export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(function SolarSystem(
-  { selectedId, onSelect, speed = 1, showOrbits = true, showLabels = true, onRegistryReady, onQuantumStatusChange },
+  {
+    selectedId,
+    onSelect,
+    speed = 1,
+    showOrbits = true,
+    showLabels = true,
+    onRegistryReady,
+    onQuantumStatusChange,
+    focusViewportOffsetX = 0,
+  },
   ref,
 ) {
   const reactId = useId();
@@ -228,7 +244,8 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   const focusedCamera = useCallback(() => cameraFocusedOn(
     cameraStateRef.current,
     focusedBodyRef.current === null ? undefined : registry.get(focusedBodyRef.current),
-  ), [registry]);
+    focusViewportOffsetX / svgViewportScale(viewport, ATLAS_VIEW_BOX),
+  ), [focusViewportOffsetX, registry, viewport]);
   const getDisplayedCamera = useCallback(() => displayedCameraRef.current, []);
   const applyCameraTransform = useCallback(() => {
     cameraWorldRef.current?.setAttribute('transform', cameraTransform(getDisplayedCamera()));
@@ -240,13 +257,13 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
     cameraTransitionRef.current = null;
   }, []);
 
-  const focusBody = useCallback((id: BodyId, resetView = false) => {
+  const transitionToFocusedCamera = useCallback(() => {
     const start = getDisplayedCamera();
     cancelCameraTransition();
-    focusedBodyRef.current = id;
-    if (resetView) camera.reset();
-    else camera.rebaseOffset({ x: 0, y: 0 });
     const target = focusedCamera();
+    if (start.offset.x === target.offset.x
+      && start.offset.y === target.offset.y
+      && start.scale === target.scale) return;
     if (prefersReducedMotion()) {
       displayedCameraRef.current = target;
       applyCameraTransform();
@@ -259,15 +276,23 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       const progress = Math.min(1, Math.max(0, (timestamp - transition.startedAt) / FOCUS_TRANSITION_MILLISECONDS));
       displayedCameraRef.current = interpolateCamera(transition.from, focusedCamera(), progress);
       applyCameraTransform();
-      if (progress < 1) {
-        transition.frameId = requestAnimationFrame(animate);
-      } else {
-        cameraTransitionRef.current = null;
-      }
+      if (progress < 1) transition.frameId = requestAnimationFrame(animate);
+      else cameraTransitionRef.current = null;
     };
     cameraTransitionRef.current = transition;
     transition.frameId = requestAnimationFrame(animate);
-  }, [applyCameraTransform, camera, cancelCameraTransition, focusedCamera, getDisplayedCamera]);
+  }, [applyCameraTransform, cancelCameraTransition, focusedCamera, getDisplayedCamera]);
+
+  const focusBody = useCallback((id: BodyId, resetView = false) => {
+    focusedBodyRef.current = id;
+    if (resetView) camera.reset();
+    else camera.rebaseOffset({ x: 0, y: 0 });
+    transitionToFocusedCamera();
+  }, [camera, transitionToFocusedCamera]);
+
+  useLayoutEffect(() => {
+    if (focusedBodyRef.current !== null) transitionToFocusedCamera();
+  }, [focusViewportOffsetX, transitionToFocusedCamera]);
 
   const unfocusBody = useCallback(() => {
     if (focusedBodyRef.current === null) return false;

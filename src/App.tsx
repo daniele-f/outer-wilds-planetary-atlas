@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AtlasHeader } from './components/AtlasHeader';
 import { Controls, type SimulationSpeed } from './components/Controls';
 import { InfoPanel } from './components/InfoPanel';
@@ -16,7 +16,13 @@ export default function App() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [orbitsHidden, setOrbitsHidden] = useState(false);
   const [labelsHidden, setLabelsHidden] = useState(false);
+  const [focusViewportOffsetX, setFocusViewportOffsetX] = useState(0);
   const solarSystemRef = useRef<SolarSystemHandle | null>(null);
+  const stageRef = useRef<HTMLElement | null>(null);
+  const infoPanelRef = useRef<HTMLElement | null>(null);
+  const setInfoPanelElement = useCallback((element: HTMLElement | null) => {
+    infoPanelRef.current = element;
+  }, []);
   const onSelect = useCallback((id: BodyId) => {
     setSelectedId(id);
     setPanelOpen(true);
@@ -52,13 +58,42 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [panelOpen, selectedId, settingsOpen]);
 
+  const panelVisible = panelOpen && selectedBody !== undefined;
+  useLayoutEffect(() => {
+    const stage = stageRef.current;
+    const panel = infoPanelRef.current;
+    if (!panelVisible || stage === null || panel === null) {
+      setFocusViewportOffsetX(0);
+      return;
+    }
+    const updateOffset = () => {
+      if (window.matchMedia('(max-width: 760px)').matches) {
+        setFocusViewportOffsetX(0);
+        return;
+      }
+      const panelWidth = panel.getBoundingClientRect().width;
+      const panelRight = Number.parseFloat(window.getComputedStyle(panel).right);
+      const offset = -(panelWidth + (Number.isFinite(panelRight) ? panelRight : 0)) / 2;
+      setFocusViewportOffsetX((current) => Math.abs(current - offset) < 0.01 ? current : offset);
+    };
+    updateOffset();
+    const observer = new ResizeObserver(updateOffset);
+    observer.observe(stage);
+    observer.observe(panel);
+    window.addEventListener('resize', updateOffset);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateOffset);
+    };
+  }, [panelVisible]);
+
   return (
     <main
       className={`atlas-shell${panelOpen && selectedBody !== undefined ? ' atlas-shell--panel-open' : ''}`}
       aria-labelledby="atlas-title"
     >
       <AtlasHeader subtitle="A field guide to the local system" />
-      <section className="atlas-stage" aria-label="Solar system atlas">
+      <section ref={stageRef} className="atlas-stage" aria-label="Solar system atlas">
         <SolarSystem
           ref={solarSystemRef}
           selectedId={selectedId}
@@ -67,9 +102,11 @@ export default function App() {
           showOrbits={!orbitsHidden}
           showLabels={!labelsHidden}
           onQuantumStatusChange={setQuantumStatus}
+          focusViewportOffsetX={focusViewportOffsetX}
         />
         {!panelOpen || selectedBody === undefined ? null : (
           <InfoPanel
+            panelRef={setInfoPanelElement}
             body={selectedBody}
             onClose={() => setPanelOpen(false)}
             onSelectBody={onSelect}
