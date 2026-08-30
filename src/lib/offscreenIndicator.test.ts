@@ -13,6 +13,7 @@ describe('placeOffscreenIndicator', () => {
     expect(placement?.x).toBe(970);
     expect(placement?.y).toBe(300);
     expect(placement?.label).toBe('Dark Bramble');
+    expect(placement?.edge).toBe('right');
   });
 
   it('keeps the indicator out of the side-panel inset', () => {

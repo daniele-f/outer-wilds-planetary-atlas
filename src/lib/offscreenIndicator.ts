@@ -13,6 +13,7 @@ export type OffscreenIndicatorPlacement = Readonly<{
   y: number;
   angle: number;
   label: string;
+  edge: 'left' | 'right' | 'top' | 'bottom';
 }>;
 
 /** Returns an edge-clamped indicator for a target outside the usable map area. */
@@ -38,10 +39,14 @@ export function placeOffscreenIndicator(
   );
   const x = center.x + delta.x * scale;
   const y = center.y + delta.y * scale;
+  const edge = Math.abs(scale - horizontalScale) < 1e-6
+    ? (delta.x > 0 ? 'right' : 'left')
+    : (delta.y > 0 ? 'bottom' : 'top');
   return {
     x,
     y,
     angle: Math.atan2(target.y - y, target.x - x) * 180 / Math.PI + 90,
     label,
+    edge,
   };
 }

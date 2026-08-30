@@ -12,10 +12,8 @@
 .offscreen-indicator {
   position: absolute;
   z-index: 4;
-  display: grid;
-  justify-items: center;
-  gap: .28rem;
-  width: max-content;
+  width: 1.5rem;
+  height: 1.7rem;
   pointer-events: none;
   transform: translate(-50%, -50%);
   filter: drop-shadow(0 2px 7px rgb(0 0 0 / .6));
@@ -31,6 +29,10 @@
 }
 
 .offscreen-indicator__label {
+  position: absolute;
+  top: calc(100% + .28rem);
+  left: 50%;
+  width: max-content;
   max-width: 12rem;
   color: #fff1ce;
   font-family: Inter, 'Segoe UI', sans-serif;
@@ -41,6 +43,11 @@
   text-align: center;
   text-shadow: 0 1px 4px #000;
 }
+
+.offscreen-indicator--left .offscreen-indicator__label { left: 100%; text-align: left; }
+.offscreen-indicator--right .offscreen-indicator__label { right: 100%; left: auto; text-align: right; }
+.offscreen-indicator--top .offscreen-indicator__label,
+.offscreen-indicator--bottom .offscreen-indicator__label { transform: translateX(-50%); }
 
 .offscreen-indicator[hidden] { display: none; }
 

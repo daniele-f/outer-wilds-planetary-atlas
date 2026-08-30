@@ -502,6 +502,7 @@ The implementation includes:
 - Sun focus/hover removes the generic parent drop-shadow filter from the artwork group; brightness and glow are applied to the surface instead so corona strokes remain crisp.
 - Sun corona remains in its own layer and follows the enlarged Sun during focus/hover without the competing counter-scale that caused a visible in/out jump.
 - Offscreen selected-body indicators project live world positions to the map edge, point toward the target, and avoid the open info panel’s occupied area; an unselected offscreen system is labeled “Solar System.”
+- Offscreen labels anchor inward on the left/right edges so the full entity name remains inside the map window.
 - Sun Station labels remain below the station because only the artwork layer rotates; the label stays in the translated parent group.
 - Orbital Probe Cannon is spoiler-gated and follows a clockwise local orbit around Giant’s Deep as one attached launcher/probe unit.
 - The info panel is immediately hidden when its selected spoiler-gated entity is hidden.
