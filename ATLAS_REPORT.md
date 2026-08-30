@@ -184,6 +184,8 @@ The visual radius is the SVG artwork radius. The hit radius is the minimum inter
 - Jump count is unbounded; each jump resets local phase to the current simulation time.
 - Visual radius: 10; hit radius: 23.
 
+The Quantum Moon artwork retains its procedural swirl/mottle paths and rim while omitting the two circular crater-dot elements.
+
 ## Shared simulation and interaction constants
 
 | Constant | Value | Meaning |

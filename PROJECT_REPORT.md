@@ -15,7 +15,7 @@ For the entity-by-entity numerical and mathematical reference, see [`ATLAS_REPOR
 ### Current status
 
 - The application is implemented and runnable locally.
-- The project contains 17 test files and 117 automated tests.
+- The project contains 17 test files and 118 automated tests.
 - The latest verified build completed successfully.
 - Desktop and mobile layouts are supported.
 - Keyboard, pointer, touch, and reduced-motion behavior are considered.
@@ -447,6 +447,8 @@ All bodies are made from SVG primitives, gradients, masks, filters, and CSS. Eac
 - Dark core: `#080d2c`
 - Cracks: `#788fdf`
 
+Attlerock uses a warmer brown-gray sphere (`#aa9475`) with muted brown craters so it is visually distinct from the Quantum Moon’s cool gray palette. The Quantum Moon keeps its procedural swirl/mottle paths but no longer renders the two circular crater dots.
+
 ### Hover and selection
 
 Hovered, keyboard-focused, and selected bodies grow to approximately 1.08× and gain brightness/glow. There are no dotted hover or focus rings around bodies. The selected body retains the same emphasized glow/grow character used on hover.
@@ -482,7 +484,7 @@ The Quantum Moon remains intentionally nonstandard: keyboard activation triggers
 
 ## 14. Automated test coverage
 
-The current suite contains **17 test files and 117 tests**. Coverage is behavior-focused and includes:
+The current suite contains **17 test files and 118 tests**. Coverage is behavior-focused and includes:
 
 1. Top-level application rendering and integration.
 2. Selecting bodies and opening/closing the information panel.

@@ -10,6 +10,27 @@ function quantumMoon() {
 }
 
 describe('QuantumMoon', () => {
+  it('removes the two crater dots while retaining the swirl artwork', () => {
+    const markup = renderToStaticMarkup(
+      <svg>
+        <QuantumMoon
+          body={quantumMoon()}
+          hostId="timber-hearth"
+          flickering={false}
+          selected={false}
+          hovered={false}
+          hitRadius={23}
+          idPrefix="quantum-art"
+          onActivate={() => {}}
+        />
+      </svg>,
+    );
+
+    expect(markup).not.toContain('quantum-crater');
+    expect(markup).toContain('quantum-mottle--one');
+    expect(markup).toContain('quantum-mottle--two');
+  });
+
   it('exposes an elusive relocation target without allowing pointer selection', () => {
     const markup = renderToStaticMarkup(
       <svg>

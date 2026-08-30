@@ -118,8 +118,8 @@
 .terrain--river { fill: none; stroke: #89d3d5; stroke-width: 1.5; }
 .terrain--crater { fill: #304e4d; stroke: #9eb07a; stroke-width: 1; }
 
-.body-art--attlerock .body-sphere { fill: #a59e8a; }
-.moon-crater { fill: #6d6b62; stroke: #c8bf9e; stroke-width: .45; }
+.body-art--attlerock .body-sphere { fill: #aa9475; }
+.moon-crater { fill: #75614d; stroke: #cdb28d; stroke-width: .45; }
 
 .body-art--brittle-hollow .body-sphere { fill: #263e72; }
 .brittle-core { fill: #080d2c; stroke: #536dba; stroke-opacity: .72; stroke-width: 1.2; }
