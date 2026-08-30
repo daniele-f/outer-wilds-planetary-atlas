@@ -10,6 +10,8 @@ Outer Wilds Planetary Atlas is a spoiler-conscious, interactive map of the *Oute
 
 Visitors can inspect worlds, read playful travel-pamphlet descriptions, navigate between bodies, and make the camera smoothly follow a selected destination. The atlas is entirely client-side. It has no backend, accounts, analytics, database, or network API, and its visuals are drawn procedurally rather than copied from game assets.
 
+For the entity-by-entity numerical and mathematical reference, see [`ATLAS_REPORT.md`](ATLAS_REPORT.md). Keep both reports synchronized whenever catalog values, orbit configuration, visual sizes, or interaction constants change.
+
 ### Current status
 
 - The application is implemented and runnable locally.
