@@ -209,6 +209,11 @@ The Quantum Moon artwork retains its procedural swirl/mottle paths and rim while
 Planet labels retain a 14px minimum screen size; on viewports 760px wide or smaller their outline is reduced to 1.5px for readability.
 The simulation toggle icon is rendered with CSS geometry rather than a Unicode pause/play character, keeping its appearance consistent across operating systems and installed fonts.
 The browser tab uses a custom SVG favicon: a glowing Sun with an orbiting Timber Hearth accent on the atlas background.
+Spoiler preference key: `outer-wilds-atlas.spoilers-enabled`; absent means the first-visit prompt is shown, and `false` keeps the Quantum Moon artwork, hit target, and navigation hidden.
+The prompt’s safe “Keep spoilers hidden” action uses the atlas gold accent; the gear icon is enlarged for visibility and its settings-menu hint is bold.
+The settings control is labeled “Show spoilers” or “Hide spoilers” while toggling the Quantum Moon visibility preference.
+It is rendered as the final settings-menu option with a separator above it.
+Orbit and label controls use matching state-aware Show/Hide wording.
 
 ## What is deliberately not modeled
 

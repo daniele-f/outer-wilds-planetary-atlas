@@ -58,6 +58,7 @@ beforeEach(() => {
   frames = new ControlledFrames();
   mobileViewport = false;
   localStorage.clear();
+  localStorage.setItem('outer-wilds-atlas.spoilers-enabled', 'false');
   vi.stubGlobal('PointerEvent', MouseEvent);
   vi.stubGlobal('requestAnimationFrame', frames.request);
   vi.stubGlobal('cancelAnimationFrame', frames.cancel);
@@ -142,6 +143,44 @@ describe('planetary atlas application UI', () => {
 
     await user.click(settings);
     expect(screen.queryByRole('group', { name: 'Map display settings' })).not.toBeInTheDocument();
+  });
+
+  it('shows a spoiler warning on first visit and keeps the Quantum Moon hidden by default', async () => {
+    const user = userEvent.setup();
+    localStorage.removeItem('outer-wilds-atlas.spoilers-enabled');
+    const { container } = render(<App />);
+
+    expect(screen.getByRole('dialog', { name: /spoiler/i })).toBeVisible();
+    expect(screen.getByText(/You cannot unsee spoilers/i)).toBeVisible();
+    expect(container.querySelector('[data-body-id="quantum-moon"]')).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /keep spoilers hidden/i }));
+    expect(screen.queryByRole('dialog', { name: /spoiler/i })).not.toBeInTheDocument();
+    expect(localStorage.getItem('outer-wilds-atlas.spoilers-enabled')).toBe('false');
+  });
+
+  it('reveals the Quantum Moon from the spoiler prompt and persists the choice', async () => {
+    const user = userEvent.setup();
+    const first = render(<App />);
+    await user.click(screen.getByRole('button', { name: /show spoilers/i }));
+    expect(first.container.querySelector('[data-body-id="quantum-moon"]')).toBeInTheDocument();
+    expect(localStorage.getItem('outer-wilds-atlas.spoilers-enabled')).toBe('true');
+
+    first.unmount();
+    render(<App />);
+    expect(screen.queryByRole('dialog', { name: /spoiler/i })).not.toBeInTheDocument();
+    expect(document.querySelector('[data-body-id="quantum-moon"]')).toBeInTheDocument();
+  });
+
+  it('toggles Quantum Moon spoilers from settings after the first-visit choice', async () => {
+    const user = userEvent.setup();
+    localStorage.setItem('outer-wilds-atlas.spoilers-enabled', 'false');
+    const { container } = render(<App />);
+    await user.click(screen.getByRole('button', { name: 'Map settings' }));
+    const toggle = screen.getByRole('button', { name: /show spoilers/i });
+    await user.click(toggle);
+    expect(container.querySelector('[data-body-id="quantum-moon"]')).toBeInTheDocument();
+    expect(localStorage.getItem('outer-wilds-atlas.spoilers-enabled')).toBe('true');
   });
 
   it('closes the settings menu when the user clicks outside it', async () => {

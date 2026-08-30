@@ -109,6 +109,7 @@ export type SolarSystemProps = Readonly<{
   speed?: number;
   showOrbits?: boolean;
   showLabels?: boolean;
+  showQuantumMoon?: boolean;
   onRegistryReady?: (registry: WorldPositionRegistry) => void;
   onQuantumStatusChange?: (message: string) => void;
   /** Horizontal CSS-pixel shift that centers a focused body in visible map space. */
@@ -178,6 +179,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
     speed = 1,
     showOrbits = true,
     showLabels = true,
+    showQuantumMoon = true,
     onRegistryReady,
     onQuantumStatusChange,
     focusViewportOffsetX = 0,
@@ -439,7 +441,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
         selectableRegistry.update(
           QUANTUM_MOON.id,
           position,
-          selectableRadiiRef.current[QUANTUM_MOON.id] ?? BODY_HIT_RADII[QUANTUM_MOON.id],
+          selectableRadiiRef.current[QUANTUM_MOON.id] ?? 0,
         );
         hitRefs.current[QUANTUM_MOON.id]?.setAttribute(
           'transform',
@@ -640,7 +642,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   SPECIAL_BODY_IDS.forEach((id) => {
     effectiveRadii[id] = selectableRadius(id);
   });
-  effectiveRadii[QUANTUM_MOON.id] = selectableRadius(QUANTUM_MOON.id);
+  effectiveRadii[QUANTUM_MOON.id] = showQuantumMoon ? selectableRadius(QUANTUM_MOON.id) : 0;
   selectableRadiiRef.current = effectiveRadii;
 
   useLayoutEffect(() => {
@@ -821,7 +823,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
             onPositionUpdate={updateSpecialPosition}
             labelFontSize={labelFontSize}
           />
-          <QuantumMoon
+          {showQuantumMoon ? <QuantumMoon
             // Each escape changes the key, restarting the single CSS-defined teleport animation.
             key={quantumState.escapeCount}
             ref={quantumMoonRef}
@@ -834,7 +836,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
             idPrefix={`${sceneId}-${QUANTUM_MOON.id}`}
             onActivate={activate}
             labelFontSize={labelFontSize}
-          />
+          /> : null}
         </g>
       </svg>
       <p className="map-hint">Drag to pan · scroll to zoom · select a world to learn more</p>

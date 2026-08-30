@@ -3,12 +3,14 @@ import { AtlasHeader } from './components/AtlasHeader';
 import { Controls, type SimulationSpeed } from './components/Controls';
 import { InfoPanel } from './components/InfoPanel';
 import { SettingsMenu } from './components/SettingsMenu';
+import { SpoilerPrompt } from './components/SpoilerPrompt';
 import { SolarSystem, type SolarSystemHandle } from './components/SolarSystem';
 import { NAVIGATION_BODY_IDS, getBody, type BodyId } from './data/celestialBodies';
 import './styles/ui.css';
 
 const ORBITS_HIDDEN_STORAGE_KEY = 'outer-wilds-atlas.orbits-hidden';
 const LABELS_HIDDEN_STORAGE_KEY = 'outer-wilds-atlas.labels-hidden';
+const SPOILERS_ENABLED_STORAGE_KEY = 'outer-wilds-atlas.spoilers-enabled';
 
 function readStoredBoolean(key: string): boolean {
   if (typeof window === 'undefined') return false;
@@ -17,6 +19,11 @@ function readStoredBoolean(key: string): boolean {
   } catch {
     return false;
   }
+}
+
+function hasStoredValue(key: string): boolean {
+  if (typeof window === 'undefined') return false;
+  try { return window.localStorage.getItem(key) !== null; } catch { return false; }
 }
 
 function writeStoredBoolean(key: string, value: boolean): void {
@@ -36,6 +43,8 @@ export default function App() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [orbitsHidden, setOrbitsHidden] = useState(() => readStoredBoolean(ORBITS_HIDDEN_STORAGE_KEY));
   const [labelsHidden, setLabelsHidden] = useState(() => readStoredBoolean(LABELS_HIDDEN_STORAGE_KEY));
+  const [spoilersEnabled, setSpoilersEnabled] = useState(() => readStoredBoolean(SPOILERS_ENABLED_STORAGE_KEY));
+  const [spoilerPromptOpen, setSpoilerPromptOpen] = useState(() => !hasStoredValue(SPOILERS_ENABLED_STORAGE_KEY));
   const [focusViewportOffsetX, setFocusViewportOffsetX] = useState(0);
   const [focusViewportOffsetY, setFocusViewportOffsetY] = useState(0);
   const solarSystemRef = useRef<SolarSystemHandle | null>(null);
@@ -49,20 +58,34 @@ export default function App() {
     setPanelOpen(true);
   }, []);
   const selectedBody = selectedId === null ? undefined : getBody(selectedId);
+  const navigationBodyIds = spoilersEnabled
+    ? NAVIGATION_BODY_IDS
+    : NAVIGATION_BODY_IDS.filter((id) => id !== 'quantum-moon');
   const simulationSpeed = paused ? 0 : speed;
 
   useEffect(() => writeStoredBoolean(ORBITS_HIDDEN_STORAGE_KEY, orbitsHidden), [orbitsHidden]);
   useEffect(() => writeStoredBoolean(LABELS_HIDDEN_STORAGE_KEY, labelsHidden), [labelsHidden]);
+  useEffect(() => {
+    if (!spoilerPromptOpen) writeStoredBoolean(SPOILERS_ENABLED_STORAGE_KEY, spoilersEnabled);
+  }, [spoilerPromptOpen, spoilersEnabled]);
+  useEffect(() => {
+    if (!spoilersEnabled && selectedId === 'quantum-moon') {
+      solarSystemRef.current?.unfocusBody();
+      setSelectedId(null);
+      setPanelOpen(false);
+    }
+  }, [selectedId, spoilersEnabled]);
   const navigateBody = useCallback((direction: -1 | 1) => {
     if (selectedId === null) return;
-    const currentIndex = NAVIGATION_BODY_IDS.indexOf(selectedId);
-    const nextIndex = (currentIndex + direction + NAVIGATION_BODY_IDS.length) % NAVIGATION_BODY_IDS.length;
-    const nextId = NAVIGATION_BODY_IDS[nextIndex];
+    const currentIndex = (navigationBodyIds as readonly BodyId[]).indexOf(selectedId);
+    const safeIndex = currentIndex < 0 ? 0 : currentIndex;
+    const nextIndex = (safeIndex + direction + navigationBodyIds.length) % navigationBodyIds.length;
+    const nextId = navigationBodyIds[nextIndex];
     if (nextId === undefined) return;
     setSelectedId(nextId);
     setPanelOpen(true);
     solarSystemRef.current?.focusBody(nextId);
-  }, [selectedId]);
+  }, [navigationBodyIds, selectedId]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -131,6 +154,7 @@ export default function App() {
           speed={simulationSpeed}
           showOrbits={!orbitsHidden}
           showLabels={!labelsHidden}
+          showQuantumMoon={spoilersEnabled}
           onQuantumStatusChange={setQuantumStatus}
           focusViewportOffsetX={focusViewportOffsetX}
           focusViewportOffsetY={focusViewportOffsetY}
@@ -154,6 +178,8 @@ export default function App() {
           onRequestClose={() => setSettingsOpen(false)}
           onToggleOrbits={() => setOrbitsHidden((current) => !current)}
           onToggleLabels={() => setLabelsHidden((current) => !current)}
+          spoilersEnabled={spoilersEnabled}
+          onToggleSpoilers={() => setSpoilersEnabled((current) => !current)}
         />
         <Controls
           paused={paused}
@@ -173,6 +199,7 @@ export default function App() {
           {quantumStatus}
         </p>
       </section>
+      {spoilerPromptOpen ? <SpoilerPrompt onChoose={(enabled) => { setSpoilersEnabled(enabled); setSpoilerPromptOpen(false); }} /> : null}
     </main>
   );
 }

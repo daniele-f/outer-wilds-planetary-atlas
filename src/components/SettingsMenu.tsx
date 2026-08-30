@@ -5,10 +5,12 @@ type SettingsMenuProps = Readonly<{
   panelOpen: boolean;
   orbitsHidden: boolean;
   labelsHidden: boolean;
+  spoilersEnabled: boolean;
   onToggleOpen: () => void;
   onRequestClose: () => void;
   onToggleOrbits: () => void;
   onToggleLabels: () => void;
+  onToggleSpoilers: () => void;
 }>;
 
 export function SettingsMenu({
@@ -20,6 +22,8 @@ export function SettingsMenu({
   onRequestClose,
   onToggleOrbits,
   onToggleLabels,
+  onToggleSpoilers,
+  spoilersEnabled,
 }: SettingsMenuProps) {
   const rootRef = useRef<HTMLDivElement | null>(null);
 
@@ -48,11 +52,15 @@ export function SettingsMenu({
         <div className={`atlas-settings__menu${panelOpen ? ' atlas-settings__menu--panel-open' : ''}`} role="group" aria-label="Map display settings">
           <button type="button" aria-pressed={orbitsHidden} onClick={onToggleOrbits}>
             <span aria-hidden="true">{orbitsHidden ? '○' : '●'}</span>
-            <span>Hide orbit lines</span>
+            <span>{orbitsHidden ? 'Show orbit lines' : 'Hide orbit lines'}</span>
           </button>
           <button type="button" aria-pressed={labelsHidden} onClick={onToggleLabels}>
             <span aria-hidden="true">{labelsHidden ? '○' : '●'}</span>
-            <span>Hide planet names</span>
+            <span>{labelsHidden ? 'Show planet names' : 'Hide planet names'}</span>
+          </button>
+          <button className="atlas-settings__spoiler-option" type="button" aria-pressed={spoilersEnabled} onClick={onToggleSpoilers}>
+            <span aria-hidden="true">{spoilersEnabled ? '●' : '○'}</span>
+            <span>{spoilersEnabled ? 'Hide spoilers' : 'Show spoilers'}</span>
           </button>
         </div>
       ) : null}
