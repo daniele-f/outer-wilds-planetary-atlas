@@ -183,6 +183,19 @@ describe('planetary atlas application UI', () => {
     expect(container.querySelector('[data-hit-body-id="sun-station"]')).toBeInTheDocument();
   });
 
+  it('keeps White Hole Station visible but non-interactive until spoilers are enabled', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<App />);
+    expect(container.querySelector('[data-body-id="white-hole-station"]')).not.toBeInTheDocument();
+    expect(container.querySelector('[data-body-id="white-hole"]')).toBeInTheDocument();
+    expect(container.querySelector('[data-hit-body-id="white-hole-station"]')).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /keep spoilers hidden/i }));
+    await user.click(screen.getByRole('button', { name: 'Map settings' }));
+    await user.click(screen.getByRole('button', { name: /show spoilers/i }));
+    expect(container.querySelector('[data-hit-body-id="white-hole-station"]')).toBeInTheDocument();
+    expect(container.querySelector('[data-hit-body-id="white-hole"]')).toBeInTheDocument();
+  });
+
   it('toggles Quantum Moon spoilers from settings after the first-visit choice', async () => {
     const user = userEvent.setup();
     localStorage.setItem('outer-wilds-atlas.spoilers-enabled', 'false');

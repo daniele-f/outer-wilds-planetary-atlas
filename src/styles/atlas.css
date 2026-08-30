@@ -262,6 +262,11 @@
 .sun-station-spine { fill: #d8891e; stroke: #f0bd45; stroke-width: .45; }
 .sun-station-wing { fill: #d99020; stroke: #f2bf4c; stroke-width: .5; }
 .sun-station-rail { fill: none; stroke: #d8891e; stroke-width: 1.1; }
+.white-hole { fill: #ffffff; filter: drop-shadow(0 0 5px rgb(255 255 255 / .75)); }
+.white-hole-station-ring { fill: none; stroke: #f6cf63; stroke-width: 1.5; }
+.white-hole-station-core { fill: #d8891e; stroke: #f2bd4a; stroke-width: .6; }
+.white-hole-station-beam { fill: #e1a52d; stroke: #f6cf63; stroke-width: .5; }
+.white-hole-station-art { transform-origin: 0 0; }
 
 @keyframes corona-breathe {
   from { opacity: .55; transform: rotate(-3deg) scale(.96); }
@@ -302,4 +307,5 @@
   .body-label { transition: none; }
   .sand-grain { opacity: .38; }
   .quantum-moon--flickering { animation: none; }
+  .white-hole-station-art animateTransform { display: none; }
 }

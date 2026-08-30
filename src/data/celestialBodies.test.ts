@@ -4,6 +4,8 @@ import { BODY_IDS, celestialBodies, getBody, NAVIGATION_BODY_IDS } from './celes
 const requiredIds = [
   'sun',
   'sun-station',
+  'white-hole-station',
+  'white-hole',
   'hourglass-twins',
   'timber-hearth',
   'attlerock',
@@ -39,6 +41,14 @@ describe('celestial body catalog', () => {
   it('places Sun Station immediately after the Sun in spoiler navigation', () => {
     expect(getBody('sun-station')?.classification).toBe('Station');
     expect(NAVIGATION_BODY_IDS.slice(0, 3)).toEqual(['sun', 'sun-station', 'hourglass-twins']);
+  });
+
+  it('places White Hole Station between Dark Bramble and the Interloper', () => {
+    const darkBrambleIndex = NAVIGATION_BODY_IDS.indexOf('dark-bramble');
+    expect(NAVIGATION_BODY_IDS[darkBrambleIndex + 1]).toBe('white-hole-station');
+    expect(NAVIGATION_BODY_IDS[darkBrambleIndex + 2]).toBe('white-hole');
+    expect(getBody('white-hole-station')?.orbit).toBeUndefined();
+    expect(getBody('white-hole')?.orbit).toBeUndefined();
   });
 
   it('does not allow duplicate IDs to make selection ambiguous', () => {

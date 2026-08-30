@@ -82,6 +82,10 @@ const ORDINARY_WORLDS: readonly OrdinaryWorld[] = [
 ];
 const SUN = requireBody('sun');
 const SUN_STATION = requireBody('sun-station');
+const WHITE_HOLE_STATION = requireBody('white-hole-station');
+const WHITE_HOLE = requireBody('white-hole');
+const WHITE_HOLE_POSITION = Object.freeze({ x: -1150, y: 0 });
+const WHITE_HOLE_STATION_POSITION = Object.freeze({ x: -1050, y: 0 });
 const HOURGLASS_TWINS = requireBody('hourglass-twins');
 const ASH_TWIN = requireBody('ash-twin');
 const EMBER_TWIN = requireBody('ember-twin');
@@ -215,6 +219,9 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   const hourglassCompositeHitRef = useRef<SVGGElement | null>(null);
   const sunStationPositionRef = useRef<SVGGElement | null>(null);
   const sunStationHitRef = useRef<SVGGElement | null>(null);
+  const whiteHoleStationPositionRef = useRef<SVGGElement | null>(null);
+  const whiteHoleStationHitRef = useRef<SVGGElement | null>(null);
+  const whiteHoleHitRef = useRef<SVGGElement | null>(null);
   const selectableRadiiRef = useRef<Partial<Record<BodyId, number>>>({});
   const gestureRef = useRef<Gesture | null>(null);
   const pointerMovementRef = useRef(0);
@@ -372,6 +379,18 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       sunPosition,
       selectableRadiiRef.current.sun ?? BODY_HIT_RADII.sun,
     );
+    registry.update(WHITE_HOLE.id, WHITE_HOLE_POSITION);
+    whiteHoleHitRef.current?.setAttribute('transform', `translate(${WHITE_HOLE_POSITION.x} ${WHITE_HOLE_POSITION.y})`);
+    if (showQuantumMoon) {
+      registry.update(WHITE_HOLE_STATION.id, WHITE_HOLE_STATION_POSITION);
+      selectableRegistry.update(WHITE_HOLE.id, WHITE_HOLE_POSITION, selectableRadiiRef.current[WHITE_HOLE.id] ?? 0);
+      whiteHoleStationHitRef.current?.setAttribute('transform', `translate(${WHITE_HOLE_STATION_POSITION.x} ${WHITE_HOLE_STATION_POSITION.y})`);
+      whiteHoleStationPositionRef.current?.setAttribute('transform', `translate(${WHITE_HOLE_STATION_POSITION.x} ${WHITE_HOLE_STATION_POSITION.y})`);
+      selectableRegistry.update(WHITE_HOLE_STATION.id, WHITE_HOLE_STATION_POSITION, selectableRadiiRef.current[WHITE_HOLE_STATION.id] ?? 0);
+    } else {
+      selectableRegistry.remove(WHITE_HOLE.id);
+      selectableRegistry.remove(WHITE_HOLE_STATION.id);
+    }
     if (showQuantumMoon && SUN_STATION.orbit !== undefined) {
       const stationPosition = circularPosition(SUN_STATION.orbit, time);
       const inwardAngle = Math.atan2(-stationPosition.y, -stationPosition.x) * 180 / Math.PI;
@@ -647,6 +666,8 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   const effectiveRadii: Partial<Record<BodyId, number>> = {
     sun: selectableRadius('sun'),
     'sun-station': showQuantumMoon ? selectableRadius('sun-station') : 0,
+    'white-hole-station': showQuantumMoon ? selectableRadius('white-hole-station') : 0,
+    'white-hole': showQuantumMoon ? selectableRadius('white-hole') : 0,
     'hourglass-twins': selectableRadius('hourglass-twins'),
   };
   ORDINARY_WORLDS.forEach(({ body, moon }) => {
@@ -721,6 +742,14 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
                 <CelestialHitArea body={SUN_STATION} radius={selectableRadius(SUN_STATION.id)} onActivate={activate} onHoverChange={updateHitAreaHover} />
               </g>
             ) : null}
+            <g ref={whiteHoleHitRef} transform={`translate(${WHITE_HOLE_POSITION.x} ${WHITE_HOLE_POSITION.y})`}>
+              {showQuantumMoon ? <CelestialHitArea body={WHITE_HOLE} radius={selectableRadius(WHITE_HOLE.id)} onActivate={activate} onHoverChange={updateHitAreaHover} /> : null}
+            </g>
+            {showQuantumMoon ? (
+              <g ref={whiteHoleStationHitRef} transform={`translate(${WHITE_HOLE_STATION_POSITION.x} ${WHITE_HOLE_STATION_POSITION.y})`}>
+                <CelestialHitArea body={WHITE_HOLE_STATION} radius={selectableRadius(WHITE_HOLE_STATION.id)} onActivate={activate} onHoverChange={updateHitAreaHover} />
+              </g>
+            ) : null}
             <g ref={hourglassCompositeHitRef}>
               <CelestialHitArea
                 body={HOURGLASS_TWINS}
@@ -791,6 +820,10 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
               <CelestialBody body={SUN_STATION} selected={selectedId === SUN_STATION.id} hovered={hoveredId === SUN_STATION.id} onActivate={activate} idPrefix={`${sceneId}-${SUN_STATION.id}`} hitRadius={selectableRadius(SUN_STATION.id)} labelFontSize={labelFontSize} />
             </g>
           ) : null}
+          <g className="white-hole-position" transform={`translate(${WHITE_HOLE_POSITION.x} ${WHITE_HOLE_POSITION.y})`} data-body-id={WHITE_HOLE.id}>
+            <CelestialBody body={WHITE_HOLE} selected={selectedId === WHITE_HOLE.id} hovered={hoveredId === WHITE_HOLE.id} interactive={showQuantumMoon} onActivate={activate} idPrefix={`${sceneId}-${WHITE_HOLE.id}`} hitRadius={selectableRadius(WHITE_HOLE.id)} labelFontSize={labelFontSize} />
+          </g>
+          {showQuantumMoon ? <g ref={whiteHoleStationPositionRef} className="white-hole-station-position" transform={`translate(${WHITE_HOLE_STATION_POSITION.x} ${WHITE_HOLE_STATION_POSITION.y})`} data-body-id={WHITE_HOLE_STATION.id}><CelestialBody body={WHITE_HOLE_STATION} selected={selectedId === WHITE_HOLE_STATION.id} hovered={hoveredId === WHITE_HOLE_STATION.id} onActivate={activate} idPrefix={`${sceneId}-${WHITE_HOLE_STATION.id}`} hitRadius={selectableRadius(WHITE_HOLE_STATION.id)} labelFontSize={labelFontSize} /></g> : null}
 
           {ORDINARY_WORLDS.map(({ body, moon }) => (
             <g

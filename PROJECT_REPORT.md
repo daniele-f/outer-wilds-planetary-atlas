@@ -15,7 +15,7 @@ For the entity-by-entity numerical and mathematical reference, see [`ATLAS_REPOR
 ### Current status
 
 - The application is implemented and runnable locally.
-- The project contains 17 test files and 126 automated tests.
+- The project contains 17 test files and 130 automated tests.
 - The latest verified build completed successfully.
 - Desktop and mobile layouts are supported.
 - Keyboard, pointer, touch, and reduced-motion behavior are considered.
@@ -491,6 +491,11 @@ The implementation includes:
 - The top horizontal crossbar was narrowed to a 28-unit span.
 - The side wings/triangles were reduced to a smaller 22-unit span.
 - Sun Station orientation updates continuously so its feet point toward the Sun and its dome points away.
+- White Hole Station is stationary at (-585, 35), hidden when spoilers are off, and selectable/focusable between Dark Bramble and the Interloper when spoilers are on.
+- White Hole is a separate always-visible stationary entity at (-1200, 35); only its interaction is spoiler-gated.
+- White Hole Station remains stationary in space while its artwork rotates independently on its own axis every 12 seconds.
+- The station’s rotation pivot is explicitly the center of `white-hole-station-ring` at local coordinates (0, 0).
+- White Hole Station focus uses its own registered fixed position, so camera focus centers the station rather than the Sun.
 - The spoiler toggle is listed last in the settings menu with a separator above it.
 - Orbit-line and planet-name controls also switch between “Show” and “Hide” labels to reflect their current state.
 - `aria-pressed` state on toggle and speed controls.
@@ -507,7 +512,7 @@ The Quantum Moon remains intentionally nonstandard: keyboard activation triggers
 
 ## 14. Automated test coverage
 
-The current suite contains **17 test files and 126 tests**. Coverage is behavior-focused and includes:
+The current suite contains **17 test files and 130 tests**. Coverage is behavior-focused and includes:
 
 1. Top-level application rendering and integration.
 2. Selecting bodies and opening/closing the information panel.
