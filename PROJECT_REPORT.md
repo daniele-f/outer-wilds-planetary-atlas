@@ -15,7 +15,7 @@ For the entity-by-entity numerical and mathematical reference, see [`ATLAS_REPOR
 ### Current status
 
 - The application is implemented and runnable locally.
-- The project contains 17 test files and 115 automated tests.
+- The project contains 17 test files and 117 automated tests.
 - The latest verified build completed successfully.
 - Desktop and mobile layouts are supported.
 - Keyboard, pointer, touch, and reduced-motion behavior are considered.
@@ -482,7 +482,7 @@ The Quantum Moon remains intentionally nonstandard: keyboard activation triggers
 
 ## 14. Automated test coverage
 
-The current suite contains **17 test files and 115 tests**. Coverage is behavior-focused and includes:
+The current suite contains **17 test files and 117 tests**. Coverage is behavior-focused and includes:
 
 1. Top-level application rendering and integration.
 2. Selecting bodies and opening/closing the information panel.
@@ -493,7 +493,7 @@ The current suite contains **17 test files and 115 tests**. Coverage is behavior
 7. Center-based mouse-wheel zoom.
 8. Mouse, touch, and pinch camera input.
 9. Escape-key priority and one-action-per-press behavior.
-10. Settings-menu visibility and display toggles.
+10. Settings-menu visibility, outside-click dismissal, display toggles, and localStorage persistence.
 11. Simulation pause and speed changes.
 12. Camera coordinate transforms and zoom clamping.
 13. Circular, elliptical, binary, and comet orbit math, including explicit direction handling.
@@ -533,7 +533,7 @@ Suitable deployment targets include any static web host. Because the project has
 
 - Distances, sizes, speeds, and orbital configurations are stylized rather than scientifically or game-scale accurate.
 - Travel copy is spoiler-conscious and intentionally avoids deep story explanations.
-- Settings are session-only and are not persisted to local storage.
+- Orbit-line and planet-name display settings persist in localStorage and restore on the next visit.
 - Quantum Moon host selection uses runtime randomness, so its jump sequence is not reproducible between sessions.
 - The atlas is a single scene and has no URL routing or shareable per-body deep links.
 - No audio is included.

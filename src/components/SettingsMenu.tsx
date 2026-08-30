@@ -1,9 +1,12 @@
+import { useEffect, useRef } from 'react';
+
 type SettingsMenuProps = Readonly<{
   open: boolean;
   panelOpen: boolean;
   orbitsHidden: boolean;
   labelsHidden: boolean;
   onToggleOpen: () => void;
+  onRequestClose: () => void;
   onToggleOrbits: () => void;
   onToggleLabels: () => void;
 }>;
@@ -14,11 +17,23 @@ export function SettingsMenu({
   orbitsHidden,
   labelsHidden,
   onToggleOpen,
+  onRequestClose,
   onToggleOrbits,
   onToggleLabels,
 }: SettingsMenuProps) {
+  const rootRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.target instanceof Node && !rootRef.current?.contains(event.target)) onRequestClose();
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => document.removeEventListener('pointerdown', onPointerDown);
+  }, [onRequestClose, open]);
+
   return (
-    <div className="atlas-settings">
+    <div ref={rootRef} className="atlas-settings">
       <button
         className={`atlas-settings__trigger${panelOpen ? ' atlas-settings__trigger--panel-open' : ''}`}
         type="button"
