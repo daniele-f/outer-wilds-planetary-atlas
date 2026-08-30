@@ -177,7 +177,7 @@ The visual radius is the SVG artwork radius. The hit radius is the minimum inter
 
 - Dynamic host set: Timber Hearth, Brittle Hollow, Giant’s Deep, Hourglass Twins barycenter, and Dark Bramble.
 - Host selection excludes the current host whenever alternatives exist.
-- Local circular orbit radius: 48.
+- Local circular orbit radius: 64.
 - Period: 90 seconds; angular speed magnitude: 0.0698 rad/s.
 - Nominal local tangential speed: 3.35 units/s.
 - Direction: randomly chosen clockwise or counterclockwise on initial placement and rerolled on every jump.

@@ -228,7 +228,7 @@ The Hourglass Twins are also a composite destination: clicking near the pair or 
 | Ember Twin | Other half of the Hourglass Twins | Shared barycenter radius 170, period 30, phase 3.8, counterclockwise | None |
 | Dark Bramble | Large dark world with icy fractures/vines | Radius 570, period 118, phase 5.45, counterclockwise | None |
 | Interloper | Icy comet with an anti-solar tail | Semi-major radius 690, period 160, phase 0.25, eccentricity 0.82, clockwise | None |
-| Quantum Moon | Elusive moon that changes host | Dynamically orbits one eligible host at local radius 48, period 90, randomized direction | None |
+| Quantum Moon | Elusive moon that changes host | Dynamically orbits one eligible host at local radius 64, period 90, randomized direction | None |
 
 Every catalog entry also contains spoiler-conscious travel content: a tagline, pitch, attraction list, travel tips, and satellite IDs.
 
@@ -248,6 +248,8 @@ The Interloper uses an eccentric ellipse rather than a circular path.
 ### Quantum Moon behavior
 
 The Quantum Moon is intentionally different from every other target:
+
+- Its local orbit radius is 64 atlas units, keeping it farther from each host planet.
 
 - It chooses among Timber Hearth, Brittle Hollow, Giant’s Deep, the Hourglass Twins, and Dark Bramble as eligible hosts.
 - A new host never repeats the current host.
