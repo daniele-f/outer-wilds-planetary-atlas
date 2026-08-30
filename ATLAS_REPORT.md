@@ -248,6 +248,7 @@ The Sun corona is kept in its own layer and follows the enlarged Sun during focu
 The generic focus filter is disabled on the Sun artwork group; the surface receives the brightness/glow treatment independently so the corona is not rasterized and blurred.
 Offscreen navigation uses the current camera projection and clamps a pointer-transparent chevron inside the usable viewport. The selected body name is shown beside it; with no selection, the Sun/system center is used and labeled “Solar System.” Desktop panel width and mobile panel height are passed as safe-area insets so indicators never sit underneath the info panel.
 Edge-aware label anchoring keeps names fully visible when the chevron is on the left or right boundary.
+Labels use a small vertical gap beneath each chevron.
 The station label is outside the rotating artwork wrapper, so it remains upright and below the station.
 It is rendered as the final settings-menu option with a separator above it.
 Orbit and label controls use matching state-aware Show/Hide wording.
