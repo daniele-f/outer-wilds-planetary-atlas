@@ -244,6 +244,8 @@ Its artwork rotates with the local clockwise tangent so the probe tip points for
 The fixed-coordinate artwork is rendered at 0.50× scale to match that visual radius.
 Its artwork has a 12-second linear self-rotation; the world position and interaction target remain fixed.
 The SVG rotation origin is explicitly `(0, 0)`, the center of `white-hole-station-ring`.
+The Sun corona is kept in its own layer and follows the enlarged Sun during focus/hover.
+The generic focus filter is disabled on the Sun artwork group; the surface receives the brightness/glow treatment independently so the corona is not rasterized and blurred.
 The station label is outside the rotating artwork wrapper, so it remains upright and below the station.
 It is rendered as the final settings-menu option with a separator above it.
 Orbit and label controls use matching state-aware Show/Hide wording.
