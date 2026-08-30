@@ -905,8 +905,6 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
             labelFontSize={labelFontSize}
           />
           {showQuantumMoon ? <QuantumMoon
-            // Each escape changes the key, restarting the single CSS-defined teleport animation.
-            key={quantumState.escapeCount}
             ref={quantumMoonRef}
             body={QUANTUM_MOON}
             hostId={quantumState.hostId}

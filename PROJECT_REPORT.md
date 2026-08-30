@@ -498,6 +498,7 @@ The implementation includes:
 - Sun Station labels remain below the station because only the artwork layer rotates; the label stays in the translated parent group.
 - Orbital Probe Cannon is spoiler-gated and follows a clockwise local orbit around Giant’s Deep as one attached launcher/probe unit.
 - The info panel is immediately hidden when its selected spoiler-gated entity is hidden.
+- Quantum Moon relocations retain the SVG node between jumps, preventing a transient reset to the Sun before the new host position is applied.
 - Hiding that panel also closes the settings menu and returns the gear trigger to its right-side position.
 - OPC artwork and hit radius were reduced slightly to 11 and 22 atlas units respectively.
 - The OPC artwork now applies a 0.50× SVG scale so its visible geometry matches the reduced radius.
