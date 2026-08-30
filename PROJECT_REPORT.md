@@ -251,6 +251,7 @@ The Quantum Moon is intentionally different from every other target:
 
 - Its local orbit radius is 64 atlas units, keeping it farther from each host planet.
 - Each relocation also randomizes its local phase around the new host.
+- Hover escapes are armed on pointer entry and disarmed after a jump; the pointer must leave and re-enter before another jump.
 
 - It chooses among Timber Hearth, Brittle Hollow, Giant’s Deep, the Hourglass Twins, and Dark Bramble as eligible hosts.
 - A new host never repeats the current host.

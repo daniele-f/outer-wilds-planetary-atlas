@@ -234,6 +234,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   const selectableRadiiRef = useRef<Partial<Record<BodyId, number>>>({});
   const gestureRef = useRef<Gesture | null>(null);
   const pointerMovementRef = useRef(0);
+  const quantumHoverArmedRef = useRef(true);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const cameraWorldRef = useRef<SVGGElement | null>(null);
   const focusedBodyRef = useRef<BodyId | null>('sun');
@@ -609,11 +610,13 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
           x: moonLocalClient.x + bounds.left,
           y: moonLocalClient.y + bounds.top,
         };
-        if (isPointerNear(
+        const pointerNearMoon = isPointerNear(
           { x: event.clientX, y: event.clientY },
           moonClientPosition,
           QUANTUM_PROXIMITY_PIXELS,
-        )) {
+        );
+        if (!pointerNearMoon) quantumHoverArmedRef.current = true;
+        if (pointerNearMoon && quantumHoverArmedRef.current) {
           const escapedState = attemptQuantumEscape(activeQuantumState, {
             now: performance.now(),
             simulationTime: clock.getTime(),
@@ -624,6 +627,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
             ? escapedState
             : Object.freeze({ ...escapedState, phaseEpoch: randomQuantumPhaseEpoch(clock.getTime()) });
           if (nextQuantumState !== activeQuantumState) {
+            quantumHoverArmedRef.current = false;
             quantumStateRef.current = nextQuantumState;
             setQuantumState(nextQuantumState);
             onQuantumStatusChange?.(`Quantum Moon escaped ${nextQuantumState.escapeCount} times.`);

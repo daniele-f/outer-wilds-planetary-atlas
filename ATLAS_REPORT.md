@@ -179,6 +179,7 @@ The visual radius is the SVG artwork radius. The hit radius is the minimum inter
 - Host selection excludes the current host whenever alternatives exist.
 - Local circular orbit radius: 64.
 - Relocations randomize local phase as well as host and direction.
+- Hover relocation requires a leave/re-enter cycle: remaining inside the proximity radius cannot trigger repeated jumps.
 - Period: 90 seconds; angular speed magnitude: 0.0698 rad/s.
 - Nominal local tangential speed: 3.35 units/s.
 - Direction: randomly chosen clockwise or counterclockwise on initial placement and rerolled on every jump.
