@@ -62,6 +62,18 @@ npx vite preview
 
 Then open the local address printed by Vite.
 
+## GitHub Pages
+
+The atlas is configured to deploy automatically from the `main` branch to:
+
+<https://daniele-f.github.io/outer-wilds-planetary-atlas/>
+
+The deployment workflow is stored in `.github/workflows/deploy-pages.yml`.
+After pushing it to GitHub, open the repository's **Settings → Pages** page
+and set **Build and deployment → Source** to **GitHub Actions**. Every later
+push to `main` will build and publish the current version automatically. A
+deployment can also be started manually from the repository's **Actions** tab.
+
 ## Troubleshooting
 
 If PowerShell reports that `npm` is unknown or that `npm-cli.js` is missing, reinstall the current Node.js LTS release, close and reopen PowerShell, and repeat the setup commands.
