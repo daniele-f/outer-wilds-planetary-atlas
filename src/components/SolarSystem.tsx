@@ -93,10 +93,14 @@ const EMBER_TWIN = requireBody('ember-twin');
 const INTERLOPER = requireBody('interloper');
 const QUANTUM_MOON = requireBody('quantum-moon');
 const SPECIAL_BODY_IDS = [ASH_TWIN.id, EMBER_TWIN.id, INTERLOPER.id] as const;
-const QUANTUM_ORBIT_RADIUS = 48;
+const QUANTUM_ORBIT_RADIUS = 64;
 const QUANTUM_PROXIMITY_PIXELS = 34;
 const QUANTUM_COOLDOWN_MILLISECONDS = 450;
 const FOCUS_TRANSITION_MILLISECONDS = 220;
+
+function randomQuantumPhaseEpoch(simulationTime: number): number {
+  return simulationTime - Math.random() * QUANTUM_ORBIT_PERIOD;
+}
 
 export type SolarSystemHandle = Readonly<{
   zoomIn: () => void;
@@ -230,6 +234,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   const selectableRadiiRef = useRef<Partial<Record<BodyId, number>>>({});
   const gestureRef = useRef<Gesture | null>(null);
   const pointerMovementRef = useRef(0);
+  const quantumHoverArmedRef = useRef(true);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const cameraWorldRef = useRef<SVGGElement | null>(null);
   const focusedBodyRef = useRef<BodyId | null>('sun');
@@ -534,7 +539,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       ...active,
       hostId: chooseQuantumHost(active.hostId),
       escapeCount: active.escapeCount + 1,
-      phaseEpoch: clock.getTime(),
+      phaseEpoch: randomQuantumPhaseEpoch(clock.getTime()),
       cooldownUntil: performance.now() + QUANTUM_COOLDOWN_MILLISECONDS,
       lastEscapeMovement: pointerMovementRef.current,
       orbitDirection: chooseQuantumOrbitDirection(),
@@ -605,18 +610,24 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
           x: moonLocalClient.x + bounds.left,
           y: moonLocalClient.y + bounds.top,
         };
-        if (isPointerNear(
+        const pointerNearMoon = isPointerNear(
           { x: event.clientX, y: event.clientY },
           moonClientPosition,
           QUANTUM_PROXIMITY_PIXELS,
-        )) {
-          const nextQuantumState = attemptQuantumEscape(activeQuantumState, {
+        );
+        if (!pointerNearMoon) quantumHoverArmedRef.current = true;
+        if (pointerNearMoon && quantumHoverArmedRef.current) {
+          const escapedState = attemptQuantumEscape(activeQuantumState, {
             now: performance.now(),
             simulationTime: clock.getTime(),
             pointerMovement: pointerMovementRef.current,
             cooldown: QUANTUM_COOLDOWN_MILLISECONDS,
           });
+          const nextQuantumState = escapedState === activeQuantumState
+            ? escapedState
+            : Object.freeze({ ...escapedState, phaseEpoch: randomQuantumPhaseEpoch(clock.getTime()) });
           if (nextQuantumState !== activeQuantumState) {
+            quantumHoverArmedRef.current = false;
             quantumStateRef.current = nextQuantumState;
             setQuantumState(nextQuantumState);
             onQuantumStatusChange?.(`Quantum Moon escaped ${nextQuantumState.escapeCount} times.`);
@@ -905,8 +916,6 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
             labelFontSize={labelFontSize}
           />
           {showQuantumMoon ? <QuantumMoon
-            // Each escape changes the key, restarting the single CSS-defined teleport animation.
-            key={quantumState.escapeCount}
             ref={quantumMoonRef}
             body={QUANTUM_MOON}
             hostId={quantumState.hostId}

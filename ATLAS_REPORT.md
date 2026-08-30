@@ -177,7 +177,9 @@ The visual radius is the SVG artwork radius. The hit radius is the minimum inter
 
 - Dynamic host set: Timber Hearth, Brittle Hollow, Giant’s Deep, Hourglass Twins barycenter, and Dark Bramble.
 - Host selection excludes the current host whenever alternatives exist.
-- Local circular orbit radius: 48.
+- Local circular orbit radius: 64.
+- Relocations randomize local phase as well as host and direction.
+- Hover relocation requires a leave/re-enter cycle: remaining inside the proximity radius cannot trigger repeated jumps.
 - Period: 90 seconds; angular speed magnitude: 0.0698 rad/s.
 - Nominal local tangential speed: 3.35 units/s.
 - Direction: randomly chosen clockwise or counterclockwise on initial placement and rerolled on every jump.
@@ -234,6 +236,7 @@ At every frame, station rotation is derived from its position: feet face radiall
 White Hole is a separate stationary anomaly at (-1200, 35), rendered and interactive only when spoilers are enabled; its hit radius is 30 atlas units.
 White Hole Station’s fixed position is registered independently for camera focus.
 Panel visibility is gated by the same spoiler state as the selected entity, preventing stale details when a spoiler is hidden.
+Quantum relocation updates the existing SVG node in place, avoiding an origin flash at the Sun.
 The settings menu closes during this transition and the trigger uses the unshifted right-side placement.
 Orbital Probe Cannon uses a 48-unit, 22-second clockwise local orbit around Giant’s Deep and is rendered as one attached unit when spoilers are enabled.
 Its current visual radius is 11 atlas units with a 22-unit hit radius.

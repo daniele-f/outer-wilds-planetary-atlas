@@ -228,7 +228,7 @@ The Hourglass Twins are also a composite destination: clicking near the pair or 
 | Ember Twin | Other half of the Hourglass Twins | Shared barycenter radius 170, period 30, phase 3.8, counterclockwise | None |
 | Dark Bramble | Large dark world with icy fractures/vines | Radius 570, period 118, phase 5.45, counterclockwise | None |
 | Interloper | Icy comet with an anti-solar tail | Semi-major radius 690, period 160, phase 0.25, eccentricity 0.82, clockwise | None |
-| Quantum Moon | Elusive moon that changes host | Dynamically orbits one eligible host at local radius 48, period 90, randomized direction | None |
+| Quantum Moon | Elusive moon that changes host | Dynamically orbits one eligible host at local radius 64, period 90, randomized direction | None |
 
 Every catalog entry also contains spoiler-conscious travel content: a tagline, pitch, attraction list, travel tips, and satellite IDs.
 
@@ -248,6 +248,10 @@ The Interloper uses an eccentric ellipse rather than a circular path.
 ### Quantum Moon behavior
 
 The Quantum Moon is intentionally different from every other target:
+
+- Its local orbit radius is 64 atlas units, keeping it farther from each host planet.
+- Each relocation also randomizes its local phase around the new host.
+- Hover escapes are armed on pointer entry and disarmed after a jump; the pointer must leave and re-enter before another jump.
 
 - It chooses among Timber Hearth, Brittle Hollow, Giant’s Deep, the Hourglass Twins, and Dark Bramble as eligible hosts.
 - A new host never repeats the current host.
@@ -498,6 +502,7 @@ The implementation includes:
 - Sun Station labels remain below the station because only the artwork layer rotates; the label stays in the translated parent group.
 - Orbital Probe Cannon is spoiler-gated and follows a clockwise local orbit around Giant’s Deep as one attached launcher/probe unit.
 - The info panel is immediately hidden when its selected spoiler-gated entity is hidden.
+- Quantum Moon relocations retain the SVG node between jumps, preventing a transient reset to the Sun before the new host position is applied.
 - Hiding that panel also closes the settings menu and returns the gear trigger to its right-side position.
 - OPC artwork and hit radius were reduced slightly to 11 and 22 atlas units respectively.
 - The OPC artwork now applies a 0.50× SVG scale so its visible geometry matches the reduced radius.
