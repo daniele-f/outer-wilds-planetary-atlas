@@ -187,7 +187,7 @@ describe('planetary atlas application UI', () => {
     const user = userEvent.setup();
     const { container } = render(<App />);
     expect(container.querySelector('[data-body-id="white-hole-station"]')).not.toBeInTheDocument();
-    expect(container.querySelector('[data-body-id="white-hole"]')).toBeInTheDocument();
+    expect(container.querySelector('[data-body-id="white-hole"]')).not.toBeInTheDocument();
     expect(container.querySelector('[data-hit-body-id="white-hole-station"]')).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /keep spoilers hidden/i }));
     await user.click(screen.getByRole('button', { name: 'Map settings' }));

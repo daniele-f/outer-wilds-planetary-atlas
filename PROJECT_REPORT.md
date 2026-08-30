@@ -492,11 +492,13 @@ The implementation includes:
 - The side wings/triangles were reduced to a smaller 22-unit span.
 - Sun Station orientation updates continuously so its feet point toward the Sun and its dome points away.
 - White Hole Station is stationary at (-585, 35), hidden when spoilers are off, and selectable/focusable between Dark Bramble and the Interloper when spoilers are on.
-- White Hole is a separate always-visible stationary entity at (-1200, 35); only its interaction is spoiler-gated.
+- White Hole is a separate stationary entity at (-1200, 35), hidden with spoilers off and selectable/focusable with spoilers on.
 - White Hole Station remains stationary in space while its artwork rotates independently on its own axis every 12 seconds.
 - The station’s rotation pivot is explicitly the center of `white-hole-station-ring` at local coordinates (0, 0).
 - Sun Station labels remain below the station because only the artwork layer rotates; the label stays in the translated parent group.
 - Orbital Probe Cannon is spoiler-gated and follows a clockwise local orbit around Giant’s Deep as one attached launcher/probe unit.
+- The info panel is immediately hidden when its selected spoiler-gated entity is hidden.
+- Hiding that panel also closes the settings menu and returns the gear trigger to its right-side position.
 - OPC artwork and hit radius were reduced slightly to 11 and 22 atlas units respectively.
 - The OPC artwork now applies a 0.50× SVG scale so its visible geometry matches the reduced radius.
 - OPC now orbits closer to Giant’s Deep at a 48-unit local radius.

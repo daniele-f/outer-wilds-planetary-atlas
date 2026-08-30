@@ -842,9 +842,9 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
               <CelestialBody artworkRef={sunStationArtworkRef} body={SUN_STATION} selected={selectedId === SUN_STATION.id} hovered={hoveredId === SUN_STATION.id} onActivate={activate} idPrefix={`${sceneId}-${SUN_STATION.id}`} hitRadius={selectableRadius(SUN_STATION.id)} labelFontSize={labelFontSize} />
             </g>
           ) : null}
-          <g className="white-hole-position" transform={`translate(${WHITE_HOLE_POSITION.x} ${WHITE_HOLE_POSITION.y})`} data-body-id={WHITE_HOLE.id}>
-            <CelestialBody body={WHITE_HOLE} selected={selectedId === WHITE_HOLE.id} hovered={hoveredId === WHITE_HOLE.id} interactive={showQuantumMoon} onActivate={activate} idPrefix={`${sceneId}-${WHITE_HOLE.id}`} hitRadius={selectableRadius(WHITE_HOLE.id)} labelFontSize={labelFontSize} />
-          </g>
+          {showQuantumMoon ? <g className="white-hole-position" transform={`translate(${WHITE_HOLE_POSITION.x} ${WHITE_HOLE_POSITION.y})`} data-body-id={WHITE_HOLE.id}>
+            <CelestialBody body={WHITE_HOLE} selected={selectedId === WHITE_HOLE.id} hovered={hoveredId === WHITE_HOLE.id} onActivate={activate} idPrefix={`${sceneId}-${WHITE_HOLE.id}`} hitRadius={selectableRadius(WHITE_HOLE.id)} labelFontSize={labelFontSize} />
+          </g> : null}
           {showQuantumMoon ? <g ref={whiteHoleStationPositionRef} className="white-hole-station-position" transform={`translate(${WHITE_HOLE_STATION_POSITION.x} ${WHITE_HOLE_STATION_POSITION.y})`} data-body-id={WHITE_HOLE_STATION.id}><CelestialBody body={WHITE_HOLE_STATION} selected={selectedId === WHITE_HOLE_STATION.id} hovered={hoveredId === WHITE_HOLE_STATION.id} onActivate={activate} idPrefix={`${sceneId}-${WHITE_HOLE_STATION.id}`} hitRadius={selectableRadius(WHITE_HOLE_STATION.id)} labelFontSize={labelFontSize} /></g> : null}
           {showQuantumMoon ? <g ref={probeCannonPositionRef} className="orbital-probe-cannon-position" data-body-id={ORBITAL_PROBE_CANNON.id}><CelestialBody artworkRef={probeCannonArtworkRef} body={ORBITAL_PROBE_CANNON} selected={selectedId === ORBITAL_PROBE_CANNON.id} hovered={hoveredId === ORBITAL_PROBE_CANNON.id} onActivate={activate} idPrefix={`${sceneId}-${ORBITAL_PROBE_CANNON.id}`} hitRadius={selectableRadius(ORBITAL_PROBE_CANNON.id)} labelFontSize={labelFontSize} /></g> : null}
 

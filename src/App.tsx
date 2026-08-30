@@ -69,10 +69,11 @@ export default function App() {
     if (!spoilerPromptOpen) writeStoredBoolean(SPOILERS_ENABLED_STORAGE_KEY, spoilersEnabled);
   }, [spoilerPromptOpen, spoilersEnabled]);
   useEffect(() => {
-    if (!spoilersEnabled && (selectedId === 'quantum-moon' || selectedId === 'sun-station' || selectedId === 'white-hole-station' || selectedId === 'orbital-probe-cannon')) {
+    if (!spoilersEnabled && (selectedId === 'quantum-moon' || selectedId === 'sun-station' || selectedId === 'white-hole-station' || selectedId === 'white-hole' || selectedId === 'orbital-probe-cannon')) {
       solarSystemRef.current?.unfocusBody();
       setSelectedId(null);
       setPanelOpen(false);
+      setSettingsOpen(false);
     }
   }, [selectedId, spoilersEnabled]);
   const navigateBody = useCallback((direction: -1 | 1) => {
@@ -105,7 +106,12 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [panelOpen, selectedId, settingsOpen]);
 
-  const panelVisible = panelOpen && selectedBody !== undefined;
+  const selectedBodyHiddenBySpoilers = selectedId === 'quantum-moon'
+    || selectedId === 'sun-station'
+    || selectedId === 'white-hole-station'
+    || selectedId === 'white-hole'
+    || selectedId === 'orbital-probe-cannon';
+  const panelVisible = panelOpen && selectedBody !== undefined && (spoilersEnabled || !selectedBodyHiddenBySpoilers);
   useLayoutEffect(() => {
     const stage = stageRef.current;
     const panel = infoPanelRef.current;
@@ -159,7 +165,7 @@ export default function App() {
           focusViewportOffsetX={focusViewportOffsetX}
           focusViewportOffsetY={focusViewportOffsetY}
         />
-        {!panelOpen || selectedBody === undefined ? null : (
+        {!panelVisible ? null : (
           <InfoPanel
             panelRef={setInfoPanelElement}
             body={selectedBody}
@@ -171,7 +177,7 @@ export default function App() {
         )}
         <SettingsMenu
           open={settingsOpen}
-          panelOpen={panelOpen && selectedBody !== undefined}
+          panelOpen={panelVisible}
           orbitsHidden={orbitsHidden}
           labelsHidden={labelsHidden}
           onToggleOpen={() => setSettingsOpen((current) => !current)}
