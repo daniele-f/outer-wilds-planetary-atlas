@@ -151,7 +151,7 @@ describe('planetary atlas application UI', () => {
     const { container } = render(<App />);
 
     expect(screen.getByRole('dialog', { name: /spoiler/i })).toBeVisible();
-    expect(screen.getByText(/you cannot unsee spoilers/i)).toBeVisible();
+    expect(screen.getByText(/You cannot unsee spoilers/i)).toBeVisible();
     expect(container.querySelector('[data-body-id="quantum-moon"]')).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: /keep spoilers hidden/i }));

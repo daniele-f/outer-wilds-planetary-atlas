@@ -478,6 +478,7 @@ The implementation includes:
 - Accessible names for icon-only controls.
 - A custom SVG favicon is served from `public/favicon.svg` and linked in `index.html`.
 - First visit presents a custom spoiler warning; the choice is persisted in localStorage and controls whether the Quantum Moon is rendered or navigable.
+- The spoiler prompt uses a prominent “Remember: You cannot unsee spoilers.” warning, a bold settings-menu hint, and a golden “Keep spoilers hidden” safe choice.
 - `aria-pressed` state on toggle and speed controls.
 - Screen-reader-only live status regions for selection/simulation feedback.
 - Keyboard activation for applicable interactive targets.

@@ -47,7 +47,7 @@
   background: rgb(7 12 25 / .38);
   color: #ddc69d;
   cursor: pointer;
-  font-size: 1.15rem;
+  font-size: 1.45rem;
   opacity: .48;
   place-items: center;
   transition: opacity 150ms ease, border-color 150ms ease, background-color 150ms ease, right 220ms ease;
@@ -56,6 +56,7 @@
 .atlas-settings__trigger:hover,
 .atlas-settings__trigger:focus-visible,
 .atlas-settings__trigger[aria-expanded='true'] { border-color: rgb(230 188 111 / .48); background: rgb(10 17 32 / .88); opacity: 1; }
+.atlas-settings__trigger > span { display: block; font-size: 1.55em; line-height: 1; }
 .atlas-settings__trigger--panel-open { right: calc(min(25rem, calc(100% - 5.5rem)) + 1.25rem); }
 
 .atlas-settings__menu {
@@ -104,6 +105,7 @@
 .spoiler-prompt__actions button:hover, .spoiler-prompt__actions button:focus-visible { border-color: rgb(219 180 111 / .7); background: rgb(219 180 111 / .18); }
 .spoiler-prompt__actions .spoiler-prompt__reveal { border-color: rgb(232 177 82 / .65); background: rgb(213 145 48 / .2); color: #ffd58f; }
 .spoiler-prompt__hint { color: #a99b84; font-size: .72rem; }
+.spoiler-prompt__gear { font-size: 20px; }
 
 .atlas-controls {
   position: absolute;
