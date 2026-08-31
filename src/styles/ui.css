@@ -195,6 +195,12 @@
   to { opacity: 1; transform: none; }
 }
 
+.info-panel--closing { pointer-events: none; animation-name: info-panel-exit; }
+@keyframes info-panel-exit {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateX(1.25rem); }
+}
+
 .info-panel__topline {
   display: flex;
   flex: 0 0 auto;
@@ -368,6 +374,12 @@
   @keyframes info-panel-enter-mobile {
     from { opacity: 0; transform: translateY(1.25rem); }
     to { opacity: 1; transform: none; }
+  }
+
+  .info-panel--closing { animation-name: info-panel-exit-mobile; }
+  @keyframes info-panel-exit-mobile {
+    from { opacity: 1; transform: none; }
+    to { opacity: 0; transform: translateY(1.25rem); }
   }
 
   .info-panel__topline { padding-top: .65rem; }

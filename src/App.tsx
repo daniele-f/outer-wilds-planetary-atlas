@@ -11,6 +11,7 @@ import './styles/ui.css';
 const ORBITS_HIDDEN_STORAGE_KEY = 'outer-wilds-atlas.orbits-hidden';
 const LABELS_HIDDEN_STORAGE_KEY = 'outer-wilds-atlas.labels-hidden';
 const SPOILERS_ENABLED_STORAGE_KEY = 'outer-wilds-atlas.spoilers-enabled';
+const PANEL_ANIMATION_MILLISECONDS = 220;
 
 function readStoredBoolean(key: string): boolean {
   if (typeof window === 'undefined') return false;
@@ -41,6 +42,7 @@ export default function App() {
   const [quantumStatus, setQuantumStatus] = useState('');
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [panelOpen, setPanelOpen] = useState(false);
+  const [panelClosing, setPanelClosing] = useState(false);
   const [orbitsHidden, setOrbitsHidden] = useState(() => readStoredBoolean(ORBITS_HIDDEN_STORAGE_KEY));
   const [labelsHidden, setLabelsHidden] = useState(() => readStoredBoolean(LABELS_HIDDEN_STORAGE_KEY));
   const [spoilersEnabled, setSpoilersEnabled] = useState(() => readStoredBoolean(SPOILERS_ENABLED_STORAGE_KEY));
@@ -51,13 +53,32 @@ export default function App() {
   const solarSystemRef = useRef<SolarSystemHandle | null>(null);
   const stageRef = useRef<HTMLElement | null>(null);
   const infoPanelRef = useRef<HTMLElement | null>(null);
+  const panelCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const setInfoPanelElement = useCallback((element: HTMLElement | null) => {
     infoPanelRef.current = element;
   }, []);
-  const onSelect = useCallback((id: BodyId) => {
-    setSelectedId(id);
+  const showPanel = useCallback(() => {
+    if (panelCloseTimerRef.current !== null) clearTimeout(panelCloseTimerRef.current);
+    panelCloseTimerRef.current = null;
+    setPanelClosing(false);
     setPanelOpen(true);
   }, []);
+  const hidePanel = useCallback(() => {
+    if (!panelOpen || panelClosing) return;
+    setPanelClosing(true);
+    panelCloseTimerRef.current = setTimeout(() => {
+      setPanelOpen(false);
+      setPanelClosing(false);
+      panelCloseTimerRef.current = null;
+    }, PANEL_ANIMATION_MILLISECONDS);
+  }, [panelClosing, panelOpen]);
+  useEffect(() => () => {
+    if (panelCloseTimerRef.current !== null) clearTimeout(panelCloseTimerRef.current);
+  }, []);
+  const onSelect = useCallback((id: BodyId) => {
+    setSelectedId(id);
+    showPanel();
+  }, [showPanel]);
   const selectedBody = selectedId === null ? undefined : getBody(selectedId);
   const navigationBodyIds = spoilersEnabled
     ? NAVIGATION_BODY_IDS
@@ -85,9 +106,9 @@ export default function App() {
     const nextId = navigationBodyIds[nextIndex];
     if (nextId === undefined) return;
     setSelectedId(nextId);
-    setPanelOpen(true);
+    showPanel();
     solarSystemRef.current?.focusBody(nextId);
-  }, [navigationBodyIds, selectedId]);
+  }, [navigationBodyIds, selectedId, showPanel]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -97,7 +118,7 @@ export default function App() {
         return;
       }
       if (panelOpen) {
-        setPanelOpen(false);
+        hidePanel();
         return;
       }
       if (solarSystemRef.current?.unfocusBody() === true) return;
@@ -105,7 +126,7 @@ export default function App() {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [panelOpen, selectedId, settingsOpen]);
+  }, [hidePanel, panelOpen, selectedId, settingsOpen]);
 
   const selectedBodyHiddenBySpoilers = selectedId === 'quantum-moon'
     || selectedId === 'sun-station'
@@ -174,7 +195,8 @@ export default function App() {
           <InfoPanel
             panelRef={setInfoPanelElement}
             body={selectedBody}
-            onClose={() => setPanelOpen(false)}
+            closing={panelClosing}
+            onClose={hidePanel}
             onSelectBody={onSelect}
             onFocusBody={(id) => solarSystemRef.current?.focusBody(id)}
             onNavigateBody={navigateBody}
