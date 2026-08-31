@@ -45,9 +45,15 @@
 }
 
 .offscreen-indicator--left .offscreen-indicator__label { left: 100%; text-align: left; }
-.offscreen-indicator--right .offscreen-indicator__label { right: 100%; left: auto; text-align: right; }
+.offscreen-indicator--left .offscreen-indicator__label { top: 50%; transform: translateY(calc(-50%)); margin-left: .45rem; }
+.offscreen-indicator--right .offscreen-indicator__label { top: 50%; right: 100%; left: auto; transform: translateY(calc(-50%)); margin-right: .45rem; text-align: right; }
 .offscreen-indicator--top .offscreen-indicator__label,
-.offscreen-indicator--bottom .offscreen-indicator__label { transform: translateX(-50%); }
+.offscreen-indicator--top .offscreen-indicator__label { transform: translateX(-50%); }
+.offscreen-indicator--bottom .offscreen-indicator__label { top: auto; bottom: calc(100% + .45rem); transform: translateX(-50%); }
+.offscreen-indicator--top-left-edge .offscreen-indicator__label,
+.offscreen-indicator--bottom-left-edge .offscreen-indicator__label { left: 0; transform: none; text-align: left; }
+.offscreen-indicator--top-right-edge .offscreen-indicator__label,
+.offscreen-indicator--bottom-right-edge .offscreen-indicator__label { right: 0; left: auto; transform: none; text-align: right; }
 
 .offscreen-indicator[hidden] { display: none; }
 

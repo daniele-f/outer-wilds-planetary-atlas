@@ -512,6 +512,8 @@ The implementation includes:
 - Entities whose projected point falls inside the open panel are explicitly redirected to the panel edge (or mobile sheet edge) for the indicator.
 - Desktop top/bottom indicators retain their natural x-position but clamp leftward before reaching the panel.
 - Their panel-side clamp uses the same 46px visual edge distance as right-edge indicators.
+- Offscreen labels are edge-aware: below top chevrons, above bottom chevrons, and beside left/right chevrons with corner-safe alignment.
+- Labels beside left/right chevrons are nudged 4px downward for visual alignment.
 - Sun Station labels remain below the station because only the artwork layer rotates; the label stays in the translated parent group.
 - Orbital Probe Cannon is spoiler-gated and follows a clockwise local orbit around Giant’s Deep as one attached launcher/probe unit.
 - The info panel is immediately hidden when its selected spoiler-gated entity is hidden.

@@ -569,7 +569,8 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
         }
         indicator.style.top = `${placement.y}px`;
         indicator.style.setProperty('--offscreen-angle', `${placement.angle}deg`);
-        indicator.className = `offscreen-indicator offscreen-indicator--${placement.edge}`;
+        const horizontalEdge = placement.x <= 34 ? 'left-edge' : placement.x >= bounds.width - 34 ? 'right-edge' : '';
+        indicator.className = `offscreen-indicator offscreen-indicator--${placement.edge}${horizontalEdge === '' ? '' : ` offscreen-indicator--${placement.edge}-${horizontalEdge}`}`;
         indicator.setAttribute('aria-label', `${placement.label} is offscreen`);
         if (offscreenIndicatorLabelRef.current !== null) offscreenIndicatorLabelRef.current.textContent = placement.label;
       }
