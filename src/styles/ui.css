@@ -196,6 +196,7 @@
 }
 
 .info-panel--closing { pointer-events: none; animation-name: info-panel-exit; }
+.atlas-shell--music-player-minimized .info-panel { bottom: 4.6rem; }
 @keyframes info-panel-exit {
   from { opacity: 1; transform: none; }
   to { opacity: 0; transform: translateX(1.25rem); }
@@ -438,6 +439,7 @@
     box-shadow: 0 -16px 48px rgb(0 0 0 / .42);
     animation-name: info-panel-enter-mobile;
   }
+  .atlas-shell--music-player-minimized .info-panel { bottom: 4.7rem; }
 
   @keyframes info-panel-enter-mobile {
     from { opacity: 0; transform: translateY(1.25rem); }
@@ -455,6 +457,7 @@
 
   .atlas-controls { bottom: .8rem; left: .8rem; gap: .35rem; max-width: calc(100% - 1.6rem); }
   .music-player { right: .65rem; bottom: .65rem; width: calc(100% - 1.3rem); }
+  .music-player--minimized { width: auto; min-width: 10.5rem; }
   .atlas-shell--panel-open .atlas-controls { bottom: calc(min(46dvh, 27rem) + 1rem); }
   .atlas-controls__group { gap: .16rem; padding: .2rem; }
   .atlas-control-button, .atlas-speed__button { min-width: 2.65rem; min-height: 2.65rem; }

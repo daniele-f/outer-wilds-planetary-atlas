@@ -78,7 +78,7 @@ function formatTimestamp(seconds: number): string {
 }
 
 /** Atlas-styled controls for the supplied Outer Wilds soundtrack playlist. */
-export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ autoplayOnLoad: boolean; onPlaybackChange: (playing: boolean) => void }>) {
+export function MusicPlayer({ autoplayOnLoad, onPlaybackChange, onMinimizedChange }: Readonly<{ autoplayOnLoad: boolean; onPlaybackChange: (playing: boolean) => void; onMinimizedChange: (minimized: boolean) => void }>) {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const volumeControlRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<YouTubePlayer | null>(null);
@@ -190,6 +190,10 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
   useEffect(() => {
     writeStoredBoolean(MUSIC_PLAYER_MINIMIZED_STORAGE_KEY, minimized);
   }, [minimized]);
+
+  useEffect(() => {
+    onMinimizedChange(minimized);
+  }, [minimized, onMinimizedChange]);
 
   useEffect(() => () => {
     if (volumeSliderCloseTimerRef.current !== null) window.clearTimeout(volumeSliderCloseTimerRef.current);

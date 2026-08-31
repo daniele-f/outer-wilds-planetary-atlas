@@ -50,6 +50,7 @@ export default function App() {
   const [spoilersEnabled, setSpoilersEnabled] = useState(() => readStoredBoolean(SPOILERS_ENABLED_STORAGE_KEY));
   const [musicAutoplayEnabled, setMusicAutoplayEnabled] = useState(() => readStoredBoolean(MUSIC_AUTOPLAY_STORAGE_KEY));
   const [musicPlaying, setMusicPlaying] = useState(false);
+  const [musicPlayerMinimized, setMusicPlayerMinimized] = useState(false);
   const [spoilerPromptOpen, setSpoilerPromptOpen] = useState(() => !hasStoredValue(SPOILERS_ENABLED_STORAGE_KEY));
   const [focusViewportOffsetX, setFocusViewportOffsetX] = useState(0);
   const [focusViewportOffsetY, setFocusViewportOffsetY] = useState(0);
@@ -178,7 +179,7 @@ export default function App() {
 
   return (
     <main
-      className={`atlas-shell${panelOpen && selectedBody !== undefined ? ' atlas-shell--panel-open' : ''}`}
+      className={`atlas-shell${panelOpen && selectedBody !== undefined ? ' atlas-shell--panel-open' : ''}${musicPlayerMinimized ? ' atlas-shell--music-player-minimized' : ''}`}
       aria-labelledby="atlas-title"
     >
       <AtlasHeader subtitle="A field guide to the local system" />
@@ -232,7 +233,7 @@ export default function App() {
           onTogglePaused={() => setPaused((current) => !current)}
           onSpeedChange={setSpeed}
         />
-        <MusicPlayer autoplayOnLoad={musicAutoplayEnabled} onPlaybackChange={setMusicPlaying} />
+        <MusicPlayer autoplayOnLoad={musicAutoplayEnabled} onPlaybackChange={setMusicPlaying} onMinimizedChange={setMusicPlayerMinimized} />
         <p className="sr-only" aria-live="polite" aria-atomic="true">
           {selectedBody === undefined
             ? 'No celestial body selected.'
