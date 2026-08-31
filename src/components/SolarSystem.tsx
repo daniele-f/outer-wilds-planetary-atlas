@@ -525,9 +525,17 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       const measuredInsets = panelRect === undefined ? offscreenInsets : (() => {
         const mobilePanel = panelRect.width >= bounds.width * .7;
         return mobilePanel
-          ? { right: 0, bottom: Math.max(0, panelRect.height + (bounds.bottom - panelRect.bottom)) }
-          : { right: Math.max(0, panelRect.width + (bounds.right - panelRect.right)), bottom: 0 };
+          ? { right: 0, bottom: Math.max(0, bounds.bottom - panelRect.top) }
+          : { right: Math.max(0, bounds.right - panelRect.left), bottom: 0 };
       })();
+      const windowMargin = 34;
+      const windowVerticalMargin = 85;
+      const indicatorWindow = {
+        left: windowMargin,
+        top: windowVerticalMargin,
+        right: Math.max(windowMargin, bounds.width - measuredInsets.right - windowMargin),
+        bottom: Math.max(windowVerticalMargin, bounds.height - measuredInsets.bottom - windowVerticalMargin),
+      };
       const targetId = selectedId ?? SUN.id;
       const target = registry.get(targetId);
       const targetScreen = target === undefined ? undefined : worldPointToClient(
@@ -536,40 +544,22 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
         { width: bounds.width, height: bounds.height },
         ATLAS_VIEW_BOX,
       );
-      const panelLocalLeft = panelRect === undefined ? Number.POSITIVE_INFINITY : panelRect.left - bounds.left;
-      const panelLocalTop = panelRect === undefined ? Number.POSITIVE_INFINITY : panelRect.top - bounds.top;
-      const panelCoversTarget = targetScreen !== undefined && panelRect !== undefined && (
-        (panelRect.width < bounds.width * .7 && targetScreen.x >= panelLocalLeft)
-        || (panelRect.width >= bounds.width * .7 && targetScreen.y >= panelLocalTop)
-      );
-      const placementTarget = panelCoversTarget && targetScreen !== undefined
-        ? panelRect !== undefined && panelRect.width < bounds.width * .7
-          ? { x: bounds.width + 1, y: targetScreen.y }
-          : { x: targetScreen.x, y: bounds.height + 1 }
-        : targetScreen;
-      const placement = placementTarget === undefined ? null : placeOffscreenIndicator(
-        placementTarget,
+      const placement = targetScreen === undefined ? null : placeOffscreenIndicator(
+        targetScreen,
         selectedId === null ? 'Solar System' : (getBody(selectedId)?.name ?? 'Solar System'),
-        { width: bounds.width, height: bounds.height, ...measuredInsets },
+        indicatorWindow,
       );
       indicator.hidden = placement === null;
       if (placement !== null) {
-        const desktopPanelOpen = panelRect !== undefined && panelRect.width < bounds.width * .7;
-        if (placement.edge === 'right') {
-          indicator.style.left = 'auto';
-          // `right` anchors the 24px indicator box; subtract half its width
-          // so the chevron center sits exactly one margin left of the panel.
-          indicator.style.right = `${22 + measuredInsets.right}px`;
-        } else if (desktopPanelOpen && (placement.edge === 'top' || placement.edge === 'bottom')) {
-          indicator.style.left = `${Math.min(placement.x, Math.max(34, panelLocalLeft - 46))}px`;
-          indicator.style.right = 'auto';
-        } else {
-          indicator.style.left = `${placement.x}px`;
-          indicator.style.right = 'auto';
-        }
-        indicator.style.top = `${placement.y}px`;
+        const angleRadians = placement.angle * Math.PI / 180;
+        const tipInset = 13.6;
+        const indicatorX = placement.x - Math.sin(angleRadians) * tipInset;
+        const indicatorY = placement.y + Math.cos(angleRadians) * tipInset;
+        indicator.style.left = `${indicatorX}px`;
+        indicator.style.right = 'auto';
+        indicator.style.top = `${indicatorY}px`;
         indicator.style.setProperty('--offscreen-angle', `${placement.angle}deg`);
-        const horizontalEdge = placement.x <= 34 ? 'left-edge' : placement.x >= bounds.width - 34 ? 'right-edge' : '';
+        const horizontalEdge = placement.x <= indicatorWindow.left ? 'left-edge' : placement.x >= indicatorWindow.right ? 'right-edge' : '';
         indicator.className = `offscreen-indicator offscreen-indicator--${placement.edge}${horizontalEdge === '' ? '' : ` offscreen-indicator--${placement.edge}-${horizontalEdge}`}`;
         indicator.setAttribute('aria-label', `${placement.label} is offscreen`);
         if (offscreenIndicatorLabelRef.current !== null) offscreenIndicatorLabelRef.current.textContent = placement.label;

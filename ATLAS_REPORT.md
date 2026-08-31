@@ -258,6 +258,12 @@ If a projected entity point lies inside the panel rectangle, placement is forced
 When the desktop indicator is on the top or bottom edge, its x-position is preserved unless it would overlap the panel, in which case it is clamped leftward.
 The clamp uses a 46px visual offset to match the right-edge indicator’s center distance.
 Indicator labels sit below top edges, above bottom edges, and vertically centered beside left/right edges; corner variants align inward to remain visible.
+The chevron is clamped to one invisible usable-window rectangle; panel insets shrink that rectangle when the info panel is open.
+The chevron is inset by half its arrow length along the direction vector, placing its tip exactly on the rectangle edge.
+When the panel is open, right/bottom limits use the panel’s direct local left/top boundaries so indicator and debug-window geometry stay identical.
+Offscreen classification compares projected entity coordinates directly against the shared indicator-window rectangle.
+Chevron position changes use a 220ms eased transition when the panel opens or closes; reduced-motion mode disables the transition.
+The usable window has a 70px vertical margin (with the existing 34px horizontal margin), moving its top edge down and bottom edge up.
 The Quantum Moon’s first position frame is applied before paint, preventing an origin-at-Sun flash on initial reveal.
 The visible navigation list is shared with the info panel; with spoilers off it omits White Hole, keeping the sequence Dark Bramble → Interloper → Sun.
 Left/right labels include a 4px downward visual nudge.

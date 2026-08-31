@@ -17,6 +17,7 @@
   pointer-events: none;
   transform: translate(-50%, -50%);
   filter: drop-shadow(0 2px 7px rgb(0 0 0 / .6));
+  transition: left 220ms cubic-bezier(.2, .75, .28, 1), top 220ms cubic-bezier(.2, .75, .28, 1);
 }
 
 .offscreen-indicator__chevron {
@@ -370,6 +371,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .offscreen-indicator { transition: none; }
   .atlas-star,
   .sun-corona { animation: none; }
   .atlas-star { opacity: .62; transform: none; }

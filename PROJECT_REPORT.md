@@ -513,6 +513,12 @@ The implementation includes:
 - Desktop top/bottom indicators retain their natural x-position but clamp leftward before reaching the panel.
 - Their panel-side clamp uses the same 46px visual edge distance as right-edge indicators.
 - Offscreen labels are edge-aware: below top chevrons, above bottom chevrons, and beside left/right chevrons with corner-safe alignment.
+- Chevron placement now uses one invisible usable-window rectangle: viewport margins plus panel insets define all four edges, with no edge-specific override jumps.
+- Chevron centers are inset along their pointing vector so the arrow tip, not its center, touches the usable-window border.
+- Panel-open window insets now derive directly from the panel’s map-local left/top boundaries, matching the debug border exactly.
+- Offscreen is now defined solely as a projected point outside the shared indicator-window rectangle used by the chevron.
+- Chevron coordinates ease over 220ms when panel changes resize the indicator window, respecting reduced-motion preferences.
+- The indicator window uses a 70px top and bottom margin, keeping vertical chevrons clear of the header and bottom controls.
 - Quantum Moon’s initial frame is rendered in a layout effect so it never flashes at the Sun’s origin before moving to its selected host.
 - Spoilers-off next/previous navigation excludes the hidden White Hole as well as other spoiler-only entities, so Dark Bramble advances to Interloper then Sun.
 - Labels beside left/right chevrons are nudged 4px downward for visual alignment.
