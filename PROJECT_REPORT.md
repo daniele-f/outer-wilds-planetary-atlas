@@ -521,6 +521,7 @@ The implementation includes:
 - The indicator window uses a 70px top and bottom margin, keeping vertical chevrons clear of the header and bottom controls.
 - Quantum Moon’s initial frame is rendered in a layout effect so it never flashes at the Sun’s origin before moving to its selected host.
 - Info panels now animate in and out over 220ms; dismissal keeps the panel mounted but inert until its matching desktop/mobile exit animation completes.
+- The info-panel close control uses a CSS-drawn cross rather than a font glyph, ensuring it is geometrically centered on all systems.
 - Spoilers-off next/previous navigation excludes the hidden White Hole as well as other spoiler-only entities, so Dark Bramble advances to Interloper then Sun.
 - Labels beside left/right chevrons are nudged 4px downward for visual alignment.
 - Sun Station labels remain below the station because only the artwork layer rotates; the label stays in the translated parent group.

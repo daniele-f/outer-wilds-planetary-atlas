@@ -227,10 +227,23 @@
   border-radius: 50%;
   background: rgb(255 255 255 / .025);
   cursor: pointer;
-  font-size: 1.4rem;
-  line-height: 1;
   place-items: center;
 }
+
+.info-panel__close-icon { position: relative; display: block; width: .8rem; height: .8rem; }
+.info-panel__close-icon::before,
+.info-panel__close-icon::after {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+  content: '';
+}
+.info-panel__close-icon::before { transform: translateY(-50%) rotate(45deg); }
+.info-panel__close-icon::after { transform: translateY(-50%) rotate(-45deg); }
 
 .info-panel__close:hover { border-color: #d9ad62; background: rgb(219 164 70 / .1); }
 

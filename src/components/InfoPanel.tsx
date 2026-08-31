@@ -44,7 +44,7 @@ export function InfoPanel({ body, onClose, onSelectBody, onFocusBody, onNavigate
           title={`Close ${body.name} details`}
           onClick={onClose}
         >
-          <span aria-hidden="true">×</span>
+          <span className="info-panel__close-icon" aria-hidden="true" />
         </button>
       </div>
 

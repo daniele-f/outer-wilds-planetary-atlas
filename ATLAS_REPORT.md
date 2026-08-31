@@ -266,6 +266,7 @@ Chevron position changes use a 220ms eased transition when the panel opens or cl
 The usable window has a 70px vertical margin (with the existing 34px horizontal margin), moving its top edge down and bottom edge up.
 The Quantum Moon’s first position frame is applied before paint, preventing an origin-at-Sun flash on initial reveal.
 Info-panel dismissal uses a matching 220ms exit animation (rightward on desktop, downward on mobile) before unmounting.
+The close icon is rendered as two centered CSS strokes for consistent alignment across fonts and platforms.
 The visible navigation list is shared with the info panel; with spoilers off it omits White Hole, keeping the sequence Dark Bramble → Interloper → Sun.
 Left/right labels include a 4px downward visual nudge.
 The station label is outside the rotating artwork wrapper, so it remains upright and below the station.
