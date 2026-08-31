@@ -34,7 +34,7 @@ function formatTimestamp(seconds: number): string {
 }
 
 /** Atlas-styled controls for the supplied Outer Wilds soundtrack playlist. */
-export function MusicPlayer({ autoplayOnLoad }: Readonly<{ autoplayOnLoad: boolean }>) {
+export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ autoplayOnLoad: boolean; onPlaybackChange: (playing: boolean) => void }>) {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<YouTubePlayer | null>(null);
   const autoplayOnLoadRef = useRef(autoplayOnLoad);
@@ -110,6 +110,10 @@ export function MusicPlayer({ autoplayOnLoad }: Readonly<{ autoplayOnLoad: boole
     const interval = window.setInterval(refreshProgress, 500);
     return () => window.clearInterval(interval);
   }, [playing, ready, refreshProgress]);
+
+  useEffect(() => {
+    onPlaybackChange(playing);
+  }, [onPlaybackChange, playing]);
 
   const togglePlayback = () => {
     if (!ready) return;

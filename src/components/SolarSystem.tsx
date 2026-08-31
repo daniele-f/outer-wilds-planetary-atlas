@@ -121,6 +121,8 @@ export type SolarSystemProps = Readonly<{
   showOrbits?: boolean;
   showLabels?: boolean;
   showQuantumMoon?: boolean;
+  /** Whether the soundtrack is currently playing. */
+  musicPlaying?: boolean;
   onRegistryReady?: (registry: WorldPositionRegistry) => void;
   onQuantumStatusChange?: (message: string) => void;
   /** Horizontal CSS-pixel shift that centers a focused body in visible map space. */
@@ -193,6 +195,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
     showOrbits = true,
     showLabels = true,
     showQuantumMoon = true,
+    musicPlaying = false,
     onRegistryReady,
     onQuantumStatusChange,
     focusViewportOffsetX = 0,
@@ -251,9 +254,26 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
     height: ATLAS_VIEW_BOX.height,
   });
   const [hoveredId, setHoveredId] = useState<BodyId | null>(null);
+  const [sunMusicPulseKey, setSunMusicPulseKey] = useState<number | null>(null);
   const [quantumState, setQuantumState] = useState<QuantumState>(() =>
     createQuantumState(chooseQuantumHost(), clock.getTime()),
   );
+
+  useEffect(() => {
+    if (!musicPlaying || prefersReducedMotion()) {
+      setSunMusicPulseKey(null);
+      return undefined;
+    }
+    let timeout: number | null = null;
+    const scheduleBeat = () => {
+      setSunMusicPulseKey((current) => (current ?? 0) + 1);
+      timeout = window.setTimeout(scheduleBeat, 600 + Math.random() * 120);
+    };
+    scheduleBeat();
+    return () => {
+      if (timeout !== null) window.clearTimeout(timeout);
+    };
+  }, [musicPlaying]);
   const quantumStateRef = useRef(quantumState);
   quantumStateRef.current = quantumState;
 
@@ -902,6 +922,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
             idPrefix={`${sceneId}-${SUN.id}`}
             hitRadius={selectableRadius(SUN.id)}
             labelFontSize={labelFontSize}
+            musicPulseKey={musicPlaying && sunMusicPulseKey !== null ? sunMusicPulseKey : undefined}
           />
           {showQuantumMoon ? (
             <g ref={sunStationPositionRef} className="sun-station-position" data-body-id={SUN_STATION.id}>

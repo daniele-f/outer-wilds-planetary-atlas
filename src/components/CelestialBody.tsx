@@ -23,6 +23,7 @@ type CelestialBodyProps = Readonly<{
   labelFontSize?: number | undefined;
   interactive?: boolean;
   artworkRef?: Ref<SVGGElement>;
+  musicPulseKey?: number | undefined;
 }>;
 
 export const BODY_VISUAL_RADII: Readonly<Record<BodyId, number>> = {
@@ -93,12 +94,12 @@ export function CelestialHitArea({ body, radius, onActivate, onHoverChange }: Ce
   );
 }
 
-function BodyArtwork({ id, radius, idPrefix }: Readonly<{ id: BodyId; radius: number; idPrefix: string }>) {
+function BodyArtwork({ id, radius, idPrefix, musicPulseKey }: Readonly<{ id: BodyId; radius: number; idPrefix: string; musicPulseKey?: number | undefined }>) {
   const clipId = `${idPrefix}-clip`;
 
   if (id === 'sun') {
     return (
-      <g className="sun-art">
+      <g className={musicPulseKey === undefined ? 'sun-art' : `sun-art sun-art--music-pulse-${musicPulseKey % 2 === 0 ? 'a' : 'b'}`}>
         <g className="sun-corona-layer">
           <circle className="sun-corona sun-corona--outer" r={radius + 19} />
           <circle className="sun-corona sun-corona--inner" r={radius + 10} />
@@ -226,7 +227,7 @@ if (id === 'orbital-probe-cannon') {
 }
 
 export const CelestialBody = forwardRef<SVGGElement, CelestialBodyProps>(function CelestialBody(
-  { body, selected, hovered = false, onActivate, compact = false, idPrefix, hitRadius, labelFontSize, interactive = true, artworkRef },
+  { body, selected, hovered = false, onActivate, compact = false, idPrefix, hitRadius, labelFontSize, interactive = true, artworkRef, musicPulseKey },
   ref,
 ) {
   const reactId = useId();
@@ -255,7 +256,7 @@ export const CelestialBody = forwardRef<SVGGElement, CelestialBodyProps>(functio
     >
       <g className="body-visual" pointerEvents="none">
         <g ref={artworkRef}>
-          <BodyArtwork id={body.id} radius={radius} idPrefix={definitionPrefix} />
+          <BodyArtwork id={body.id} radius={radius} idPrefix={definitionPrefix} musicPulseKey={musicPulseKey} />
         </g>
       </g>
       <text
