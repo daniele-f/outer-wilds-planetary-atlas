@@ -577,7 +577,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
     }
   }, [applyCameraTransform, focusedCamera, getDisplayedCamera, offscreenInsets, registry, selectedId, selectableRegistry, showQuantumMoon]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     renderAtTime(clock.getTime());
     return clock.subscribe(renderAtTime);
   }, [clock, renderAtTime]);
