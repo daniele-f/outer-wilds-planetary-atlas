@@ -90,8 +90,9 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
             const player = playerRef.current;
             if (player !== null) {
               const initialVolume = player.getVolume();
-              setVolume(initialVolume);
-              setMuted(player.isMuted());
+              const initiallyMuted = player.isMuted();
+              setVolume(initiallyMuted ? 0 : initialVolume);
+              setMuted(initiallyMuted);
               if (initialVolume > 0) lastAudibleVolumeRef.current = initialVolume;
             }
             if (autoplayOnLoadRef.current) playerRef.current?.playVideo();
@@ -166,7 +167,10 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
       setMuted(false);
       return;
     }
+    lastAudibleVolumeRef.current = volume;
+    player.setVolume(0);
     player.mute();
+    setVolume(0);
     setMuted(true);
   };
   const setPlayerVolume = (nextVolume: number) => {
@@ -225,6 +229,7 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
           </button>
           <label className="music-player__volume-slider">
             <span className="sr-only">Volume</span>
+            <output className="music-player__volume-value" aria-live="polite">{volume}</output>
             <input type="range" min="0" max="100" value={volume} disabled={!ready} onChange={(event) => setPlayerVolume(Number(event.target.value))} aria-label="Soundtrack volume" />
           </label>
         </div>
