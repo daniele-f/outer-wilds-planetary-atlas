@@ -513,6 +513,7 @@ The implementation includes:
 - Desktop top/bottom indicators retain their natural x-position but clamp leftward before reaching the panel.
 - Their panel-side clamp uses the same 46px visual edge distance as right-edge indicators.
 - Offscreen labels are edge-aware: below top chevrons, above bottom chevrons, and beside left/right chevrons with corner-safe alignment.
+- Quantum Moon’s initial frame is rendered in a layout effect so it never flashes at the Sun’s origin before moving to its selected host.
 - Spoilers-off next/previous navigation excludes the hidden White Hole as well as other spoiler-only entities, so Dark Bramble advances to Interloper then Sun.
 - Labels beside left/right chevrons are nudged 4px downward for visual alignment.
 - Sun Station labels remain below the station because only the artwork layer rotates; the label stays in the translated parent group.
