@@ -6,6 +6,7 @@ type InfoPanelProps = Readonly<{
   onSelectBody: (id: BodyId) => void;
   onFocusBody: (id: BodyId) => void;
   onNavigateBody: (direction: -1 | 1) => void;
+  navigationBodyIds?: readonly BodyId[];
   spoilerNotes?: readonly string[];
   panelRef?: (element: HTMLElement | null) => void;
 }>;
@@ -19,15 +20,15 @@ function FactList({ items }: Readonly<{ items: readonly string[] }>) {
 }
 
 /** Spoiler-conscious body details shown as a non-modal overlay beside the live map. */
-export function InfoPanel({ body, onClose, onSelectBody, onFocusBody, onNavigateBody, spoilerNotes, panelRef }: InfoPanelProps) {
+export function InfoPanel({ body, onClose, onSelectBody, onFocusBody, onNavigateBody, spoilerNotes, panelRef, navigationBodyIds = NAVIGATION_BODY_IDS }: InfoPanelProps) {
   const headingId = `info-panel-${body.id}-title`;
   const satellites = body.satelliteIds.flatMap((id) => {
     const satellite = getBody(id);
     return satellite === undefined ? [] : [satellite];
   });
-  const bodyIndex = NAVIGATION_BODY_IDS.indexOf(body.id);
-  const previousId = NAVIGATION_BODY_IDS[(bodyIndex - 1 + NAVIGATION_BODY_IDS.length) % NAVIGATION_BODY_IDS.length];
-  const nextId = NAVIGATION_BODY_IDS[(bodyIndex + 1) % NAVIGATION_BODY_IDS.length];
+  const bodyIndex = navigationBodyIds.indexOf(body.id);
+  const previousId = navigationBodyIds[(bodyIndex - 1 + navigationBodyIds.length) % navigationBodyIds.length];
+  const nextId = navigationBodyIds[(bodyIndex + 1) % navigationBodyIds.length];
   const previousBody = previousId === undefined ? undefined : getBody(previousId);
   const nextBody = nextId === undefined ? undefined : getBody(nextId);
 

@@ -61,7 +61,7 @@ export default function App() {
   const selectedBody = selectedId === null ? undefined : getBody(selectedId);
   const navigationBodyIds = spoilersEnabled
     ? NAVIGATION_BODY_IDS
-    : NAVIGATION_BODY_IDS.filter((id) => id !== 'quantum-moon' && id !== 'sun-station' && id !== 'white-hole-station' && id !== 'orbital-probe-cannon');
+    : NAVIGATION_BODY_IDS.filter((id) => id !== 'quantum-moon' && id !== 'sun-station' && id !== 'white-hole-station' && id !== 'white-hole' && id !== 'orbital-probe-cannon');
   const simulationSpeed = paused ? 0 : speed;
 
   useEffect(() => writeStoredBoolean(ORBITS_HIDDEN_STORAGE_KEY, orbitsHidden), [orbitsHidden]);
@@ -178,6 +178,7 @@ export default function App() {
             onSelectBody={onSelect}
             onFocusBody={(id) => solarSystemRef.current?.focusBody(id)}
             onNavigateBody={navigateBody}
+            navigationBodyIds={navigationBodyIds}
           />
         )}
         <SettingsMenu
