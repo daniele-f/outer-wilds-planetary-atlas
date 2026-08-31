@@ -1,11 +1,11 @@
 import type { Point } from '../types/celestial';
 
-export type OffscreenBounds = Readonly<{
-  width: number;
-  height: number;
-  rightInset?: number;
-  bottomInset?: number;
-  margin?: number;
+/** The exact client-pixel rectangle in which an entity is considered onscreen. */
+export type IndicatorWindow = Readonly<{
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
 }>;
 
 export type OffscreenIndicatorPlacement = Readonly<{
@@ -20,13 +20,12 @@ export type OffscreenIndicatorPlacement = Readonly<{
 export function placeOffscreenIndicator(
   target: Point,
   label: string,
-  bounds: OffscreenBounds,
+  window: IndicatorWindow,
 ): OffscreenIndicatorPlacement | null {
-  const margin = bounds.margin ?? 34;
-  const minX = margin;
-  const maxX = Math.max(minX, bounds.width - (bounds.rightInset ?? 0) - margin);
-  const minY = margin;
-  const maxY = Math.max(minY, bounds.height - (bounds.bottomInset ?? 0) - margin);
+  const minX = window.left;
+  const maxX = Math.max(minX, window.right);
+  const minY = window.top;
+  const maxY = Math.max(minY, window.bottom);
   if (target.x >= minX && target.x <= maxX && target.y >= minY && target.y <= maxY) return null;
 
   const center = { x: (minX + maxX) / 2, y: (minY + maxY) / 2 };
