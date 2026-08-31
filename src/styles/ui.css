@@ -262,6 +262,19 @@
   font-family: Inter, 'Segoe UI', Arial, sans-serif;
 }
 .music-player__embed { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
+.music-player__minimize { position: absolute; top: .45rem; right: .45rem; display: grid; width: 1.85rem; min-height: 1.85rem; place-items: center; border: 1px solid transparent; border-radius: .32rem; background: transparent; color: #f1dfbc; cursor: pointer; opacity: 0; transition: opacity .16s ease; }
+.music-player:hover .music-player__minimize, .music-player:focus-within .music-player__minimize { opacity: .8; }
+.music-player__minimize:hover, .music-player__minimize:focus-visible { border-color: #d9ad62; background: rgb(219 164 70 / .12); }
+.music-player__chevron { display: block; width: .45rem; height: .45rem; border-right: .12rem solid currentColor; border-bottom: .12rem solid currentColor; transform: rotate(45deg) translate(-.08rem, -.08rem); }
+.music-player__chevron--up { transform: rotate(225deg) translate(-.08rem, -.08rem); }
+.music-player--minimized { width: auto; min-width: 10.5rem; padding: .35rem .45rem; }
+.music-player__minimized-controls { display: flex; align-items: center; gap: .35rem; }
+.music-player__minimized-status { flex: 1 1 auto; padding-left: .2rem; color: #c9b990; font-size: .72rem; letter-spacing: .04em; }
+.music-player__minimized-controls .music-player__play { width: 2.35rem; min-height: 2.35rem; border: 1px solid rgb(226 178 92 / .36); border-radius: .32rem; background: rgb(255 255 255 / .025); color: #f1dfbc; cursor: pointer; }
+.music-player__minimized-controls .music-player__play:hover:not(:disabled), .music-player__minimized-controls .music-player__play:focus-visible { border-color: #d9ad62; background: rgb(219 164 70 / .12); }
+.music-player__minimized-controls .music-player__play:disabled { cursor: wait; opacity: .5; }
+.music-player__expand { display: grid; width: 2.35rem; min-height: 2.35rem; place-items: center; border: 1px solid rgb(226 178 92 / .36); border-radius: .32rem; background: rgb(255 255 255 / .025); color: #f1dfbc; cursor: pointer; }
+.music-player__expand:hover, .music-player__expand:focus-visible { border-color: #d9ad62; background: rgb(219 164 70 / .12); }
 .music-player__eyebrow { margin: 0; color: #d5a452; font-size: .62rem; font-weight: 650; letter-spacing: .13em; text-transform: uppercase; }
 .music-player__track { min-width: 0; margin: .3rem 0 .65rem; }
 .music-player__title { min-width: 0; overflow: hidden; margin: 0; color: #fff0cf; font-family: Georgia, 'Times New Roman', serif; font-size: .94rem; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }

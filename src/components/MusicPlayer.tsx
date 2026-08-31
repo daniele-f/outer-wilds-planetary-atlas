@@ -5,6 +5,7 @@ const PREVIOUS_TRACK_THRESHOLD_SECONDS = 5;
 const VOLUME_SLIDER_CLOSE_DELAY_MILLISECONDS = 2_000;
 const MUSIC_VOLUME_STORAGE_KEY = 'outer-wilds-atlas.music-volume';
 const MUSIC_LAST_AUDIBLE_VOLUME_STORAGE_KEY = 'outer-wilds-atlas.music-last-audible-volume';
+const MUSIC_PLAYER_MINIMIZED_STORAGE_KEY = 'outer-wilds-atlas.music-player-minimized';
 
 function readStoredVolume(key: string, fallback = 100): number {
   try {
@@ -20,6 +21,22 @@ function readStoredVolume(key: string, fallback = 100): number {
 function writeStoredVolume(key: string, volume: number): void {
   try {
     window.localStorage.setItem(key, String(volume));
+  } catch {
+    // Playback remains usable when browser storage is unavailable.
+  }
+}
+
+function readStoredBoolean(key: string): boolean {
+  try {
+    return window.localStorage.getItem(key) === 'true';
+  } catch {
+    return false;
+  }
+}
+
+function writeStoredBoolean(key: string, value: boolean): void {
+  try {
+    window.localStorage.setItem(key, String(value));
   } catch {
     // Playback remains usable when browser storage is unavailable.
   }
@@ -79,6 +96,7 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
   const [volume, setVolume] = useState(initialVolumeRef.current);
   const [muted, setMuted] = useState(initialVolumeRef.current === 0);
   const [volumeSliderOpen, setVolumeSliderOpen] = useState(false);
+  const [minimized, setMinimized] = useState(() => readStoredBoolean(MUSIC_PLAYER_MINIMIZED_STORAGE_KEY));
 
   const refreshTitle = useCallback(() => {
     const nextTitle = playerRef.current?.getVideoData().title;
@@ -169,6 +187,10 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
     writeStoredVolume(MUSIC_VOLUME_STORAGE_KEY, volume);
   }, [volume]);
 
+  useEffect(() => {
+    writeStoredBoolean(MUSIC_PLAYER_MINIMIZED_STORAGE_KEY, minimized);
+  }, [minimized]);
+
   useEffect(() => () => {
     if (volumeSliderCloseTimerRef.current !== null) window.clearTimeout(volumeSliderCloseTimerRef.current);
   }, []);
@@ -247,10 +269,28 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
       volumeSliderCloseTimerRef.current = null;
     }, VOLUME_SLIDER_CLOSE_DELAY_MILLISECONDS);
   };
+  const playbackButton = (
+    <button type="button" className="music-player__play" onClick={togglePlayback} disabled={!ready} aria-label={playing ? 'Pause soundtrack' : 'Play soundtrack'}>
+      {playing ? <span className="music-player__pause" aria-hidden="true"><i /><i /></span> : <span className="music-player__play-icon" aria-hidden="true" />}
+    </button>
+  );
 
   return (
-    <section className="music-player" aria-label="Outer Wilds soundtrack player">
+    <section className={`music-player${minimized ? ' music-player--minimized' : ''}`} aria-label="Outer Wilds soundtrack player">
       <div ref={mountRef} className="music-player__embed" aria-hidden="true" />
+      {minimized ? (
+        <div className="music-player__minimized-controls">
+          <span className="music-player__minimized-status">{playing ? 'Playing' : 'Paused'}</span>
+          {playbackButton}
+          <button type="button" className="music-player__expand" onClick={() => setMinimized(false)} aria-label="Expand music player">
+            <span className="music-player__chevron music-player__chevron--up" aria-hidden="true" />
+          </button>
+        </div>
+      ) : (
+        <>
+          <button type="button" className="music-player__minimize" onClick={() => setMinimized(true)} aria-label="Minimize music player">
+            <span className="music-player__chevron" aria-hidden="true" />
+          </button>
       <p className="music-player__eyebrow">Now playing · Outer Wilds soundtrack</p>
       <div className="music-player__track">
         <p className="music-player__title" title={title}>{title}</p>
@@ -259,9 +299,7 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
         <button type="button" onClick={previous} disabled={!ready} aria-label="Previous track or restart current track">
           <span className="music-player__skip music-player__skip--previous" aria-hidden="true"><i /><i /></span>
         </button>
-        <button type="button" className="music-player__play" onClick={togglePlayback} disabled={!ready} aria-label={playing ? 'Pause soundtrack' : 'Play soundtrack'}>
-          {playing ? <span className="music-player__pause" aria-hidden="true"><i /><i /></span> : <span className="music-player__play-icon" aria-hidden="true" />}
-        </button>
+        {playbackButton}
         <button type="button" onClick={() => playerRef.current?.nextVideo()} disabled={!ready} aria-label="Next track">
           <span className="music-player__skip" aria-hidden="true"><i /><i /></span>
         </button>
@@ -283,6 +321,8 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
         </div>
         <span className="music-player__progress">{formatTimestamp(progress.current)} / {formatTimestamp(progress.duration)}</span>
       </div>
+        </>
+      )}
     </section>
   );
 }
