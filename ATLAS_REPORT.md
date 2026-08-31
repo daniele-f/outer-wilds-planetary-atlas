@@ -246,6 +246,19 @@ Its artwork has a 12-second linear self-rotation; the world position and interac
 The SVG rotation origin is explicitly `(0, 0)`, the center of `white-hole-station-ring`.
 The Sun corona is kept in its own layer and follows the enlarged Sun during focus/hover.
 The generic focus filter is disabled on the Sun artwork group; the surface receives the brightness/glow treatment independently so the corona is not rasterized and blurred.
+Offscreen navigation uses the current camera projection and clamps a pointer-transparent chevron inside the usable viewport. The selected body name is shown beside it; with no selection, the Sun/system center is used and labeled “Solar System.” Desktop panel width and mobile panel height are passed as safe-area insets so indicators never sit underneath the info panel.
+Edge-aware label anchoring keeps names fully visible when the chevron is on the left or right boundary.
+Labels use a small vertical gap beneath each chevron.
+Safe-area insets are derived from the actual panel and stage rectangles, so covered entities are treated as offscreen at the panel boundary.
+The indicator uses a higher stacking layer than the panel to remain visible at that boundary.
+At runtime, the mounted panel rectangle is measured directly to place the chevron just to its left.
+For desktop panels, the right safe distance is explicitly panel width plus its right margin; for mobile sheets, only the bottom safe distance is applied.
+Right-edge placement writes that safe distance to CSS `right` directly, avoiding stale projected left coordinates.
+If a projected entity point lies inside the panel rectangle, placement is forced to the adjacent panel edge so it cannot be hidden beneath the overlay.
+When the desktop indicator is on the top or bottom edge, its x-position is preserved unless it would overlap the panel, in which case it is clamped leftward.
+The clamp uses a 46px visual offset to match the right-edge indicator’s center distance.
+Indicator labels sit below top edges, above bottom edges, and vertically centered beside left/right edges; corner variants align inward to remain visible.
+Left/right labels include a 4px downward visual nudge.
 The station label is outside the rotating artwork wrapper, so it remains upright and below the station.
 It is rendered as the final settings-menu option with a separator above it.
 Orbit and label controls use matching state-aware Show/Hide wording.

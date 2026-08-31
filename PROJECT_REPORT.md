@@ -501,6 +501,19 @@ The implementation includes:
 - The station’s rotation pivot is explicitly the center of `white-hole-station-ring` at local coordinates (0, 0).
 - Sun focus/hover removes the generic parent drop-shadow filter from the artwork group; brightness and glow are applied to the surface instead so corona strokes remain crisp.
 - Sun corona remains in its own layer and follows the enlarged Sun during focus/hover without the competing counter-scale that caused a visible in/out jump.
+- Offscreen selected-body indicators project live world positions to the map edge, point toward the target, and avoid the open info panel’s occupied area; an unselected offscreen system is labeled “Solar System.”
+- Offscreen labels anchor inward on the left/right edges so the full entity name remains inside the map window.
+- Offscreen labels sit slightly below their chevrons for clearer separation.
+- Panel safe areas are measured from actual stage/panel boundaries, keeping indicators to the panel’s left edge when the panel covers a body.
+- The indicator layer sits above the info panel stacking layer so the panel-edge chevron remains visible.
+- Indicator placement measures the mounted panel boundary directly, keeping the chevron aligned just inside the map beside the settings control.
+- Desktop positioning adds the panel width to the chevron’s right inset; mobile positioning adds the panel height below the map, while closed panels restore zero inset.
+- Right-edge indicators use an explicit CSS `right` offset so the panel-width distance is applied even during camera or layout updates.
+- Entities whose projected point falls inside the open panel are explicitly redirected to the panel edge (or mobile sheet edge) for the indicator.
+- Desktop top/bottom indicators retain their natural x-position but clamp leftward before reaching the panel.
+- Their panel-side clamp uses the same 46px visual edge distance as right-edge indicators.
+- Offscreen labels are edge-aware: below top chevrons, above bottom chevrons, and beside left/right chevrons with corner-safe alignment.
+- Labels beside left/right chevrons are nudged 4px downward for visual alignment.
 - Sun Station labels remain below the station because only the artwork layer rotates; the label stays in the translated parent group.
 - Orbital Probe Cannon is spoiler-gated and follows a clockwise local orbit around Giant’s Deep as one attached launcher/probe unit.
 - The info panel is immediately hidden when its selected spoiler-gated entity is hidden.

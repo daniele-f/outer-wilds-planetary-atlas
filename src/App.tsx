@@ -47,6 +47,7 @@ export default function App() {
   const [spoilerPromptOpen, setSpoilerPromptOpen] = useState(() => !hasStoredValue(SPOILERS_ENABLED_STORAGE_KEY));
   const [focusViewportOffsetX, setFocusViewportOffsetX] = useState(0);
   const [focusViewportOffsetY, setFocusViewportOffsetY] = useState(0);
+  const [offscreenInsets, setOffscreenInsets] = useState({ right: 0, bottom: 0 });
   const solarSystemRef = useRef<SolarSystemHandle | null>(null);
   const stageRef = useRef<HTMLElement | null>(null);
   const infoPanelRef = useRef<HTMLElement | null>(null);
@@ -118,22 +119,25 @@ export default function App() {
     if (!panelVisible || stage === null || panel === null) {
       setFocusViewportOffsetX(0);
       setFocusViewportOffsetY(0);
+      setOffscreenInsets((current) => current.right === 0 && current.bottom === 0 ? current : { right: 0, bottom: 0 });
       return;
     }
     const updateOffset = () => {
+      const stageRect = stage.getBoundingClientRect();
+      const panelRect = panel.getBoundingClientRect();
       if (window.matchMedia('(max-width: 760px)').matches) {
         setFocusViewportOffsetX(0);
-        const panelHeight = panel.getBoundingClientRect().height;
-        const panelBottom = Number.parseFloat(window.getComputedStyle(panel).bottom);
-        const offset = -(panelHeight + (Number.isFinite(panelBottom) ? panelBottom : 0)) / 2;
+        const panelInset = Math.max(0, stageRect.bottom - panelRect.top);
+        const offset = -panelInset / 2;
         setFocusViewportOffsetY((current) => Math.abs(current - offset) < 0.01 ? current : offset);
+        setOffscreenInsets((current) => current.right === 0 && Math.abs(current.bottom - panelInset) < 0.01 ? current : { right: 0, bottom: panelInset });
         return;
       }
       setFocusViewportOffsetY(0);
-      const panelWidth = panel.getBoundingClientRect().width;
-      const panelRight = Number.parseFloat(window.getComputedStyle(panel).right);
-      const offset = -(panelWidth + (Number.isFinite(panelRight) ? panelRight : 0)) / 2;
+      const panelInset = Math.max(0, stageRect.right - panelRect.left);
+      const offset = -panelInset / 2;
       setFocusViewportOffsetX((current) => Math.abs(current - offset) < 0.01 ? current : offset);
+      setOffscreenInsets((current) => current.bottom === 0 && Math.abs(current.right - panelInset) < 0.01 ? current : { right: panelInset, bottom: 0 });
     };
     updateOffset();
     const observer = new ResizeObserver(updateOffset);
@@ -164,6 +168,7 @@ export default function App() {
           onQuantumStatusChange={setQuantumStatus}
           focusViewportOffsetX={focusViewportOffsetX}
           focusViewportOffsetY={focusViewportOffsetY}
+          offscreenInsets={offscreenInsets}
         />
         {!panelVisible ? null : (
           <InfoPanel
