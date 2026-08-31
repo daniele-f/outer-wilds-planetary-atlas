@@ -63,6 +63,7 @@ function formatTimestamp(seconds: number): string {
 /** Atlas-styled controls for the supplied Outer Wilds soundtrack playlist. */
 export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ autoplayOnLoad: boolean; onPlaybackChange: (playing: boolean) => void }>) {
   const mountRef = useRef<HTMLDivElement | null>(null);
+  const volumeControlRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<YouTubePlayer | null>(null);
   const autoplayOnLoadRef = useRef(autoplayOnLoad);
   const initialVolumeRef = useRef(readStoredVolume(MUSIC_VOLUME_STORAGE_KEY));
@@ -172,6 +173,17 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
     if (volumeSliderCloseTimerRef.current !== null) window.clearTimeout(volumeSliderCloseTimerRef.current);
   }, []);
 
+  useEffect(() => {
+    if (!volumeSliderOpen) return undefined;
+    const closeOnOutsidePointerDown = (event: PointerEvent) => {
+      if (event.target instanceof Node && !volumeControlRef.current?.contains(event.target)) {
+        setVolumeSliderOpen(false);
+      }
+    };
+    document.addEventListener('pointerdown', closeOnOutsidePointerDown);
+    return () => document.removeEventListener('pointerdown', closeOnOutsidePointerDown);
+  }, [volumeSliderOpen]);
+
   const togglePlayback = () => {
     if (!ready) return;
     if (playing) playerRef.current?.pauseVideo();
@@ -256,7 +268,7 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
         <button type="button" className="music-player__stop" onClick={stopPlayback} disabled={!ready} aria-label="Stop soundtrack">
           <span aria-hidden="true" />
         </button>
-        <div className={`music-player__volume${volumeSliderOpen ? ' music-player__volume--slider-open' : ''}`} onMouseEnter={openVolumeSlider} onMouseLeave={deferVolumeSliderClose} onFocus={openVolumeSlider} onBlur={deferVolumeSliderClose}>
+        <div ref={volumeControlRef} className={`music-player__volume${volumeSliderOpen ? ' music-player__volume--slider-open' : ''}`} onMouseEnter={openVolumeSlider} onMouseLeave={deferVolumeSliderClose} onFocus={openVolumeSlider} onBlur={deferVolumeSliderClose}>
           <button type="button" onClick={toggleMute} disabled={!ready} aria-label={muted ? 'Unmute soundtrack' : 'Mute soundtrack'}>
             <svg className="music-player__volume-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M3 9h4l5-4v14l-5-4H3Z" />
