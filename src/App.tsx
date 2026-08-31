@@ -49,6 +49,7 @@ export default function App() {
   const [labelsHidden, setLabelsHidden] = useState(() => readStoredBoolean(LABELS_HIDDEN_STORAGE_KEY));
   const [spoilersEnabled, setSpoilersEnabled] = useState(() => readStoredBoolean(SPOILERS_ENABLED_STORAGE_KEY));
   const [musicAutoplayEnabled, setMusicAutoplayEnabled] = useState(() => readStoredBoolean(MUSIC_AUTOPLAY_STORAGE_KEY));
+  const [musicPlaying, setMusicPlaying] = useState(false);
   const [spoilerPromptOpen, setSpoilerPromptOpen] = useState(() => !hasStoredValue(SPOILERS_ENABLED_STORAGE_KEY));
   const [focusViewportOffsetX, setFocusViewportOffsetX] = useState(0);
   const [focusViewportOffsetY, setFocusViewportOffsetY] = useState(0);
@@ -190,6 +191,7 @@ export default function App() {
           showOrbits={!orbitsHidden}
           showLabels={!labelsHidden}
           showQuantumMoon={spoilersEnabled}
+          musicPlaying={musicPlaying}
           onQuantumStatusChange={setQuantumStatus}
           focusViewportOffsetX={focusViewportOffsetX}
           focusViewportOffsetY={focusViewportOffsetY}
@@ -230,7 +232,7 @@ export default function App() {
           onTogglePaused={() => setPaused((current) => !current)}
           onSpeedChange={setSpeed}
         />
-        <MusicPlayer autoplayOnLoad={musicAutoplayEnabled} />
+        <MusicPlayer autoplayOnLoad={musicAutoplayEnabled} onPlaybackChange={setMusicPlaying} />
         <p className="sr-only" aria-live="polite" aria-atomic="true">
           {selectedBody === undefined
             ? 'No celestial body selected.'

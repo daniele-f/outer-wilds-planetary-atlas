@@ -319,6 +319,10 @@
 
 .sun-corona--outer { stroke-dasharray: 2 8 15 5; stroke-opacity: .28; stroke-width: 8; }
 .sun-corona--inner { stroke-dasharray: 22 5 4 7; stroke-opacity: .52; stroke-width: 4; animation-delay: -2.2s; }
+.sun-art--music-pulse-a,
+.sun-art--music-pulse-b { transform-box: fill-box; transform-origin: center; animation-duration: .58s; animation-fill-mode: both; animation-timing-function: ease-out; }
+.sun-art--music-pulse-a { animation-name: sun-music-pulse-a; }
+.sun-art--music-pulse-b { animation-name: sun-music-pulse-b; }
 .sun-surface { fill: #e89a3c; stroke: #ffd183; stroke-width: 2; filter: drop-shadow(0 0 13px rgb(232 147 55 / .85)); }
 .sun-current { fill: none; stroke: #ffcf70; stroke-linecap: round; stroke-opacity: .58; stroke-width: 3; }
 .sun-flare { fill: #ffe3a0; fill-opacity: .72; }
@@ -343,6 +347,18 @@
 @keyframes corona-breathe {
   from { opacity: .55; transform: rotate(-3deg) scale(.96); }
   to { opacity: .95; transform: rotate(4deg) scale(1.045); }
+}
+
+@keyframes sun-music-pulse-a {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(1.065); }
+  65% { transform: scale(1); }
+}
+
+@keyframes sun-music-pulse-b {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(1.065); }
+  65% { transform: scale(1); }
 }
 
 .map-hint {
@@ -376,6 +392,8 @@
   .sun-corona { animation: none; }
   .atlas-star { opacity: .62; transform: none; }
   .sun-corona { transform: none; }
+  .sun-art--music-pulse-a,
+  .sun-art--music-pulse-b { animation: none; }
   .body-visual,
   .body-label { transition: none; }
   .sand-grain { opacity: .38; }
