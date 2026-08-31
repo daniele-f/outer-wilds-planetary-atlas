@@ -5,12 +5,14 @@ import { InfoPanel } from './components/InfoPanel';
 import { SettingsMenu } from './components/SettingsMenu';
 import { SpoilerPrompt } from './components/SpoilerPrompt';
 import { SolarSystem, type SolarSystemHandle } from './components/SolarSystem';
+import { MusicPlayer } from './components/MusicPlayer';
 import { NAVIGATION_BODY_IDS, getBody, type BodyId } from './data/celestialBodies';
 import './styles/ui.css';
 
 const ORBITS_HIDDEN_STORAGE_KEY = 'outer-wilds-atlas.orbits-hidden';
 const LABELS_HIDDEN_STORAGE_KEY = 'outer-wilds-atlas.labels-hidden';
 const SPOILERS_ENABLED_STORAGE_KEY = 'outer-wilds-atlas.spoilers-enabled';
+const MUSIC_AUTOPLAY_STORAGE_KEY = 'outer-wilds-atlas.music-autoplay';
 const PANEL_ANIMATION_MILLISECONDS = 220;
 
 function readStoredBoolean(key: string): boolean {
@@ -46,6 +48,7 @@ export default function App() {
   const [orbitsHidden, setOrbitsHidden] = useState(() => readStoredBoolean(ORBITS_HIDDEN_STORAGE_KEY));
   const [labelsHidden, setLabelsHidden] = useState(() => readStoredBoolean(LABELS_HIDDEN_STORAGE_KEY));
   const [spoilersEnabled, setSpoilersEnabled] = useState(() => readStoredBoolean(SPOILERS_ENABLED_STORAGE_KEY));
+  const [musicAutoplayEnabled, setMusicAutoplayEnabled] = useState(() => readStoredBoolean(MUSIC_AUTOPLAY_STORAGE_KEY));
   const [spoilerPromptOpen, setSpoilerPromptOpen] = useState(() => !hasStoredValue(SPOILERS_ENABLED_STORAGE_KEY));
   const [focusViewportOffsetX, setFocusViewportOffsetX] = useState(0);
   const [focusViewportOffsetY, setFocusViewportOffsetY] = useState(0);
@@ -90,6 +93,7 @@ export default function App() {
   useEffect(() => {
     if (!spoilerPromptOpen) writeStoredBoolean(SPOILERS_ENABLED_STORAGE_KEY, spoilersEnabled);
   }, [spoilerPromptOpen, spoilersEnabled]);
+  useEffect(() => writeStoredBoolean(MUSIC_AUTOPLAY_STORAGE_KEY, musicAutoplayEnabled), [musicAutoplayEnabled]);
   useEffect(() => {
     if (!spoilersEnabled && (selectedId === 'quantum-moon' || selectedId === 'sun-station' || selectedId === 'white-hole-station' || selectedId === 'white-hole' || selectedId === 'orbital-probe-cannon')) {
       solarSystemRef.current?.unfocusBody();
@@ -214,6 +218,8 @@ export default function App() {
           onToggleLabels={() => setLabelsHidden((current) => !current)}
           spoilersEnabled={spoilersEnabled}
           onToggleSpoilers={() => setSpoilersEnabled((current) => !current)}
+          musicAutoplayEnabled={musicAutoplayEnabled}
+          onToggleMusicAutoplay={() => setMusicAutoplayEnabled((current) => !current)}
         />
         <Controls
           paused={paused}
@@ -224,6 +230,7 @@ export default function App() {
           onTogglePaused={() => setPaused((current) => !current)}
           onSpeedChange={setSpeed}
         />
+        <MusicPlayer autoplayOnLoad={musicAutoplayEnabled} />
         <p className="sr-only" aria-live="polite" aria-atomic="true">
           {selectedBody === undefined
             ? 'No celestial body selected.'

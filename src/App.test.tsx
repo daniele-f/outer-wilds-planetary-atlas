@@ -231,6 +231,17 @@ describe('planetary atlas application UI', () => {
     expect(second.container.querySelector('.solar-system')).toHaveClass('solar-system--orbits-hidden');
   });
 
+  it('persists the soundtrack autoplay-on-load preference in settings', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'Map settings' }));
+    await user.click(screen.getByRole('button', { name: 'Enable autoplay on load' }));
+
+    expect(screen.getByRole('button', { name: 'Disable autoplay on load' })).toBeVisible();
+    expect(localStorage.getItem('outer-wilds-atlas.music-autoplay')).toBe('true');
+  });
+
   it('moves the settings trigger beside an open information panel', async () => {
     const user = userEvent.setup();
     render(<App />);

@@ -6,11 +6,13 @@ type SettingsMenuProps = Readonly<{
   orbitsHidden: boolean;
   labelsHidden: boolean;
   spoilersEnabled: boolean;
+  musicAutoplayEnabled: boolean;
   onToggleOpen: () => void;
   onRequestClose: () => void;
   onToggleOrbits: () => void;
   onToggleLabels: () => void;
   onToggleSpoilers: () => void;
+  onToggleMusicAutoplay: () => void;
 }>;
 
 export function SettingsMenu({
@@ -23,6 +25,8 @@ export function SettingsMenu({
   onToggleOrbits,
   onToggleLabels,
   onToggleSpoilers,
+  musicAutoplayEnabled,
+  onToggleMusicAutoplay,
   spoilersEnabled,
 }: SettingsMenuProps) {
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -57,6 +61,10 @@ export function SettingsMenu({
           <button type="button" aria-pressed={orbitsHidden} onClick={onToggleOrbits}>
             <span aria-hidden="true">{orbitsHidden ? '○' : '●'}</span>
             <span>{orbitsHidden ? 'Show orbit lines' : 'Hide orbit lines'}</span>
+          </button>
+          <button type="button" aria-pressed={musicAutoplayEnabled} onClick={onToggleMusicAutoplay}>
+            <span aria-hidden="true">{musicAutoplayEnabled ? '●' : '○'}</span>
+            <span>{musicAutoplayEnabled ? 'Disable autoplay on load' : 'Enable autoplay on load'}</span>
           </button>
           <button className="atlas-settings__spoiler-option" type="button" aria-pressed={spoilersEnabled} onClick={onToggleSpoilers}>
             <span aria-hidden="true">{spoilersEnabled ? '●' : '○'}</span>
