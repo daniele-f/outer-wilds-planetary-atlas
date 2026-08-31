@@ -3,6 +3,27 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 const PLAYLIST_ID = 'OLAK5uy_lvIXOLFb_NVEjnyhZNE66G8O_oeF9IRII';
 const PREVIOUS_TRACK_THRESHOLD_SECONDS = 5;
 const VOLUME_SLIDER_CLOSE_DELAY_MILLISECONDS = 2_000;
+const MUSIC_VOLUME_STORAGE_KEY = 'outer-wilds-atlas.music-volume';
+const MUSIC_LAST_AUDIBLE_VOLUME_STORAGE_KEY = 'outer-wilds-atlas.music-last-audible-volume';
+
+function readStoredVolume(key: string, fallback = 100): number {
+  try {
+    const storedText = window.localStorage.getItem(key);
+    if (storedText === null) return fallback;
+    const storedValue = Number(storedText);
+    return Number.isFinite(storedValue) ? Math.min(100, Math.max(0, storedValue)) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function writeStoredVolume(key: string, volume: number): void {
+  try {
+    window.localStorage.setItem(key, String(volume));
+  } catch {
+    // Playback remains usable when browser storage is unavailable.
+  }
+}
 
 type YouTubePlayer = Readonly<{
   playVideo: () => void;
@@ -44,14 +65,18 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
   const mountRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<YouTubePlayer | null>(null);
   const autoplayOnLoadRef = useRef(autoplayOnLoad);
-  const lastAudibleVolumeRef = useRef(100);
+  const initialVolumeRef = useRef(readStoredVolume(MUSIC_VOLUME_STORAGE_KEY));
+  const lastAudibleVolumeRef = useRef(readStoredVolume(
+    MUSIC_LAST_AUDIBLE_VOLUME_STORAGE_KEY,
+    initialVolumeRef.current || 100,
+  ));
   const volumeSliderCloseTimerRef = useRef<number | null>(null);
   const [ready, setReady] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [title, setTitle] = useState('Outer Wilds Original Soundtrack');
   const [progress, setProgress] = useState({ current: 0, duration: 0 });
-  const [volume, setVolume] = useState(100);
-  const [muted, setMuted] = useState(false);
+  const [volume, setVolume] = useState(initialVolumeRef.current);
+  const [muted, setMuted] = useState(initialVolumeRef.current === 0);
   const [volumeSliderOpen, setVolumeSliderOpen] = useState(false);
 
   const refreshTitle = useCallback(() => {
@@ -89,11 +114,16 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
             refreshProgress();
             const player = playerRef.current;
             if (player !== null) {
-              const initialVolume = player.getVolume();
-              const initiallyMuted = player.isMuted();
-              setVolume(initiallyMuted ? 0 : initialVolume);
-              setMuted(initiallyMuted);
-              if (initialVolume > 0) lastAudibleVolumeRef.current = initialVolume;
+              const savedVolume = initialVolumeRef.current;
+              player.setVolume(savedVolume);
+              if (savedVolume === 0) player.mute();
+              else player.unMute();
+              setVolume(savedVolume);
+              setMuted(savedVolume === 0);
+              if (savedVolume > 0) {
+                lastAudibleVolumeRef.current = savedVolume;
+                writeStoredVolume(MUSIC_LAST_AUDIBLE_VOLUME_STORAGE_KEY, savedVolume);
+              }
             }
             if (autoplayOnLoadRef.current) playerRef.current?.playVideo();
           },
@@ -134,6 +164,10 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
     onPlaybackChange(playing);
   }, [onPlaybackChange, playing]);
 
+  useEffect(() => {
+    writeStoredVolume(MUSIC_VOLUME_STORAGE_KEY, volume);
+  }, [volume]);
+
   useEffect(() => () => {
     if (volumeSliderCloseTimerRef.current !== null) window.clearTimeout(volumeSliderCloseTimerRef.current);
   }, []);
@@ -168,6 +202,7 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
       return;
     }
     lastAudibleVolumeRef.current = volume;
+    writeStoredVolume(MUSIC_LAST_AUDIBLE_VOLUME_STORAGE_KEY, volume);
     player.setVolume(0);
     player.mute();
     setVolume(0);
@@ -184,6 +219,7 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange }: Readonly<{ aut
       return;
     }
     lastAudibleVolumeRef.current = nextVolume;
+    writeStoredVolume(MUSIC_LAST_AUDIBLE_VOLUME_STORAGE_KEY, nextVolume);
     player.unMute();
     setMuted(false);
   };
