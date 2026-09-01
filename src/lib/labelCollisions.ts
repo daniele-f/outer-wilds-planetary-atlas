@@ -97,10 +97,80 @@ function formatOffset(value: number): string {
   return `${rounded}px`;
 }
 
+function formatMatrix(matrix: MatrixLike): string {
+  return `matrix(${matrix.a} ${matrix.b} ${matrix.c} ${matrix.d} ${matrix.e} ${matrix.f})`;
+}
+
+function inverseMatrix(matrix: MatrixLike): MatrixLike | null {
+  const determinant = matrix.a * matrix.d - matrix.b * matrix.c;
+  if (Math.abs(determinant) < Number.EPSILON) return null;
+  return {
+    a: matrix.d / determinant,
+    b: -matrix.b / determinant,
+    c: -matrix.c / determinant,
+    d: matrix.a / determinant,
+    e: (matrix.c * matrix.f - matrix.d * matrix.e) / determinant,
+    f: (matrix.b * matrix.e - matrix.a * matrix.f) / determinant,
+  };
+}
+
+function multiplyMatrices(first: MatrixLike, second: MatrixLike): MatrixLike {
+  return {
+    a: first.a * second.a + first.c * second.b,
+    b: first.b * second.a + first.d * second.b,
+    c: first.a * second.c + first.c * second.d,
+    d: first.b * second.c + first.d * second.d,
+    e: first.a * second.e + first.c * second.f + first.e,
+    f: first.b * second.e + first.d * second.f + first.f,
+  };
+}
+
+/** Mirrors labels into a final SVG layer so every name paints above the scene. */
+export function syncForegroundLabels(root: SVGSVGElement, overlay: SVGGElement): void {
+  if (typeof root.querySelectorAll !== 'function') return;
+  if (typeof root.getScreenCTM !== 'function') return;
+  const rootScreenMatrix = root.getScreenCTM();
+  if (rootScreenMatrix === null) return;
+  const screenToRoot = inverseMatrix(rootScreenMatrix);
+  if (screenToRoot === null) return;
+  const sources = Array.from(root.querySelectorAll<SVGTextElement>('.body-label:not(.body-label--foreground)'));
+  const activeIds = new Set<string>();
+
+  sources.forEach((source, index) => {
+    const bodyId = source.closest<SVGGElement>('[data-body-id]')?.dataset.bodyId;
+    if (bodyId === undefined || typeof source.getScreenCTM !== 'function') return;
+    const sourceScreenMatrix = source.getScreenCTM();
+    if (sourceScreenMatrix === null) return;
+    const matrix = multiplyMatrices(screenToRoot, sourceScreenMatrix);
+    const key = `${bodyId}-${index}`;
+    activeIds.add(key);
+    let position = overlay.querySelector<SVGGElement>(`[data-label-for="${key}"]`);
+    let label = position?.querySelector<SVGTextElement>('.body-label--foreground');
+    if (position === null || label === null || label === undefined) {
+      position = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      position.dataset.labelFor = key;
+      label = source.cloneNode(true) as SVGTextElement;
+      label.classList.add('body-label--foreground');
+      label.dataset.bodyId = bodyId;
+      label.style.transform = '';
+      position.append(label);
+      overlay.append(position);
+    }
+    position.setAttribute('transform', formatMatrix(matrix));
+    label.textContent = source.textContent;
+    label.setAttribute('y', source.getAttribute('y') ?? '0');
+    label.style.fontSize = source.style.fontSize;
+  });
+
+  overlay.querySelectorAll<SVGGElement>('[data-label-for]').forEach((position) => {
+    if (!activeIds.has(position.dataset.labelFor ?? '')) position.remove();
+  });
+}
+
 /** Measures visible SVG labels in screen space and applies local SVG translations. */
 export function applyLabelCollisionOffsets(root: SVGSVGElement): void {
   if (typeof root.querySelectorAll !== 'function') return;
-  const labels = Array.from(root.querySelectorAll<SVGTextElement>('.body-label'));
+  const labels = Array.from(root.querySelectorAll<SVGTextElement>('.body-label--foreground'));
   const measurable: Array<Readonly<{ id: string; label: SVGTextElement; matrix: MatrixLike }>> = [];
   const bounds: LabelBounds[] = [];
 

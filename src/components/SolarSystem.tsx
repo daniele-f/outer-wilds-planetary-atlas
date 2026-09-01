@@ -50,7 +50,7 @@ import {
   type WorldPositionSnapshot,
 } from '../lib/worldPositions';
 import { placeOffscreenIndicator } from '../lib/offscreenIndicator';
-import { applyLabelCollisionOffsets } from '../lib/labelCollisions';
+import { applyLabelCollisionOffsets, syncForegroundLabels } from '../lib/labelCollisions';
 import {
   BODY_HIT_RADII,
   CelestialBody,
@@ -245,6 +245,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   const quantumHoverArmedRef = useRef(true);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const cameraWorldRef = useRef<SVGGElement | null>(null);
+  const labelLayerRef = useRef<SVGGElement | null>(null);
   const offscreenIndicatorRef = useRef<HTMLDivElement | null>(null);
   const offscreenIndicatorLabelRef = useRef<HTMLSpanElement | null>(null);
   const focusedBodyRef = useRef<BodyId | null>('sun');
@@ -538,7 +539,11 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
     }
     applyCameraTransform();
     const svg = svgRef.current;
-    if (svg !== null) applyLabelCollisionOffsets(svg);
+    const labelLayer = labelLayerRef.current;
+    if (svg !== null && labelLayer !== null) {
+      syncForegroundLabels(svg, labelLayer);
+      applyLabelCollisionOffsets(svg);
+    }
     const indicator = offscreenIndicatorRef.current;
     if (svg !== null && indicator !== null) {
       const bounds = svg.getBoundingClientRect();
@@ -1006,6 +1011,16 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
             labelFontSize={labelFontSize}
           /> : null}
         </g>
+        <g
+          ref={labelLayerRef}
+          className="body-label-layer"
+          aria-hidden="true"
+          onClick={(event) => {
+            const label = (event.target as Element).closest<SVGTextElement>('.body-label--foreground');
+            const bodyId = label?.dataset.bodyId as BodyId | undefined;
+            if (bodyId !== undefined) activate(bodyId, 'label', { x: event.clientX, y: event.clientY });
+          }}
+        />
       </svg>
       <div ref={offscreenIndicatorRef} className="offscreen-indicator" hidden aria-hidden="true">
         <span className="offscreen-indicator__chevron" aria-hidden="true" />

@@ -272,6 +272,7 @@ The visible navigation list is shared with the info panel; with spoilers off it 
 Left/right labels include a 4px downward visual nudge.
 Entity labels have no outline stroke, retaining only their fill and hover glow.
 An iterative screen-space collision solver separates overlapping entity labels equally, clamps displacement to keep names near their bodies, and smoothly restores their default positions when overlap ends.
+Visible entity names are mirrored into a dedicated final SVG layer, using inverse viewport-matrix conversion to preserve their exact world positions while ensuring every label is painted in front of all celestial bodies and visual effects.
 The station label is outside the rotating artwork wrapper, so it remains upright and below the station.
 It is rendered as the final settings-menu option with a separator above it.
 Orbit and label controls use matching state-aware Show/Hide wording.

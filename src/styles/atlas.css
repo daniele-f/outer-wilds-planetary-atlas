@@ -160,6 +160,10 @@
   transition: fill 160ms ease, filter 160ms ease, transform 120ms ease-out;
 }
 
+.body-label:not(.body-label--foreground) { visibility: hidden; }
+.body-label-layer { pointer-events: none; }
+.body-label--foreground { pointer-events: auto; }
+
 .celestial-entity:hover .body-label,
 .celestial-entity--hovered .body-label,
 .celestial-entity--selected .body-label,
