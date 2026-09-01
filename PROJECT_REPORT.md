@@ -15,7 +15,7 @@ For the entity-by-entity numerical and mathematical reference, see [`ATLAS_REPOR
 ### Current status
 
 - The application is implemented and runnable locally.
-- The project contains 17 test files and 132 automated tests.
+- The project contains 20 test files covering the interactive behavior and numerical model.
 - The latest verified build completed successfully.
 - Desktop and mobile layouts are supported.
 - Keyboard, pointer, touch, and reduced-motion behavior are considered.
@@ -124,7 +124,7 @@ The center of the application is a scalable SVG view of the solar system. It inc
 - It now sits above the minimized player box and includes a volume symbol before the percentage.
 - The minimized tooltip icon is an inline SVG that inherits the percentage text color.
 - The minimized icon is slightly larger with a clearer gap before the percentage.
-- Hourglass Twins use moon-style shared orbit lines; hovering or selecting/following the composite twin target highlights that orbit, binary orbit, and sand beam without affecting individual twin hovers.
+- Hourglass Twins use standard planet-style shared solar orbit lines and moon-style binary orbit lines; hovering or selecting/following the composite twin target highlights the binary orbit and sand beam without affecting individual twin hovers.
 - Composite hover now limits the highlight to the twins’ binary orbit and sand beam; the shared solar orbit receives no hover styling and responds only to selection/focus.
 - The pause/play control uses CSS-drawn bars and a triangle, avoiding platform-dependent text glyphs.
 - A deterministic starfield and subtle nebulae.
@@ -227,16 +227,16 @@ The Hourglass Twins are also a composite destination: clicking near the pair or 
 | Body | Classification and presentation | Orbit configuration | Satellites in catalog |
 | --- | --- | --- | --- |
 | Sun | Glowing center of the system and default Home focus | Stationary system origin | None |
-| Hourglass Twins | Composite binary-system destination and sand-beam spectacle | Shared barycenter radius 170, period 30, phase 3.8, counterclockwise; internal binary period 18, clockwise | Ash Twin, Ember Twin |
-| Timber Hearth | Green/blue home world | Radius 260, period 42, phase 0.35, counterclockwise | Attlerock |
-| Attlerock | Small rocky moon | Local radius 28, period 10, phase 1.2, counterclockwise | None |
+| The Hourglass Twins | Composite binary-system destination and sand-beam spectacle | Shared barycenter radius 170, period 30, phase 3.8, counterclockwise; internal binary period 18, clockwise | Ash Twin, Ember Twin |
+| Timber Hearth | Green/blue home world | Radius 260, period 42, phase 0.35, counterclockwise | The Attlerock |
+| The Attlerock | Small rocky moon | Local radius 28, period 10, phase 1.2, counterclockwise | None |
 | Brittle Hollow | Dark-blue fractured world with glowing cracks | Radius 370, period 58, phase 2.3, counterclockwise | Hollow’s Lantern |
 | Hollow’s Lantern | Volcanic moon | Local radius 35, period 13, phase 0.5, counterclockwise | None |
 | Giant’s Deep | Large green, turbulent world | Radius 470, period 74, phase 4.7, counterclockwise | None |
 | Ash Twin | One half of the Hourglass Twins | Shared barycenter radius 170, period 30, phase 3.8, counterclockwise | None |
 | Ember Twin | Other half of the Hourglass Twins | Shared barycenter radius 170, period 30, phase 3.8, counterclockwise | None |
 | Dark Bramble | Large dark world with icy fractures/vines | Radius 570, period 118, phase 5.45, counterclockwise | None |
-| Interloper | Icy comet with an anti-solar tail | Semi-major radius 690, period 160, phase 0.25, eccentricity 0.82, clockwise | None |
+| The Interloper | Icy comet with an anti-solar tail | Semi-major radius 690, period 160, phase 0.25, eccentricity 0.82, clockwise | None |
 | Quantum Moon | Elusive moon that changes host | Dynamically orbits one eligible host at local radius 64, period 90, randomized direction | None |
 
 Every catalog entry also contains spoiler-conscious travel content: a tagline, pitch, attraction list, travel tips, and satellite IDs.
@@ -482,7 +482,7 @@ The background contains 108 deterministically placed stars and two nebula layers
 - At 470 px and below: control layouts stack more aggressively.
 - The settings gear relocates based on panel state.
 - Map hit targets and label sizes are adjusted to remain usable when the SVG scales.
-- Mobile labels use a thinner 1.5px outline so the minimum-size text remains legible.
+- Labels have no outline stroke; their fill and hover glow remain readable at the minimum screen size.
 
 ## 13. Accessibility and input support
 
@@ -562,7 +562,7 @@ The Quantum Moon remains intentionally nonstandard: keyboard activation triggers
 
 ## 14. Automated test coverage
 
-The current suite contains **17 test files and 132 tests**. Coverage is behavior-focused and includes:
+The current suite contains **20 test files**. Coverage is behavior-focused and includes:
 
 1. Top-level application rendering and integration.
 2. Selecting bodies and opening/closing the information panel.

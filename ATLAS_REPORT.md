@@ -22,16 +22,16 @@ The visual radius is the SVG artwork radius. The hit radius is the minimum inter
 | Entity | Visual radius | Hit radius | Satellites / host |
 | --- | ---: | ---: | --- |
 | Sun | 43 | 56 | None |
-| Hourglass Twins (composite) | 0 (no separate artwork) | 64 | Ash Twin + Ember Twin |
-| Timber Hearth | 19 | 30 | Attlerock |
-| Attlerock | 8 | 23 | Timber Hearth |
+| The Hourglass Twins (composite) | 0 (no separate artwork) | 64 | Ash Twin + Ember Twin |
+| Timber Hearth | 19 | 30 | The Attlerock |
+| The Attlerock | 8 | 23 | Timber Hearth |
 | Brittle Hollow | 23 | 32 | Hollow’s Lantern |
 | Hollow’s Lantern | 9 | 23 | Brittle Hollow |
 | Giant’s Deep | 28 | 37 | None |
 | Ash Twin | 18 | 30 | Hourglass barycenter |
 | Ember Twin | 18 | 30 | Hourglass barycenter |
 | Dark Bramble | 26 | 35 | None |
-| Interloper | 12 nucleus (+ coma artwork) | 23 | None |
+| The Interloper | 12 nucleus (+ coma artwork) | 23 | None |
 | Quantum Moon | 10 | 23 | Dynamic host |
 
 ## Entity-by-entity model
@@ -208,7 +208,7 @@ The Quantum Moon artwork retains its procedural swirl/mottle paths and rim while
 | Quantum hover threshold | 34 px | Client-space proximity trigger |
 | Quantum cooldown | 450 ms | Minimum time between escapes |
 
-Planet labels retain a 14px minimum screen size; on viewports 760px wide or smaller their outline is reduced to 1.5px for readability.
+Planet labels retain a 14px minimum screen size; labels use fill and hover glow without an outline stroke.
 The simulation toggle icon is rendered with CSS geometry rather than a Unicode pause/play character, keeping its appearance consistent across operating systems and installed fonts.
 The browser tab uses a custom SVG favicon: a glowing Sun with an orbiting Timber Hearth accent on the atlas background.
 Spoiler preference key: `outer-wilds-atlas.spoilers-enabled`; absent means the first-visit prompt is shown, and `false` keeps the Quantum Moon artwork, hit target, and navigation hidden.
@@ -274,7 +274,7 @@ Entity labels have no outline stroke, retaining only their fill and hover glow.
 An iterative screen-space collision solver separates overlapping entity labels equally, clamps displacement to keep names near their bodies, and smoothly restores their default positions when overlap ends.
 Visible entity names are mirrored into a dedicated final SVG layer, using inverse viewport-matrix conversion to preserve their exact world positions while ensuring every label is painted in front of all celestial bodies and visual effects.
 The station label is outside the rotating artwork wrapper, so it remains upright and below the station.
-The Hourglass Twins’ shared solar orbit uses the moon-line visual treatment. Composite hover highlights only the binary orbit and sand beam; the shared solar orbit receives no hover styling and can be highlighted only by composite selection/focus. Hovering or selecting Ash Twin or Ember Twin alone does not.
+The Hourglass Twins’ shared solar orbit uses the standard planet-line visual treatment. Composite hover highlights only the binary orbit and sand beam; the shared solar orbit receives no hover styling and can be highlighted only by composite selection/focus. Hovering or selecting Ash Twin or Ember Twin alone does not.
 The music volume control also supports 5-point mouse-wheel adjustments while preventing the wheel event from reaching atlas zoom.
 The minimized player’s Play button provides the same wheel volume control and briefly displays the resulting numeric percentage.
 That minimized volume percentage is centered directly above the Play button.
