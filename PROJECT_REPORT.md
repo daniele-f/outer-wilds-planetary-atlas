@@ -119,6 +119,11 @@ The center of the application is a scalable SVG view of the solar system. It inc
 - Planet labels that stay readable across zoom levels.
 - A dedicated foreground SVG layer keeps every entity label above celestial artwork and effects, converting screen transforms back into root SVG coordinates so labels remain anchored to their bodies.
 - The music volume control responds to wheel scrolling in 5-point increments and stops the event from zooming the atlas.
+- The minimized player’s Play button also adjusts volume with the wheel and shows a temporary numeric percentage tooltip.
+- The minimized volume tooltip is centered directly above the Play button.
+- It now sits above the minimized player box and includes a volume symbol before the percentage.
+- The minimized tooltip icon is an inline SVG that inherits the percentage text color.
+- The minimized icon is slightly larger with a clearer gap before the percentage.
 - Hourglass Twins use moon-style shared orbit lines; hovering or selecting/following the composite twin target highlights that orbit, binary orbit, and sand beam without affecting individual twin hovers.
 - The pause/play control uses CSS-drawn bars and a triangle, avoiding platform-dependent text glyphs.
 - A deterministic starfield and subtle nebulae.

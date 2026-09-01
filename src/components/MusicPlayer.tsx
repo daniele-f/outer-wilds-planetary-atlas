@@ -4,6 +4,7 @@ const PLAYLIST_ID = 'OLAK5uy_lvIXOLFb_NVEjnyhZNE66G8O_oeF9IRII';
 const PREVIOUS_TRACK_THRESHOLD_SECONDS = 5;
 const VOLUME_SLIDER_CLOSE_DELAY_MILLISECONDS = 2_000;
 const PLAYBACK_LOADING_DELAY_MILLISECONDS = 500;
+const VOLUME_TOOLTIP_HIDE_DELAY_MILLISECONDS = 1_500;
 const MUSIC_VOLUME_STORAGE_KEY = 'outer-wilds-atlas.music-volume';
 const MUSIC_LAST_AUDIBLE_VOLUME_STORAGE_KEY = 'outer-wilds-atlas.music-last-audible-volume';
 const MUSIC_PLAYER_MINIMIZED_STORAGE_KEY = 'outer-wilds-atlas.music-player-minimized';
@@ -91,6 +92,7 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange, onMinimizedChang
   ));
   const volumeSliderCloseTimerRef = useRef<number | null>(null);
   const playbackLoadingTimerRef = useRef<number | null>(null);
+  const volumeTooltipTimerRef = useRef<number | null>(null);
   const [ready, setReady] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -99,6 +101,7 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange, onMinimizedChang
   const [volume, setVolume] = useState(initialVolumeRef.current);
   const [muted, setMuted] = useState(initialVolumeRef.current === 0);
   const [volumeSliderOpen, setVolumeSliderOpen] = useState(false);
+  const [volumeTooltipVisible, setVolumeTooltipVisible] = useState(false);
   const [minimized, setMinimized] = useState(() => readStoredBoolean(MUSIC_PLAYER_MINIMIZED_STORAGE_KEY));
 
   const clearPlaybackLoading = useCallback(() => {
@@ -221,6 +224,7 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange, onMinimizedChang
   useEffect(() => () => {
     if (volumeSliderCloseTimerRef.current !== null) window.clearTimeout(volumeSliderCloseTimerRef.current);
     if (playbackLoadingTimerRef.current !== null) window.clearTimeout(playbackLoadingTimerRef.current);
+    if (volumeTooltipTimerRef.current !== null) window.clearTimeout(volumeTooltipTimerRef.current);
   }, []);
 
   useEffect(() => {
@@ -306,9 +310,22 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange, onMinimizedChang
       volumeSliderCloseTimerRef.current = null;
     }, VOLUME_SLIDER_CLOSE_DELAY_MILLISECONDS);
   };
+  const adjustMiniPlayerVolume = (event: WheelEvent<HTMLButtonElement>) => {
+    if (!minimized || !ready || event.deltaY === 0) return;
+    event.preventDefault();
+    event.stopPropagation();
+    setPlayerVolume(Math.min(100, Math.max(0, volume - Math.sign(event.deltaY) * 5)));
+    setVolumeTooltipVisible(true);
+    if (volumeTooltipTimerRef.current !== null) window.clearTimeout(volumeTooltipTimerRef.current);
+    volumeTooltipTimerRef.current = window.setTimeout(() => {
+      volumeTooltipTimerRef.current = null;
+      setVolumeTooltipVisible(false);
+    }, VOLUME_TOOLTIP_HIDE_DELAY_MILLISECONDS);
+  };
   const playbackButton = (
-    <button type="button" className="music-player__play" onClick={togglePlayback} disabled={!ready || loading} aria-label={loading ? 'Loading soundtrack' : playing ? 'Pause soundtrack' : 'Play soundtrack'} aria-busy={loading || undefined}>
+    <button type="button" className="music-player__play" onClick={togglePlayback} onWheel={adjustMiniPlayerVolume} disabled={!ready || loading} aria-label={loading ? 'Loading soundtrack' : playing ? 'Pause soundtrack' : 'Play soundtrack'} aria-busy={loading || undefined}>
       {loading ? <span className="music-player__loading" aria-hidden="true" /> : playing ? <span className="music-player__pause" aria-hidden="true"><i /><i /></span> : <span className="music-player__play-icon" aria-hidden="true" />}
+      {minimized && volumeTooltipVisible ? <output className="music-player__mini-volume-tooltip" aria-live="polite"><svg className="music-player__mini-volume-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h4l5-4v14l-5-4H3Z" /><path d="M16 9c1.5 1.6 1.5 4.4 0 6m2.5-8.5c3 3 3 7 0 10" /></svg>{volume}</output> : null}
     </button>
   );
 

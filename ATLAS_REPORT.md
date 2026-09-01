@@ -276,6 +276,11 @@ Visible entity names are mirrored into a dedicated final SVG layer, using invers
 The station label is outside the rotating artwork wrapper, so it remains upright and below the station.
 The Hourglass Twins’ shared solar orbit uses the moon-line visual treatment. Composite Hourglass Twins hover or selection/focus highlights the shared and binary orbit lines plus the sand beam; hovering or selecting Ash Twin or Ember Twin alone does not.
 The music volume control also supports 5-point mouse-wheel adjustments while preventing the wheel event from reaching atlas zoom.
+The minimized player’s Play button provides the same wheel volume control and briefly displays the resulting numeric percentage.
+That minimized volume percentage is centered directly above the Play button.
+It is positioned above the minimized player box and includes a volume symbol before the number.
+The symbol is an inline SVG using the same inherited color as the tooltip text.
+It is sized slightly larger with a clearer gap before the percentage.
 It is rendered as the final settings-menu option with a separator above it.
 Orbit and label controls use matching state-aware Show/Hide wording.
 The display settings order is planet names followed by orbit lines, with spoilers separated below.
