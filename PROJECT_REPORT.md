@@ -705,6 +705,6 @@ Test files are colocated with the relevant application modules and use `.test.ts
 The project is a complete, focused interactive atlas with a clear visual identity and a surprisingly rich interaction model for a small client-only codebase. Its strongest technical characteristics are the separation of camera math from rendering, the shared live-position registry, the composable orbit calculations, and the extensive behavior tests around unusual interactions such as the Quantum Moon and ordered Escape handling.
 
 The primary maintenance item is keeping the concise README synchronized with behavior changes. The implementation itself is structured so that new bodies, copy, and orbital effects can be added without replacing the core architecture.
-The small Hourglass binary orbit explicitly matches moon orbit styling, while the large solar orbit uses the standard planet orbit styling.
+The small Hourglass binary orbit explicitly matches moon orbit styling, including non-scaling stroke geometry, while the large solar orbit uses the standard planet orbit styling.
 
 Selecting either individual Hourglass Twin highlights their shared binary orbit without applying the composite sand-beam effect.

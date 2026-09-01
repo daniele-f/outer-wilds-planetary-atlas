@@ -296,5 +296,5 @@ Whenever an orbit radius, period, direction, visual/hit radius, special-body con
 Display preferences are stored under the app's localStorage keys and are intentionally separate from the numerical atlas model.
 
 Selecting Ash Twin or Ember Twin individually highlights the binary orbit around the pair; the sand beam remains a composite-target effect.
-The small binary orbit explicitly matches moon orbit styling, while the large Hourglass solar orbit uses standard planet orbit styling.
+The small binary orbit explicitly matches moon orbit styling, including its non-scaling stroke width and dash spacing, while the large Hourglass solar orbit uses standard planet orbit styling.
 
