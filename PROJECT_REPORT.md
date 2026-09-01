@@ -117,6 +117,7 @@ The center of the application is a scalable SVG view of the solar system. It inc
 - Animated planets and moons.
 - Circular and elliptical orbit lines.
 - Planet labels that stay readable across zoom levels.
+- A dedicated foreground SVG layer keeps every entity label above celestial artwork and effects, converting screen transforms back into root SVG coordinates so labels remain anchored to their bodies.
 - The pause/play control uses CSS-drawn bars and a triangle, avoiding platform-dependent text glyphs.
 - A deterministic starfield and subtle nebulae.
 - No space-dust overlay.
@@ -526,6 +527,8 @@ The implementation includes:
 - Spoilers-off next/previous navigation excludes the hidden White Hole as well as other spoiler-only entities, so Dark Bramble advances to Interloper then Sun.
 - Labels beside left/right chevrons are nudged 4px downward for visual alignment.
 - Sun Station labels remain below the station because only the artwork layer rotates; the label stays in the translated parent group.
+- Entity labels use fill and hover glow without an outline stroke.
+- Visible entity labels are measured in screen space each frame; overlapping labels receive equal, clamped separation offsets and smoothly return to their default positions when clear.
 - Orbital Probe Cannon is spoiler-gated and follows a clockwise local orbit around Giant’s Deep as one attached launcher/probe unit.
 - The info panel is immediately hidden when its selected spoiler-gated entity is hidden.
 - Quantum Moon relocations retain the SVG node between jumps, preventing a transient reset to the Sun before the new host position is applied.
