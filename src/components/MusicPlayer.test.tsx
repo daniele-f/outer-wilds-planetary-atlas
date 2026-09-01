@@ -58,4 +58,20 @@ describe('MusicPlayer loading feedback', () => {
     expect(screen.getByRole('button', { name: 'Pause soundtrack' })).not.toHaveAttribute('aria-busy');
     expect(document.querySelector('.music-player__loading')).not.toBeInTheDocument();
   });
+
+  it('adjusts volume with the wheel while the volume control is available', () => {
+    let events: Record<string, (event: { data: number }) => void> = {};
+    class TestPlayer {
+      constructor(_element: HTMLElement, options: Record<string, unknown>) { events = options.events as typeof events; }
+      playVideo = vi.fn(); pauseVideo = vi.fn(); nextVideo = vi.fn(); previousVideo = vi.fn(); seekTo = vi.fn(); mute = vi.fn(); unMute = vi.fn(); isMuted = () => false; getVolume = () => 100; setVolume = vi.fn(); getCurrentTime = () => 0; getDuration = () => 120; getVideoData = () => ({ title: 'Timber Hearth' }); destroy = vi.fn();
+    }
+    window.YT = { Player: TestPlayer, PlayerState: { ENDED: 0, PLAYING: 1, PAUSED: 2, CUED: 5 } };
+    render(<MusicPlayer autoplayOnLoad={false} onPlaybackChange={vi.fn()} onMinimizedChange={vi.fn()} />);
+    act(() => events.onReady?.({ data: 5 }));
+    const slider = screen.getByRole('slider', { name: 'Soundtrack volume' });
+    fireEvent.wheel(slider, { deltaY: 100 });
+    expect(slider).toHaveValue('95');
+    fireEvent.wheel(slider, { deltaY: -100 });
+    expect(slider).toHaveValue('100');
+  });
 });

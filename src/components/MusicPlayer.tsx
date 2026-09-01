@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type WheelEvent } from 'react';
 
 const PLAYLIST_ID = 'OLAK5uy_lvIXOLFb_NVEjnyhZNE66G8O_oeF9IRII';
 const PREVIOUS_TRACK_THRESHOLD_SECONDS = 5;
@@ -288,6 +288,12 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange, onMinimizedChang
     player.unMute();
     setMuted(false);
   };
+  const adjustVolumeFromWheel = (event: WheelEvent<HTMLDivElement>) => {
+    if (!ready || event.deltaY === 0) return;
+    event.preventDefault();
+    event.stopPropagation();
+    setPlayerVolume(Math.min(100, Math.max(0, volume - Math.sign(event.deltaY) * 5)));
+  };
   const openVolumeSlider = () => {
     if (volumeSliderCloseTimerRef.current !== null) window.clearTimeout(volumeSliderCloseTimerRef.current);
     volumeSliderCloseTimerRef.current = null;
@@ -337,7 +343,7 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange, onMinimizedChang
         <button type="button" className="music-player__stop" onClick={stopPlayback} disabled={!ready} aria-label="Stop soundtrack">
           <span aria-hidden="true" />
         </button>
-        <div ref={volumeControlRef} className={`music-player__volume${volumeSliderOpen ? ' music-player__volume--slider-open' : ''}`} onMouseEnter={openVolumeSlider} onMouseLeave={deferVolumeSliderClose} onFocus={openVolumeSlider} onBlur={deferVolumeSliderClose}>
+        <div ref={volumeControlRef} className={`music-player__volume${volumeSliderOpen ? ' music-player__volume--slider-open' : ''}`} onMouseEnter={openVolumeSlider} onMouseLeave={deferVolumeSliderClose} onFocus={openVolumeSlider} onBlur={deferVolumeSliderClose} onWheel={adjustVolumeFromWheel}>
           <button type="button" onClick={toggleMute} disabled={!ready} aria-label={muted ? 'Unmute soundtrack' : 'Mute soundtrack'}>
             <svg className="music-player__volume-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M3 9h4l5-4v14l-5-4H3Z" />
