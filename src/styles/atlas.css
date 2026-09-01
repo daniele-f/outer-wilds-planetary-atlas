@@ -103,9 +103,11 @@
 }
 
 .atlas-orbit--moon .atlas-orbit__line { stroke-dasharray: 3 4 1 5; stroke-opacity: .26; }
+.atlas-orbit--hovered .atlas-orbit__line { stroke: #f1b85d; stroke-opacity: .58; stroke-width: 1.5; }
 .atlas-orbit--selected .atlas-orbit__line { stroke: #f1b85d; stroke-opacity: .82; stroke-width: 1.8; }
 
 .hourglass-binary-orbit { fill: none; stroke: #c3a471; stroke-dasharray: 4 6; stroke-linecap: round; stroke-opacity: .3; stroke-width: 1; pointer-events: none; }
+.hourglass-system--hovered .hourglass-binary-orbit { stroke: #f1b85d; stroke-opacity: .62; stroke-width: 1.5; }
 
 .celestial-entity {
   cursor: pointer;
@@ -236,6 +238,7 @@
 .ember-crater { fill: #542b26; stroke: #d68242; stroke-width: .75; }
 
 .sand-transfer { filter: drop-shadow(0 0 4px rgb(235 169 71 / .52)); pointer-events: none; }
+.hourglass-system--hovered .sand-transfer { filter: drop-shadow(0 0 6px rgb(241 184 93 / .82)); }
 .sand-stream { fill: none; stroke-linecap: round; stroke-width: 4.2; }
 .sand-gradient--source { stop-color: #ffe19a; stop-opacity: .95; }
 .sand-gradient--middle { stop-color: #e5a443; stop-opacity: .82; }

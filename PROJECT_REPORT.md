@@ -118,6 +118,7 @@ The center of the application is a scalable SVG view of the solar system. It inc
 - Circular and elliptical orbit lines.
 - Planet labels that stay readable across zoom levels.
 - A dedicated foreground SVG layer keeps every entity label above celestial artwork and effects, converting screen transforms back into root SVG coordinates so labels remain anchored to their bodies.
+- Hourglass Twins use moon-style shared orbit lines; hovering or selecting/following the composite twin target highlights that orbit, binary orbit, and sand beam without affecting individual twin hovers.
 - The pause/play control uses CSS-drawn bars and a triangle, avoiding platform-dependent text glyphs.
 - A deterministic starfield and subtle nebulae.
 - No space-dust overlay.
