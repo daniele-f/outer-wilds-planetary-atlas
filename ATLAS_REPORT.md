@@ -274,7 +274,7 @@ Entity labels have no outline stroke, retaining only their fill and hover glow.
 An iterative screen-space collision solver separates overlapping entity labels equally, clamps displacement to keep names near their bodies, and smoothly restores their default positions when overlap ends.
 Visible entity names are mirrored into a dedicated final SVG layer, using inverse viewport-matrix conversion to preserve their exact world positions while ensuring every label is painted in front of all celestial bodies and visual effects.
 The station label is outside the rotating artwork wrapper, so it remains upright and below the station.
-The Hourglass Twins’ shared solar orbit uses the moon-line visual treatment. Composite Hourglass Twins hover or selection/focus highlights the shared and binary orbit lines plus the sand beam; hovering or selecting Ash Twin or Ember Twin alone does not.
+The Hourglass Twins’ shared solar orbit uses the moon-line visual treatment. Composite hover highlights only the binary orbit and sand beam; the shared solar orbit receives no hover styling and can be highlighted only by composite selection/focus. Hovering or selecting Ash Twin or Ember Twin alone does not.
 The music volume control also supports 5-point mouse-wheel adjustments while preventing the wheel event from reaching atlas zoom.
 The minimized player’s Play button provides the same wheel volume control and briefly displays the resulting numeric percentage.
 That minimized volume percentage is centered directly above the Play button.
@@ -294,4 +294,7 @@ The atlas does not simulate real masses, surface gravity, density, atmospheric p
 Whenever an orbit radius, period, direction, visual/hit radius, special-body constant, or interaction constant changes, update this file and the summary sections of PROJECT_REPORT.md in the same change.
 
 Display preferences are stored under the app's localStorage keys and are intentionally separate from the numerical atlas model.
+
+Selecting Ash Twin or Ember Twin individually highlights the binary orbit around the pair; the sand beam remains a composite-target effect.
+The small binary orbit explicitly matches moon orbit styling, while the large Hourglass solar orbit uses standard planet orbit styling.
 

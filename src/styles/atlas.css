@@ -106,8 +106,9 @@
 .atlas-orbit--hovered .atlas-orbit__line { stroke: #f1b85d; stroke-opacity: .58; stroke-width: 1.5; }
 .atlas-orbit--selected .atlas-orbit__line { stroke: #f1b85d; stroke-opacity: .82; stroke-width: 1.8; }
 
-.hourglass-binary-orbit { fill: none; stroke: #c3a471; stroke-dasharray: 4 6; stroke-linecap: round; stroke-opacity: .3; stroke-width: 1; pointer-events: none; }
+.hourglass-binary-orbit { fill: none; stroke: #c3a471; stroke-dasharray: 3 4 1 5; stroke-linecap: round; stroke-opacity: .26; stroke-width: 1; pointer-events: none; }
 .hourglass-system--hovered .hourglass-binary-orbit { stroke: #f1b85d; stroke-opacity: .62; stroke-width: 1.5; }
+.hourglass-system--selected .hourglass-binary-orbit { stroke: #f1b85d; stroke-opacity: .62; stroke-width: 1.5; }
 
 .celestial-entity {
   cursor: pointer;

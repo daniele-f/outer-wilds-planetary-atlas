@@ -68,6 +68,13 @@ describe('HourglassTwins', () => {
     );
     expect(markup).toContain('hourglass-system hourglass-system--hovered');
   });
+
+  it('highlights the binary orbit when either twin is selected', () => {
+    const markup = renderToStaticMarkup(
+      <svg><HourglassTwins ashTwin={requireBody('ash-twin')} emberTwin={requireBody('ember-twin')} selectedId="ash-twin" hoveredId={null} hitRadii={{ ash: 30, ember: 30 }} idPrefix="twins-individual-selected-test" onActivate={() => {}} onPositionUpdate={() => {}} /></svg>,
+    );
+    expect(markup).toContain('hourglass-system hourglass-system--selected');
+  });
 });
 
 describe('Interloper', () => {
