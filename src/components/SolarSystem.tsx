@@ -50,6 +50,7 @@ import {
   type WorldPositionSnapshot,
 } from '../lib/worldPositions';
 import { placeOffscreenIndicator } from '../lib/offscreenIndicator';
+import { applyLabelCollisionOffsets } from '../lib/labelCollisions';
 import {
   BODY_HIT_RADII,
   CelestialBody,
@@ -537,6 +538,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
     }
     applyCameraTransform();
     const svg = svgRef.current;
+    if (svg !== null) applyLabelCollisionOffsets(svg);
     const indicator = offscreenIndicatorRef.current;
     if (svg !== null && indicator !== null) {
       const bounds = svg.getBoundingClientRect();

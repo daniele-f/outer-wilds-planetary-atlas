@@ -271,6 +271,7 @@ The compact bottom-right music player loads the supplied Outer Wilds YouTube pla
 The visible navigation list is shared with the info panel; with spoilers off it omits White Hole, keeping the sequence Dark Bramble → Interloper → Sun.
 Left/right labels include a 4px downward visual nudge.
 Entity labels have no outline stroke, retaining only their fill and hover glow.
+An iterative screen-space collision solver separates overlapping entity labels equally, clamps displacement to keep names near their bodies, and smoothly restores their default positions when overlap ends.
 The station label is outside the rotating artwork wrapper, so it remains upright and below the station.
 It is rendered as the final settings-menu option with a separator above it.
 Orbit and label controls use matching state-aware Show/Hide wording.

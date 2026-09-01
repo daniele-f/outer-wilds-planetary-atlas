@@ -157,7 +157,7 @@
   font-weight: 600;
   letter-spacing: .04em;
   pointer-events: visiblePainted;
-  transition: fill 160ms ease, filter 160ms ease;
+  transition: fill 160ms ease, filter 160ms ease, transform 120ms ease-out;
 }
 
 .celestial-entity:hover .body-label,
