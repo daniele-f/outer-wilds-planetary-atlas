@@ -275,6 +275,7 @@ An iterative screen-space collision solver separates overlapping entity labels e
 Visible entity names are mirrored into a dedicated final SVG layer, using inverse viewport-matrix conversion to preserve their exact world positions while ensuring every label is painted in front of all celestial bodies and visual effects.
 The station label is outside the rotating artwork wrapper, so it remains upright and below the station.
 The Hourglass Twins’ shared solar orbit uses the moon-line visual treatment. Composite Hourglass Twins hover or selection/focus highlights the shared and binary orbit lines plus the sand beam; hovering or selecting Ash Twin or Ember Twin alone does not.
+The music volume control also supports 5-point mouse-wheel adjustments while preventing the wheel event from reaching atlas zoom.
 It is rendered as the final settings-menu option with a separator above it.
 Orbit and label controls use matching state-aware Show/Hide wording.
 The display settings order is planet names followed by orbit lines, with spoilers separated below.
