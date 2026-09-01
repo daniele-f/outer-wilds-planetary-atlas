@@ -42,6 +42,32 @@ describe('HourglassTwins', () => {
     expect(markup).not.toContain('body-focus-ring');
     expect(markup).not.toContain('body-selection-ring');
   });
+
+  it('highlights the shared orbit and sand beam only for composite hover', () => {
+    const markup = renderToStaticMarkup(
+      <svg>
+        <HourglassTwins
+          ashTwin={requireBody('ash-twin')}
+          emberTwin={requireBody('ember-twin')}
+          selectedId={null}
+          hoveredId="hourglass-twins"
+          hitRadii={{ ash: 30, ember: 30 }}
+          idPrefix="twins-hover-test"
+          onActivate={() => {}}
+          onPositionUpdate={() => {}}
+        />
+      </svg>,
+    );
+
+    expect(markup).toContain('hourglass-system hourglass-system--hovered');
+  });
+
+  it('keeps the composite highlight while Hourglass Twins are selected', () => {
+    const markup = renderToStaticMarkup(
+      <svg><HourglassTwins ashTwin={requireBody('ash-twin')} emberTwin={requireBody('ember-twin')} selectedId="hourglass-twins" hoveredId={null} hitRadii={{ ash: 30, ember: 30 }} idPrefix="twins-selected-test" onActivate={() => {}} onPositionUpdate={() => {}} /></svg>,
+    );
+    expect(markup).toContain('hourglass-system hourglass-system--hovered');
+  });
 });
 
 describe('Interloper', () => {

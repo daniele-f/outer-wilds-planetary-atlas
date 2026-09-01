@@ -839,6 +839,8 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
             {ASH_TWIN.orbit === undefined ? null : (
               <Orbit
                 orbit={ASH_TWIN.orbit}
+                moon
+                hovered={hoveredId === HOURGLASS_TWINS.id || selectedId === HOURGLASS_TWINS.id}
                 selected={selectedId === ASH_TWIN.id || selectedId === EMBER_TWIN.id}
               />
             )}

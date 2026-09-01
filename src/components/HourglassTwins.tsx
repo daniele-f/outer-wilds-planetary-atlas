@@ -347,7 +347,7 @@ export const HourglassTwins = forwardRef<HourglassTwinsHandle, HourglassTwinsPro
     return (
       <g
         ref={barycenterRef}
-        className="hourglass-system"
+        className={`hourglass-system${hoveredId === 'hourglass-twins' || selectedId === 'hourglass-twins' ? ' hourglass-system--hovered' : ''}`}
         transform={`translate(${initialBarycenter.x} ${initialBarycenter.y})`}
       >
         <circle

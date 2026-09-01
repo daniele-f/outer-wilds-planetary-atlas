@@ -4,13 +4,15 @@ type OrbitProps = Readonly<{
   orbit: OrbitConfig;
   selected?: boolean;
   moon?: boolean;
+  hovered?: boolean;
 }>;
 
-export function Orbit({ orbit, selected = false, moon = false }: OrbitProps) {
+export function Orbit({ orbit, selected = false, moon = false, hovered = false }: OrbitProps) {
   const className = [
     'atlas-orbit',
     moon ? 'atlas-orbit--moon' : '',
     selected ? 'atlas-orbit--selected' : '',
+    hovered ? 'atlas-orbit--hovered' : '',
   ].filter(Boolean).join(' ');
 
   return (
