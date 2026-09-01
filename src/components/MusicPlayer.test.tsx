@@ -60,6 +60,7 @@ describe('MusicPlayer loading feedback', () => {
   });
 
   it('adjusts volume with the wheel while the volume control is available', () => {
+    window.localStorage.setItem('outer-wilds-atlas.music-player-minimized', 'true');
     let events: Record<string, (event: { data: number }) => void> = {};
     class TestPlayer {
       constructor(_element: HTMLElement, options: Record<string, unknown>) { events = options.events as typeof events; }
@@ -68,10 +69,11 @@ describe('MusicPlayer loading feedback', () => {
     window.YT = { Player: TestPlayer, PlayerState: { ENDED: 0, PLAYING: 1, PAUSED: 2, CUED: 5 } };
     render(<MusicPlayer autoplayOnLoad={false} onPlaybackChange={vi.fn()} onMinimizedChange={vi.fn()} />);
     act(() => events.onReady?.({ data: 5 }));
-    const slider = screen.getByRole('slider', { name: 'Soundtrack volume' });
-    fireEvent.wheel(slider, { deltaY: 100 });
-    expect(slider).toHaveValue('95');
-    fireEvent.wheel(slider, { deltaY: -100 });
-    expect(slider).toHaveValue('100');
+    const playButton = screen.getByRole('button', { name: 'Play soundtrack' });
+    fireEvent.wheel(playButton, { deltaY: 100 });
+    expect(document.querySelector('output.music-player__mini-volume-tooltip')).toHaveTextContent('95');
+    expect(document.querySelector('.music-player__mini-volume-icon')).toBeInTheDocument();
+    fireEvent.wheel(playButton, { deltaY: -100 });
+    expect(document.querySelector('output.music-player__mini-volume-tooltip')).toHaveTextContent('100');
   });
 });
