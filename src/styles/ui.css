@@ -289,6 +289,8 @@
 .music-player__skip i { display: block; width: 0; height: 0; border-top: .42rem solid transparent; border-bottom: .42rem solid transparent; border-left: .56rem solid currentColor; }
 .music-player__skip--previous { transform: scaleX(-1); }
 .music-player__play-icon { width: 0; height: 0; border-top: .42rem solid transparent; border-bottom: .42rem solid transparent; border-left: .68rem solid currentColor; transform: translateX(.08rem); }
+.music-player__loading { width: .82rem; height: .82rem; border: .13rem solid rgb(241 223 188 / .3); border-top-color: currentColor; border-radius: 50%; animation: music-player-loading .7s linear infinite; }
+@keyframes music-player-loading { to { transform: rotate(360deg); } }
 .music-player__pause { display: inline-flex; gap: .22rem; }
 .music-player__pause i { display: block; width: .18rem; height: .72rem; border-radius: .06rem; background: currentColor; }
 .music-player__stop { display: grid; place-items: center; }
@@ -472,4 +474,5 @@
 @media (prefers-reduced-motion: reduce) {
   .info-panel { animation-duration: .01ms; }
   .atlas-control-button, .atlas-speed__button { transition: none; }
+  .music-player__loading { animation: none; }
 }

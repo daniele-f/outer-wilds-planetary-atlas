@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 const PLAYLIST_ID = 'OLAK5uy_lvIXOLFb_NVEjnyhZNE66G8O_oeF9IRII';
 const PREVIOUS_TRACK_THRESHOLD_SECONDS = 5;
 const VOLUME_SLIDER_CLOSE_DELAY_MILLISECONDS = 2_000;
+const PLAYBACK_LOADING_DELAY_MILLISECONDS = 500;
 const MUSIC_VOLUME_STORAGE_KEY = 'outer-wilds-atlas.music-volume';
 const MUSIC_LAST_AUDIBLE_VOLUME_STORAGE_KEY = 'outer-wilds-atlas.music-last-audible-volume';
 const MUSIC_PLAYER_MINIMIZED_STORAGE_KEY = 'outer-wilds-atlas.music-player-minimized';
@@ -89,14 +90,29 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange, onMinimizedChang
     initialVolumeRef.current || 100,
   ));
   const volumeSliderCloseTimerRef = useRef<number | null>(null);
+  const playbackLoadingTimerRef = useRef<number | null>(null);
   const [ready, setReady] = useState(false);
   const [playing, setPlaying] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState('Outer Wilds Original Soundtrack');
   const [progress, setProgress] = useState({ current: 0, duration: 0 });
   const [volume, setVolume] = useState(initialVolumeRef.current);
   const [muted, setMuted] = useState(initialVolumeRef.current === 0);
   const [volumeSliderOpen, setVolumeSliderOpen] = useState(false);
   const [minimized, setMinimized] = useState(() => readStoredBoolean(MUSIC_PLAYER_MINIMIZED_STORAGE_KEY));
+
+  const clearPlaybackLoading = useCallback(() => {
+    if (playbackLoadingTimerRef.current !== null) window.clearTimeout(playbackLoadingTimerRef.current);
+    playbackLoadingTimerRef.current = null;
+    setLoading(false);
+  }, []);
+  const requestPlaybackLoading = useCallback(() => {
+    if (playbackLoadingTimerRef.current !== null) window.clearTimeout(playbackLoadingTimerRef.current);
+    playbackLoadingTimerRef.current = window.setTimeout(() => {
+      playbackLoadingTimerRef.current = null;
+      setLoading(true);
+    }, PLAYBACK_LOADING_DELAY_MILLISECONDS);
+  }, []);
 
   const refreshTitle = useCallback(() => {
     const nextTitle = playerRef.current?.getVideoData().title;
@@ -144,16 +160,23 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange, onMinimizedChang
                 writeStoredVolume(MUSIC_LAST_AUDIBLE_VOLUME_STORAGE_KEY, savedVolume);
               }
             }
-            if (autoplayOnLoadRef.current) playerRef.current?.playVideo();
+            if (autoplayOnLoadRef.current) {
+              requestPlaybackLoading();
+              playerRef.current?.playVideo();
+            }
           },
           onStateChange: (event: Readonly<{ data: number }>) => {
             if (disposed || window.YT === undefined) return;
             const states = window.YT.PlayerState;
             setPlaying(event.data === states.PLAYING);
+            if (event.data === states.PLAYING || event.data === states.PAUSED || event.data === states.CUED || event.data === states.ENDED) {
+              clearPlaybackLoading();
+            }
             if (event.data === states.PLAYING || event.data === states.CUED) refreshTitle();
             refreshProgress();
             if (event.data === states.ENDED) playerRef.current?.pauseVideo();
           },
+          onError: clearPlaybackLoading,
         },
       });
     };
@@ -171,7 +194,7 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange, onMinimizedChang
       playerRef.current?.destroy();
       playerRef.current = null;
     };
-  }, [refreshProgress, refreshTitle]);
+  }, [clearPlaybackLoading, refreshProgress, refreshTitle, requestPlaybackLoading]);
 
   useEffect(() => {
     if (!ready || !playing) return undefined;
@@ -197,6 +220,7 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange, onMinimizedChang
 
   useEffect(() => () => {
     if (volumeSliderCloseTimerRef.current !== null) window.clearTimeout(volumeSliderCloseTimerRef.current);
+    if (playbackLoadingTimerRef.current !== null) window.clearTimeout(playbackLoadingTimerRef.current);
   }, []);
 
   useEffect(() => {
@@ -211,9 +235,12 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange, onMinimizedChang
   }, [volumeSliderOpen]);
 
   const togglePlayback = () => {
-    if (!ready) return;
+    if (!ready || loading) return;
     if (playing) playerRef.current?.pauseVideo();
-    else playerRef.current?.playVideo();
+    else {
+      requestPlaybackLoading();
+      playerRef.current?.playVideo();
+    }
   };
   const previous = () => {
     const player = playerRef.current;
@@ -274,8 +301,8 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange, onMinimizedChang
     }, VOLUME_SLIDER_CLOSE_DELAY_MILLISECONDS);
   };
   const playbackButton = (
-    <button type="button" className="music-player__play" onClick={togglePlayback} disabled={!ready} aria-label={playing ? 'Pause soundtrack' : 'Play soundtrack'}>
-      {playing ? <span className="music-player__pause" aria-hidden="true"><i /><i /></span> : <span className="music-player__play-icon" aria-hidden="true" />}
+    <button type="button" className="music-player__play" onClick={togglePlayback} disabled={!ready || loading} aria-label={loading ? 'Loading soundtrack' : playing ? 'Pause soundtrack' : 'Play soundtrack'} aria-busy={loading || undefined}>
+      {loading ? <span className="music-player__loading" aria-hidden="true" /> : playing ? <span className="music-player__pause" aria-hidden="true"><i /><i /></span> : <span className="music-player__play-icon" aria-hidden="true" />}
     </button>
   );
 
@@ -284,7 +311,7 @@ export function MusicPlayer({ autoplayOnLoad, onPlaybackChange, onMinimizedChang
       <div ref={mountRef} className="music-player__embed" aria-hidden="true" />
       {minimized ? (
         <div className="music-player__minimized-controls">
-          <span className="music-player__minimized-status">{playing ? 'Playing' : 'Paused'}</span>
+          <span className="music-player__minimized-status">{loading ? 'Loading…' : playing ? 'Playing' : 'Paused'}</span>
           {playbackButton}
           <button type="button" className="music-player__expand" onClick={() => setMinimized(false)} aria-label="Expand music player">
             <span className="music-player__chevron music-player__chevron--up" aria-hidden="true" />
