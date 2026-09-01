@@ -109,7 +109,7 @@ export const celestialBodies: readonly CelestialBody[] = [
     satelliteIds: ['attlerock'], orbit: orbit(260, 42, 0.35, { direction: -1 }),
   },
   {
-    id: 'attlerock', name: 'Attlerock', classification: 'Moon', type: 'Rocky satellite',
+    id: 'attlerock', name: 'The Attlerock', classification: 'Moon', type: 'Rocky satellite',
     tagline: 'Go for the low-gravity stroll, stay for the hometown skyline.',
     pitch: 'A quiet moon with first-trip energy, generous horizons, and the finest unobstructed view of Timber Hearth in the system.',
     attractions: ['Crater-to-crater moonwalking', 'Ridiculously clear stargazing'],
@@ -141,7 +141,7 @@ export const celestialBodies: readonly CelestialBody[] = [
     satelliteIds: [], orbit: orbit(470, 74, 4.7, { direction: -1 }),
   },
   {
-    id: 'hourglass-twins', name: 'Hourglass Twins', classification: 'Binary system', type: 'Paired desert worlds',
+    id: 'hourglass-twins', name: 'The Hourglass Twins', classification: 'Binary system', type: 'Paired desert worlds',
     tagline: 'Go for the twin-world spectacle, stay for the moving sand bridge.',
     pitch: 'Two contrasting desert destinations share one orbit and one unforgettable centerpiece: a living hourglass performance between them.',
     attractions: ['A perfect twin-world photo opportunity', 'A sweeping sand beam that links the pair'],
@@ -173,7 +173,7 @@ export const celestialBodies: readonly CelestialBody[] = [
     satelliteIds: [], orbit: orbit(570, 118, 5.45, { direction: -1 }),
   },
   {
-    id: 'interloper', name: 'Interloper', classification: 'Comet', type: 'Eccentric icy comet',
+    id: 'interloper', name: 'The Interloper', classification: 'Comet', type: 'Eccentric icy comet',
     tagline: 'Go for the sparkling ice, stay for the fastest tour in town.',
     pitch: 'Catch this brilliant wanderer for a limited-time cruise through the system, complete with pristine ice and a tail made for postcards.',
     attractions: ['Glittering surface ridges', 'A sweeping comet-tail photo opportunity'],

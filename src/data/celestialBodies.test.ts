@@ -32,7 +32,7 @@ describe('celestial body catalog', () => {
   });
 
   it('includes a composite Hourglass Twins destination before the individual twins', () => {
-    expect(getBody('hourglass-twins')?.name).toBe('Hourglass Twins');
+    expect(getBody('hourglass-twins')?.name).toBe('The Hourglass Twins');
     expect(NAVIGATION_BODY_IDS.slice(0, 4)).toEqual([
       'sun', 'hourglass-twins', 'ash-twin', 'ember-twin',
     ]);
