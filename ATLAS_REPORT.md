@@ -294,6 +294,7 @@ The atlas does not simulate real masses, surface gravity, density, atmospheric p
 Whenever an orbit radius, period, direction, visual/hit radius, special-body constant, or interaction constant changes, update this file and the summary sections of PROJECT_REPORT.md in the same change.
 
 Display preferences are stored under the app's localStorage keys and are intentionally separate from the numerical atlas model.
+The display names for Attlerock, Hourglass Twins, and Interloper include the leading article “The.”
 
 Selecting Ash Twin or Ember Twin individually highlights the binary orbit around the pair; the sand beam remains a composite-target effect.
 The small binary orbit explicitly matches moon orbit styling, including its non-scaling stroke width and dash spacing, while the large Hourglass solar orbit uses standard planet orbit styling.

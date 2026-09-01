@@ -374,7 +374,7 @@ describe('planetary atlas application UI', () => {
   });
 
   it.each([
-    { label: 'Attlerock', host: 'timber-hearth', hostName: 'Timber Hearth', moon: 'attlerock' },
+      { label: 'The Attlerock', host: 'timber-hearth', hostName: 'Timber Hearth', moon: 'attlerock' },
     { label: "Hollow's Lantern", host: 'brittle-hollow', hostName: 'Brittle Hollow', moon: 'hollows-lantern' },
   ] as const)('routes an overlapping $label label click to $hostName while keyboard selection remains named', async ({ label, host, hostName, moon }) => {
     const user = userEvent.setup();
@@ -471,7 +471,7 @@ describe('planetary atlas application UI', () => {
     const { container } = render(<App />);
     act(() => frames.step(0));
 
-    screen.getByRole('button', { name: 'Interloper, Comet' }).focus();
+    screen.getByRole('button', { name: 'The Interloper, Comet' }).focus();
     await user.keyboard('{Enter}');
     await user.click(screen.getByRole('button', { name: 'Next destination: Quantum Moon' }));
     expect(screen.getByRole('complementary', { name: 'Quantum Moon' })).toBeVisible();
@@ -493,16 +493,16 @@ describe('planetary atlas application UI', () => {
     screen.getByRole('button', { name: 'Sun, Star' }).focus();
     await user.keyboard('{Enter}');
     const outwardOrder = [
-      'Hourglass Twins',
+      'The Hourglass Twins',
       'Ash Twin',
       'Ember Twin',
       'Timber Hearth',
-      'Attlerock',
+      'The Attlerock',
       'Brittle Hollow',
       "Hollow's Lantern",
       "Giant's Deep",
       'Dark Bramble',
-      'Interloper',
+      'The Interloper',
       'Quantum Moon',
       'Sun',
     ];
@@ -524,7 +524,7 @@ describe('planetary atlas application UI', () => {
 
     expect(buttons.map((button) => button.getAttribute('aria-label'))).toEqual([
       'Previous destination: Quantum Moon',
-      'Next destination: Hourglass Twins',
+      'Next destination: The Hourglass Twins',
       'Focus camera on Sun',
     ]);
   });
@@ -579,8 +579,8 @@ describe('planetary atlas application UI', () => {
     if (hit === null) throw new Error('Missing Hourglass Twins composite target.');
 
     fireEvent.click(hit, { clientX: point.x, clientY: point.y });
-    expect(screen.getByRole('complementary', { name: 'Hourglass Twins' })).toBeVisible();
-    await user.click(screen.getByRole('button', { name: 'Focus camera on Hourglass Twins' }));
+    expect(screen.getByRole('complementary', { name: 'The Hourglass Twins' })).toBeVisible();
+    await user.click(screen.getByRole('button', { name: 'Focus camera on The Hourglass Twins' }));
     finishFocusTransition();
     expect(container.querySelector('.camera-world')).not.toHaveAttribute('transform', 'translate(0 0) scale(1)');
     restoreBounds.mockRestore();
@@ -664,14 +664,14 @@ describe('planetary atlas application UI', () => {
     const { container } = render(<App />);
     screen.getByRole('button', { name: 'Timber Hearth, Planet' }).focus();
     await user.keyboard('{Enter}');
-    await user.click(screen.getByRole('button', { name: 'Explore Attlerock' }));
+    await user.click(screen.getByRole('button', { name: 'Explore The Attlerock' }));
 
-    const panel = screen.getByRole('complementary', { name: 'Attlerock' });
-    expect(within(panel).getByRole('heading', { level: 2, name: 'Attlerock' })).toBeVisible();
+    const panel = screen.getByRole('complementary', { name: 'The Attlerock' });
+    expect(within(panel).getByRole('heading', { level: 2, name: 'The Attlerock' })).toBeVisible();
     expect(within(panel).getByText('Rocky satellite')).toBeVisible();
     const cameraTransform = container.querySelector('.camera-world')?.getAttribute('transform');
 
-    await user.click(within(panel).getByRole('button', { name: 'Close Attlerock details' }));
+    await user.click(within(panel).getByRole('button', { name: 'Close The Attlerock details' }));
 
     expect(screen.queryByRole('complementary')).not.toBeInTheDocument();
     expect(screen.queryByText('Select a celestial body to learn more.')).not.toBeInTheDocument();
