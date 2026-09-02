@@ -131,6 +131,7 @@ The center of the application is a scalable SVG view of the solar system. It inc
 - Background presets now use distinct SVG compositions and star layouts rather than recoloring the same nebula shapes.
 - The background chooser stays open while selecting presets and closes via its X button or backdrop click.
 - Deep Space was refreshed with layered navy ribbons and haze while retaining its sparse, quiet visual mood.
+- The autoplay setting is labeled “Enable autoplay music” / “Disable autoplay music.”
 - The settings toggle is labeled “Use alternative artwork” and “Use default artwork.”
 - In image mode, the Interloper image keeps a fixed 180° local flip inside the anti-solar orientation wrapper, placing its pointy front toward the Sun.
 - The procedural Interloper body now follows the same orientation, keeping its darker side away from the Sun.

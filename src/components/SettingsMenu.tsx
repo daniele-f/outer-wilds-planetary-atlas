@@ -78,7 +78,7 @@ export function SettingsMenu({
           </button>
           <button type="button" aria-pressed={musicAutoplayEnabled} onClick={onToggleMusicAutoplay}>
             <span aria-hidden="true">{musicAutoplayEnabled ? '●' : '○'}</span>
-            <span>{musicAutoplayEnabled ? 'Disable autoplay on load' : 'Enable autoplay on load'}</span>
+            <span>{musicAutoplayEnabled ? 'Disable autoplay music' : 'Enable autoplay music'}</span>
           </button>
           <button type="button" aria-pressed={imageArtworkEnabled} onClick={onToggleImageArtwork}>
             <span aria-hidden="true">{imageArtworkEnabled ? '●' : '○'}</span>

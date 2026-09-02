@@ -236,9 +236,9 @@ describe('planetary atlas application UI', () => {
     render(<App />);
 
     await user.click(screen.getByRole('button', { name: 'Map settings' }));
-    await user.click(screen.getByRole('button', { name: 'Enable autoplay on load' }));
+    await user.click(screen.getByRole('button', { name: 'Enable autoplay music' }));
 
-    expect(screen.getByRole('button', { name: 'Disable autoplay on load' })).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Disable autoplay music' })).toBeVisible();
     expect(localStorage.getItem('outer-wilds-atlas.music-autoplay')).toBe('true');
   });
 
