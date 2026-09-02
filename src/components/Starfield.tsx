@@ -33,8 +33,29 @@ const BOX_LAYOUTS: Record<BackgroundPreset, readonly Omit<StarBox, 'stars'>[]> =
   'teal-clouds': [{ x: -690, y: -340, width: 240, height: 160, anchor: -2.5 }, { x: -390, y: 120, width: 150, height: 100, anchor: -1.5 }, { x: -145, y: -270, width: 230, height: 170, anchor: 0 }, { x: 130, y: 160, width: 150, height: 100, anchor: 1.5 }, { x: 380, y: -300, width: 270, height: 180, anchor: 2.5 }, { x: 40, y: 20, width: 120, height: 85, anchor: 0 }],
 };
 function boxStars(preset: BackgroundPreset, boxIndex: number, box: Omit<StarBox, 'stars'>): readonly Star[] {
-  const count = 5 + ((boxIndex * 3 + preset.length) % 8);
+  const count = 30 + ((boxIndex * 7 + preset.length) % 18);
   return Array.from({ length: count }, (_, index) => ({ x: ((index * 47 + boxIndex * 23) % 100) / 100 * box.width, y: ((index * 71 + boxIndex * 31) % 100) / 100 * box.height, radius: .55 + ((index * 13 + boxIndex) % 12) / 10, opacity: .3 + ((index * 17 + boxIndex) % 65) / 100, delay: -((index + boxIndex) % 9) }));
+}
+function positionedBoxes(preset: BackgroundPreset, spread: number): readonly Omit<StarBox, 'stars'>[] {
+  const expanded = BOX_LAYOUTS[preset].map((box) => ({ ...box, x: box.x - box.width * .5 + box.anchor * spread, y: box.y - box.height * .5, width: box.width * 2, height: box.height * 2 }));
+  const order = expanded.map((_, index) => index).sort((a, b) => Math.abs(expanded[a]!.anchor) - Math.abs(expanded[b]!.anchor));
+  const placed: Array<Omit<StarBox, 'stars'> | undefined> = Array.from({ length: expanded.length });
+  const centerIndex = order[0];
+  if (centerIndex === undefined) return [];
+  placed[centerIndex] = expanded[centerIndex];
+  const placeSide = (indices: number[], direction: -1 | 1) => {
+    let previous = placed[centerIndex]!;
+    indices.forEach((index) => {
+      const box = expanded[index]!;
+      const x = direction < 0 ? Math.min(box.x, previous.x - box.width - 18) : Math.max(box.x, previous.x + previous.width + 18);
+      placed[index] = { ...box, x };
+      previous = placed[index]!;
+    });
+  };
+  placeSide(order.filter((index) => expanded[index]!.anchor < 0).sort((a, b) => expanded[b]!.anchor - expanded[a]!.anchor), -1);
+  placeSide(order.filter((index) => expanded[index]!.anchor > 0).sort((a, b) => expanded[a]!.anchor - expanded[b]!.anchor), 1);
+  order.filter((index) => placed[index] === undefined).forEach((index) => { placed[index] = expanded[index]; });
+  return placed as Omit<StarBox, 'stars'>[];
 }
 
 type StarfieldProps = Readonly<{ idPrefix?: string | undefined }>;
@@ -63,7 +84,7 @@ export function Starfield({ idPrefix, preset = 'deep-space', starsOnly = false }
     return () => window.removeEventListener('resize', update);
   }, [starsOnly]);
   const boxSpread = (viewportRatio - 1.67) * 170;
-  const starBoxes = BOX_LAYOUTS[preset];
+  const starBoxes = positionedBoxes(preset, boxSpread);
 
   return (
     <g className={preset === 'deep-space' ? 'starfield' : `starfield starfield--${preset}`} transform={starsOnly ? undefined : 'scale(1.15)'} aria-hidden="true">
@@ -87,9 +108,9 @@ export function Starfield({ idPrefix, preset = 'deep-space', starsOnly = false }
         <path className="nebula nebula--deep-trace" d="M-720 285 Q-350 60 0 230 T760 145" fill="none" stroke="#42698a" strokeOpacity=".09" strokeWidth="34" filter={`url(#${softFilterId})`} />
       </> : null}
       {!starsOnly && preset === 'amber-drift' ? <g className="nebula nebula--amber-drift" filter={`url(#${softFilterId})`}><path d="M-760 250 C-420 40 -180 160 40 -40 S460 -220 760 -90 L760 170 C430 20 220 120 -10 180 S-450 410 -760 430Z" fill={`url(#${amberGradientId})`} /><path d="M-760 330 C-420 130 -230 220 30 30 S480 -140 760 -40" fill="none" stroke="#d88b4c" strokeOpacity=".16" strokeWidth="48" /></g> : null}
-      {!starsOnly && preset === 'violet-frontier' ? <g className="nebula nebula--violet-frontier" filter={`url(#${softFilterId})`}><path d="M-1100 -330 Q-650 -80 -300 -210 T300 -150 T1100 -300 V120 Q650 40 300 160 T-500 110 T-1100 260Z" fill="#4f3976" fillOpacity=".3" /><circle cx="-360" cy="-40" r="170" fill="#a56bc4" fillOpacity=".16" /><circle cx="420" cy="160" r="220" fill="#5d76c7" fillOpacity=".14" /></g> : null}
+      {!starsOnly && preset === 'violet-frontier' ? <g className="nebula nebula--violet-frontier" filter={`url(#${softFilterId})`}><path d="M-1100 -330 Q-650 -80 -300 -210 T300 -150 T1100 -300 V120 Q650 40 300 160 T-500 110 T-1100 260Z" fill="#4f3976" fillOpacity=".3" /><circle cx="-360" cy="-40" r="170" fill="#a56bc4" fillOpacity=".16" /></g> : null}
       {!starsOnly && preset === 'teal-clouds' ? <g className="nebula nebula--teal-clouds" filter={`url(#${softFilterId})`}><ellipse cx="-420" cy="120" rx="300" ry="100" transform="rotate(-24 -420 120)" fill="#2b9da8" fillOpacity=".2" /><ellipse cx="260" cy="-120" rx="420" ry="115" transform="rotate(18 260 -120)" fill="#286c9a" fillOpacity=".2" /><path d="M-700 -20 Q-370 -180 -40 -30 T700 -110" fill="none" stroke="#58c4c1" strokeOpacity=".12" strokeWidth="70" /></g> : null}
-      {starsOnly ? starBoxes.map((box, boxIndex) => <g key={boxIndex} transform={`translate(${box.x + box.anchor * boxSpread} ${box.y})`}><rect className="star-box-debug" x="0" y="0" width={box.width} height={box.height} fill="none" />{boxStars(preset, boxIndex, box).map((star, index) => (
+      {starsOnly ? starBoxes.map((box, boxIndex) => { const expandedBox = box; return <g key={boxIndex} transform={`translate(${expandedBox.x} ${expandedBox.y})`}>{boxStars(preset, boxIndex, expandedBox).map((star, index) => (
         <circle
           key={index}
           className="atlas-star"
@@ -99,7 +120,7 @@ export function Starfield({ idPrefix, preset = 'deep-space', starsOnly = false }
           opacity={star.opacity}
           style={{ animationDelay: `${star.delay}s` }}
         />
-      ))}</g>) : null}
+      ))}</g>; }) : null}
     </g>
   );
 }

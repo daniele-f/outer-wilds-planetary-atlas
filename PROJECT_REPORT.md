@@ -133,11 +133,15 @@ The center of the application is a scalable SVG view of the solar system. It inc
 - The background layer overscans the fixed SVG viewBox slightly so wide screens do not expose clipped nebula edges.
 - Stars render in a separate aspect-ratio-preserving SVG layer, so wide-screen stretching affects nebulae but not star size.
 - Star rendering now uses multiple preset-specific fixed star boxes with responsive spacing; outer boxes can move beyond narrow view edges instead of overlapping.
+- Star boxes are expanded to 200% of their base dimensions and their deterministic star populations are denser for testing.
+- Each enlarged box now contains roughly 30–47 stars.
+- Box placement resolves collisions from the center outward, allowing outer boxes to leave the viewport when necessary.
 - The fixed-size star layer no longer inherits background overscan scaling and explicitly uses uniform SVG fitting.
 - Star twinkle animates opacity only, preventing CSS transforms from warping circles on stretched layouts.
 - Background rendering uses a separate full-stage SVG that stretches to the viewport, independent of the planetary map’s aspect-ratio-preserving SVG.
 - The full-stage background includes its own base fill while the planetary map remains transparent above it.
 - Violet Frontier’s main cloud path now extends beyond both viewBox sides to avoid hard vertical edge cuts.
+- Removed the extra blue circle from the Violet Frontier nebula.
 - Deep Space was refreshed with layered navy ribbons and haze while retaining its sparse, quiet visual mood.
 - The autoplay setting is labeled “Enable autoplay music” / “Disable autoplay music.”
 - The settings toggle is labeled “Use alternative artwork” and “Use default artwork.”
