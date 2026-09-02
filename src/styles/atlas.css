@@ -11,12 +11,13 @@
 .void-overlay { position: absolute; inset: 0; z-index: .5; background: #000; pointer-events: none; transition: opacity 180ms ease-out; }
 .campfire-background {
   position: absolute;
-  inset: 0;
+  right: 0;
+  bottom: 0;
   z-index: .75;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: right bottom;
+  width: 800px;
+  height: 600px;
+  max-width: none;
+  max-height: none;
   opacity: 0;
   transition: opacity 900ms ease-in-out;
   pointer-events: none;

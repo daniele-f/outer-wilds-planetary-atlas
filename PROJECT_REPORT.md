@@ -745,7 +745,7 @@ The indicator labels are grouped in chevron-outward order: entity name first, th
 The original entity label remains the sole name label; the distance label now uses the same typography and displays the target's projected distance from the viewport center at the fixed minimum zoom in kilometres.
 When that reference distance reaches 1,989 km, the campfire artwork is revealed as a non-interactive lower-right background layer.
 The campfire image uses bottom-right object anchoring so its lower-right corner stays pinned to the viewport corner.
-Its threshold visibility uses a 900ms opacity transition for smooth fading.
+Its threshold visibility uses a 900ms opacity transition for smooth fading, while the artwork remains at its native 1920×1080 size.
 
 Selecting either individual Hourglass Twin highlights their shared binary orbit without applying the composite sand-beam effect.
 
