@@ -22,8 +22,16 @@ const STARS: readonly Star[] = Array.from({ length: 108 }, (_, index) => ({
 }));
 
 type StarfieldProps = Readonly<{ idPrefix?: string | undefined }>;
+export type BackgroundPreset = 'deep-space' | 'amber-drift' | 'violet-frontier' | 'teal-clouds';
+export const BACKGROUND_PRESETS: readonly BackgroundPreset[] = ['deep-space', 'amber-drift', 'violet-frontier', 'teal-clouds'];
 
-export function Starfield({ idPrefix }: StarfieldProps = {}) {
+const PRESET_LABELS: Record<BackgroundPreset, string> = {
+  'deep-space': 'Deep Space', 'amber-drift': 'Amber Drift', 'violet-frontier': 'Violet Frontier', 'teal-clouds': 'Teal Clouds',
+};
+
+export function backgroundPresetLabel(preset: BackgroundPreset): string { return PRESET_LABELS[preset]; }
+
+export function Starfield({ idPrefix, preset = 'deep-space' }: StarfieldProps & { preset?: BackgroundPreset } = {}) {
   const reactId = useId();
   const prefix = idPrefix ?? `starfield-${reactId.replace(/[^a-zA-Z0-9_-]/g, '')}`;
   const blueGradientId = `${prefix}-nebula-blue`;
@@ -31,7 +39,7 @@ export function Starfield({ idPrefix }: StarfieldProps = {}) {
   const softFilterId = `${prefix}-nebula-soft`;
 
   return (
-    <g className="starfield" aria-hidden="true">
+    <g className={`starfield starfield--${preset}`} aria-hidden="true">
       <defs>
         <radialGradient id={blueGradientId}>
           <stop offset="0" stopColor="#294b72" stopOpacity=".24" />

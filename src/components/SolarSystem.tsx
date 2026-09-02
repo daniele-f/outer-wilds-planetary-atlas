@@ -60,7 +60,7 @@ import {
 } from './CelestialBody';
 import { Moon } from './Moon';
 import { Orbit } from './Orbit';
-import { Starfield } from './Starfield';
+import { Starfield, type BackgroundPreset } from './Starfield';
 import { HourglassTwins, type HourglassTwinsHandle } from './HourglassTwins';
 import { Interloper, type InterloperHandle } from './Interloper';
 import { QuantumMoon } from './QuantumMoon';
@@ -134,6 +134,7 @@ export type SolarSystemProps = Readonly<{
   /** CSS pixels occupied by overlays that should not contain an indicator. */
   offscreenInsets?: Readonly<{ right: number; bottom: number }>;
   imageArtworkEnabled?: boolean;
+  backgroundPreset?: BackgroundPreset;
 }>;
 
 type Gesture = {
@@ -205,6 +206,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
     focusViewportOffsetY = 0,
     offscreenInsets = { right: 0, bottom: 0 },
     imageArtworkEnabled = false,
+    backgroundPreset = 'deep-space',
   },
   ref,
 ) {
@@ -829,7 +831,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
         aria-label="Animated map of the Outer Wilds solar system"
         preserveAspectRatio="xMidYMid meet"
       >
-        <Starfield idPrefix={`${sceneId}-stars`} />
+        <Starfield idPrefix={`${sceneId}-stars`} preset={backgroundPreset} />
         <g ref={cameraWorldRef} className="camera-world" transform={displayedCameraTransform}>
           <g className="ordinary-orbits">
             {showQuantumMoon && SUN_STATION.orbit !== undefined ? <Orbit orbit={SUN_STATION.orbit} selected={selectedId === SUN_STATION.id} /> : null}

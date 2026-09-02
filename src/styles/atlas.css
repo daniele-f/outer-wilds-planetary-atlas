@@ -1,3 +1,7 @@
+.starfield--amber-drift { filter: hue-rotate(-18deg) saturate(1.2); }
+.starfield--violet-frontier { filter: hue-rotate(62deg) saturate(1.25); }
+.starfield--teal-clouds { filter: hue-rotate(145deg) saturate(1.15); }
+
 .atlas-map-surface {
   position: absolute;
   inset: 0;
