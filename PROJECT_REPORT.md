@@ -136,6 +136,7 @@ The center of the application is a scalable SVG view of the solar system. It inc
 - Star boxes are expanded to 200% of their base dimensions and their deterministic star populations are denser for testing.
 - Each enlarged box now contains roughly 30–47 stars.
 - Box placement resolves collisions from the center outward, allowing outer boxes to leave the viewport when necessary.
+- An easter-egg black overlay fades in as the camera is panned away from the solar-system origin, without modifying the underlying background artwork.
 - Star positions within each box now use seeded pseudo-random placement instead of repeating modular patterns.
 - About half of the stars now use a deeper twinkle cycle that briefly reaches 0% opacity before returning.
 - The fixed-size star layer no longer inherits background overscan scaling and explicitly uses uniform SVG fitting.

@@ -806,6 +806,8 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   }, [camera.camera.scale, selectableRegistry, showQuantumMoon, viewport.height, viewport.width]);
 
   const viewBox = `${ATLAS_VIEW_BOX.x} ${ATLAS_VIEW_BOX.y} ${ATLAS_VIEW_BOX.width} ${ATLAS_VIEW_BOX.height}`;
+  const panDistance = Math.hypot(camera.camera.offset.x, camera.camera.offset.y);
+  const voidOpacity = Math.min(1, Math.max(0, (panDistance - 420) / 900));
 
   return (
     <div
@@ -829,6 +831,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       <svg className="atlas-background-stars" viewBox={viewBox} preserveAspectRatio="xMidYMid meet" aria-hidden="true">
         <Starfield idPrefix={`${sceneId}-background-stars`} preset={backgroundPreset} starsOnly />
       </svg>
+      <div className="void-overlay" aria-hidden="true" style={{ opacity: voidOpacity }} />
       <svg
         ref={svgRef}
         className={`solar-system${showOrbits ? '' : ' solar-system--orbits-hidden'}${showLabels ? '' : ' solar-system--labels-hidden'}`}

@@ -292,6 +292,7 @@ Each background defines multiple fixed star boxes with independent positions and
 Each box is rendered at 200% of its base dimensions with increased star density.
 Each box contains approximately 30–47 deterministic stars.
 Collision resolution places center-nearest boxes first and pushes outer boxes outward with a fixed gap.
+Camera displacement drives a separate black overlay for the off-screen easter egg; nebulae, stars, and map geometry remain unchanged underneath.
 Each box uses a deterministic seeded pseudo-random sequence for star positions and visual properties, avoiding visible alignment patterns.
 Approximately half of the stars use an opacity animation that reaches zero during dim phases, then restores visibility.
 The star layer disables nebula overscan transforms and explicitly uses uniform `xMidYMid meet` scaling.
