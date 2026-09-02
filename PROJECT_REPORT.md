@@ -714,3 +714,5 @@ The primary maintenance item is keeping the concise README synchronized with beh
 The small Hourglass binary orbit explicitly matches moon orbit styling, including non-scaling stroke geometry, while the large solar orbit uses the standard planet orbit styling.
 
 Selecting either individual Hourglass Twin highlights their shared binary orbit without applying the composite sand-beam effect.
+
+- Simulation speed controls now include faster 4x and 8x options.

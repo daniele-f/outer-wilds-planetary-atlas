@@ -304,3 +304,5 @@ The display names for Attlerock, Hourglass Twins, and Interloper include the lea
 Selecting Ash Twin or Ember Twin individually highlights the binary orbit around the pair; the sand beam remains a composite-target effect.
 The small binary orbit explicitly matches moon orbit styling, including its non-scaling stroke width and dash spacing, while the large Hourglass solar orbit uses standard planet orbit styling.
 
+
+Simulation playback supports 0.5x, 1x, 2x, 4x, and 8x speed selections.
