@@ -806,8 +806,8 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   }, [camera.camera.scale, selectableRegistry, showQuantumMoon, viewport.height, viewport.width]);
 
   const viewBox = `${ATLAS_VIEW_BOX.x} ${ATLAS_VIEW_BOX.y} ${ATLAS_VIEW_BOX.width} ${ATLAS_VIEW_BOX.height}`;
-  const panDistance = Math.hypot(camera.camera.offset.x, camera.camera.offset.y);
-  const voidOpacity = Math.min(1, Math.max(0, (panDistance - 420) / 900));
+  const panDistance = Math.hypot(camera.camera.offset.x, camera.camera.offset.y) / Math.max(camera.camera.scale, 0.001);
+  const voidOpacity = Math.min(1, Math.max(0, (panDistance - 1100) / 900));
 
   return (
     <div

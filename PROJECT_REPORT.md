@@ -137,6 +137,8 @@ The center of the application is a scalable SVG view of the solar system. It inc
 - Each enlarged box now contains roughly 30–47 stars.
 - Box placement resolves collisions from the center outward, allowing outer boxes to leave the viewport when necessary.
 - An easter-egg black overlay fades in as the camera is panned away from the solar-system origin, without modifying the underlying background artwork.
+- Blackening now begins after 1100 atlas units of camera displacement.
+- Blackening uses world-space camera displacement (offset normalized by zoom scale), so zooming does not alter opacity.
 - Star positions within each box now use seeded pseudo-random placement instead of repeating modular patterns.
 - About half of the stars now use a deeper twinkle cycle that briefly reaches 0% opacity before returning.
 - The fixed-size star layer no longer inherits background overscan scaling and explicitly uses uniform SVG fitting.
