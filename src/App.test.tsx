@@ -252,7 +252,7 @@ describe('planetary atlas application UI', () => {
     expect(document.querySelector('.body-image--sun')?.getAttribute('href')).toMatch(/\/images\/sun\.png$/);
     expect(Number(document.querySelector('.body-image--sun')?.getAttribute('width'))).toBeGreaterThan(86);
     expect(document.querySelector('.interloper-tail-image')?.getAttribute('href')).toMatch(/the_interloper_tail\.png$/);
-    expect(document.querySelector('.interloper-tail-image')).not.toHaveAttribute('transform');
+    expect(document.querySelector('.interloper-tail-image')).toHaveAttribute('transform', 'rotate(10)');
   });
 
   it('moves the settings trigger beside an open information panel', async () => {

@@ -133,6 +133,7 @@ The center of the application is a scalable SVG view of the solar system. It inc
 - Orientation is kept on a separate wrapper so hover/focus scaling cannot overwrite it.
 - Alternative artwork mode uses `the_interloper_tail.png` for the Interloper tail while retaining live anti-solar rotation.
 - The alternative tail asset is locally translated to center its comet head on the Interloper position.
+- The alternative tail image has a fixed 10° local rotation that can be tuned directly in `Interloper.tsx`.
 - Hourglass Twins use standard planet-style shared solar orbit lines and moon-style binary orbit lines; hovering or selecting/following the composite twin target highlights the binary orbit and sand beam without affecting individual twin hovers.
 - Composite hover now limits the highlight to the twins’ binary orbit and sand beam; the shared solar orbit receives no hover styling and responds only to selection/focus.
 - The pause/play control uses CSS-drawn bars and a triangle, avoiding platform-dependent text glyphs.
