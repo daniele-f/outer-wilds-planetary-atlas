@@ -251,6 +251,8 @@ describe('planetary atlas application UI', () => {
     expect(localStorage.getItem('outer-wilds-atlas.image-artwork')).toBe('true');
     expect(document.querySelector('.body-image--sun')?.getAttribute('href')).toMatch(/\/images\/sun\.png$/);
     expect(Number(document.querySelector('.body-image--sun')?.getAttribute('width'))).toBeGreaterThan(86);
+    expect(document.querySelector('.interloper-tail-image')?.getAttribute('href')).toMatch(/the_interloper_tail\.png$/);
+    expect(document.querySelector('.interloper-tail-image')).not.toHaveAttribute('transform');
   });
 
   it('moves the settings trigger beside an open information panel', async () => {

@@ -247,6 +247,7 @@
 .sand-gradient--destination { stop-color: #8c4d25; stop-opacity: .28; }
 .sand-grain { fill: #ffd88a; }
 .interloper-position--image-artwork .comet-visual > *:not(.body-image),
+.interloper-position--image-artwork .comet-tail > *:not(.interloper-tail-image),
 .quantum-moon .body-image ~ * { display: none; }
 
 .atlas-eccentric-orbit { pointer-events: none; }

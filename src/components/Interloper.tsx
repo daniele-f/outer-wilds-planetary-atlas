@@ -137,6 +137,7 @@ export const Interloper = forwardRef<InterloperHandle, InterloperProps>(function
           transform={`rotate(${initialState.tailRotationDegrees})`}
           aria-hidden="true"
         >
+          {imageArtwork ? <image className="body-image interloper-tail-image" href={imageAssetUrl('the_interloper_tail.png')} x={-8} y={-47.5} width={190} height={95} preserveAspectRatio="xMidYMid meet" /> : null}
           <path className="comet-tail__plume" d="M4,-7 C50,-17 118,-13 190,0 C118,13 50,17 4,7 Z" fill={`url(#${tailGradientId})`} />
           <path className="comet-tail__filament" d="M7,0 Q78,-7 166,2" />
         </g>
