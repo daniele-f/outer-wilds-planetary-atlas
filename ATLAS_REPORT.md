@@ -295,6 +295,7 @@ Collision resolution places center-nearest boxes first and pushes outer boxes ou
 Camera displacement drives a separate black overlay for the off-screen easter egg; nebulae, stars, and map geometry remain unchanged underneath.
 The overlay begins fading in after 1100 atlas units of displacement.
 Blackening uses zoom-normalized world-space displacement, so changing zoom preserves the current opacity.
+The overlay is layered between stretched nebulae and fixed stars, so only nebulae darken.
 Each box uses a deterministic seeded pseudo-random sequence for star positions and visual properties, avoiding visible alignment patterns.
 Approximately half of the stars use an opacity animation that reaches zero during dim phases, then restores visibility.
 The star layer disables nebula overscan transforms and explicitly uses uniform `xMidYMid meet` scaling.
