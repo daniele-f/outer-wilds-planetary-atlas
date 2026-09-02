@@ -76,9 +76,14 @@
 
 .atlas-star:nth-of-type(3n) { fill: #aed6e6; animation-duration: 7s; }
 .atlas-star:nth-of-type(5n) { fill: #e6b17b; animation-duration: 4.5s; }
+.atlas-star--dim { animation-name: star-twinkle-deep; }
 
 @keyframes star-twinkle {
   0%, 35% { opacity: .3; }
+  100% { opacity: .92; }
+}
+@keyframes star-twinkle-deep {
+  0%, 35% { opacity: 0; }
   100% { opacity: .92; }
 }
 

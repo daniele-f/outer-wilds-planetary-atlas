@@ -137,6 +137,7 @@ The center of the application is a scalable SVG view of the solar system. It inc
 - Each enlarged box now contains roughly 30–47 stars.
 - Box placement resolves collisions from the center outward, allowing outer boxes to leave the viewport when necessary.
 - Star positions within each box now use seeded pseudo-random placement instead of repeating modular patterns.
+- About half of the stars now use a deeper twinkle cycle that briefly reaches 0% opacity before returning.
 - The fixed-size star layer no longer inherits background overscan scaling and explicitly uses uniform SVG fitting.
 - Star twinkle animates opacity only, preventing CSS transforms from warping circles on stretched layouts.
 - Background rendering uses a separate full-stage SVG that stretches to the viewport, independent of the planetary map’s aspect-ratio-preserving SVG.

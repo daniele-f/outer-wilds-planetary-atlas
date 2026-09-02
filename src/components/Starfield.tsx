@@ -115,7 +115,7 @@ export function Starfield({ idPrefix, preset = 'deep-space', starsOnly = false }
       {starsOnly ? starBoxes.map((box, boxIndex) => { const expandedBox = box; return <g key={boxIndex} transform={`translate(${expandedBox.x} ${expandedBox.y})`}>{boxStars(preset, boxIndex, expandedBox).map((star, index) => (
         <circle
           key={index}
-          className="atlas-star"
+          className={`atlas-star${index % 2 === 0 ? ' atlas-star--dim' : ''}`}
           cx={star.x}
           cy={star.y}
           r={star.radius}
