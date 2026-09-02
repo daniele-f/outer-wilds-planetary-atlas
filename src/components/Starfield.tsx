@@ -34,7 +34,9 @@ const BOX_LAYOUTS: Record<BackgroundPreset, readonly Omit<StarBox, 'stars'>[]> =
 };
 function boxStars(preset: BackgroundPreset, boxIndex: number, box: Omit<StarBox, 'stars'>): readonly Star[] {
   const count = 30 + ((boxIndex * 7 + preset.length) % 18);
-  return Array.from({ length: count }, (_, index) => ({ x: ((index * 47 + boxIndex * 23) % 100) / 100 * box.width, y: ((index * 71 + boxIndex * 31) % 100) / 100 * box.height, radius: .55 + ((index * 13 + boxIndex) % 12) / 10, opacity: .3 + ((index * 17 + boxIndex) % 65) / 100, delay: -((index + boxIndex) % 9) }));
+  let state = (0x9e3779b9 ^ (boxIndex * 0x45d9f3b) ^ preset.length * 0x27d4eb2d) >>> 0;
+  const next = () => { state = (Math.imul(state, 1664525) + 1013904223) >>> 0; return state / 4294967296; };
+  return Array.from({ length: count }, () => ({ x: next() * box.width, y: next() * box.height, radius: .55 + next() * 1.2, opacity: .3 + next() * .65, delay: -next() * 9 }));
 }
 function positionedBoxes(preset: BackgroundPreset, spread: number): readonly Omit<StarBox, 'stars'>[] {
   const expanded = BOX_LAYOUTS[preset].map((box) => ({ ...box, x: box.x - box.width * .5 + box.anchor * spread, y: box.y - box.height * .5, width: box.width * 2, height: box.height * 2 }));

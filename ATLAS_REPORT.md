@@ -292,6 +292,7 @@ Each background defines multiple fixed star boxes with independent positions and
 Each box is rendered at 200% of its base dimensions with increased star density.
 Each box contains approximately 30–47 deterministic stars.
 Collision resolution places center-nearest boxes first and pushes outer boxes outward with a fixed gap.
+Each box uses a deterministic seeded pseudo-random sequence for star positions and visual properties, avoiding visible alignment patterns.
 The star layer disables nebula overscan transforms and explicitly uses uniform `xMidYMid meet` scaling.
 Star twinkle uses opacity-only animation so circles remain round under all viewport sizes.
 The background is rendered in a separate full-stage SVG with non-uniform viewport fitting so ultra-wide screens remain filled without distorting orbital geometry.
