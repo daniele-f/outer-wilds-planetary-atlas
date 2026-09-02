@@ -17,7 +17,7 @@ import {
 } from '../data/celestialBodies';
 import { useAnimationClock } from '../hooks/useAnimationClock';
 import { MAP_DRAG_THRESHOLD, useMapCamera } from '../hooks/useMapCamera';
-import type { Camera } from '../lib/camera';
+import { MIN_ZOOM, type Camera } from '../lib/camera';
 import { circularPosition, composePoint } from '../lib/orbits';
 import {
   attemptQuantumEscape,
@@ -253,6 +253,8 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   const labelLayerRef = useRef<SVGGElement | null>(null);
   const offscreenIndicatorRef = useRef<HTMLDivElement | null>(null);
   const offscreenIndicatorLabelRef = useRef<HTMLSpanElement | null>(null);
+  const offscreenIndicatorDistanceRef = useRef<HTMLSpanElement | null>(null);
+  const campfireBackgroundRef = useRef<HTMLImageElement | null>(null);
   const focusedBodyRef = useRef<BodyId | null>('sun');
   const displayedCameraRef = useRef<Camera>(camera.camera);
   const cameraTransitionRef = useRef<CameraTransition | null>(null);
@@ -582,6 +584,8 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
         indicatorWindow,
       );
       indicator.hidden = placement === null;
+      const campfire = campfireBackgroundRef.current;
+      if (campfire !== null && placement === null) campfire.style.opacity = '0';
       if (placement !== null) {
         const angleRadians = placement.angle * Math.PI / 180;
         const tipInset = 13.6;
@@ -593,8 +597,28 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
         indicator.style.setProperty('--offscreen-angle', `${placement.angle}deg`);
         const horizontalEdge = placement.x <= indicatorWindow.left ? 'left-edge' : placement.x >= indicatorWindow.right ? 'right-edge' : '';
         indicator.className = `offscreen-indicator offscreen-indicator--${placement.edge}${horizontalEdge === '' ? '' : ` offscreen-indicator--${placement.edge}-${horizontalEdge}`}`;
-        indicator.setAttribute('aria-label', `${placement.label} is offscreen`);
+        // Measure against a virtual camera fixed at the minimum zoom. This keeps
+        // the displayed distance tied to the fully zoomed-out view, regardless of
+        // the user's current zoom level.
+        const displayedCamera = getDisplayedCamera();
+        const referenceCamera: Camera = {
+          scale: MIN_ZOOM,
+          offset: {
+            x: displayedCamera.offset.x * MIN_ZOOM / Math.max(displayedCamera.scale, Number.EPSILON),
+            y: displayedCamera.offset.y * MIN_ZOOM / Math.max(displayedCamera.scale, Number.EPSILON),
+          },
+        };
+        const referenceTarget = worldPointToClient(
+          target!,
+          referenceCamera,
+          { width: bounds.width, height: bounds.height },
+          ATLAS_VIEW_BOX,
+        );
+        const distance = Math.round(Math.hypot(referenceTarget.x - bounds.width / 2, referenceTarget.y - bounds.height / 2));
+        if (campfire !== null) campfire.style.opacity = distance >= 1989 ? '1' : '0';
+        indicator.setAttribute('aria-label', `${placement.label} is offscreen, ${distance} kilometers away`);
         if (offscreenIndicatorLabelRef.current !== null) offscreenIndicatorLabelRef.current.textContent = placement.label;
+        if (offscreenIndicatorDistanceRef.current !== null) offscreenIndicatorDistanceRef.current.textContent = `${distance} km`;
       }
     }
   }, [applyCameraTransform, focusedCamera, getDisplayedCamera, offscreenInsets, registry, selectedId, selectableRegistry, showQuantumMoon]);
@@ -806,6 +830,8 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   }, [camera.camera.scale, selectableRegistry, showQuantumMoon, viewport.height, viewport.width]);
 
   const viewBox = `${ATLAS_VIEW_BOX.x} ${ATLAS_VIEW_BOX.y} ${ATLAS_VIEW_BOX.width} ${ATLAS_VIEW_BOX.height}`;
+  const panDistance = Math.hypot(camera.camera.offset.x, camera.camera.offset.y) / Math.max(camera.camera.scale, 0.001);
+  const voidOpacity = Math.min(1, Math.max(0, (panDistance - 1100) / 900));
 
   return (
     <div
@@ -829,6 +855,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       <svg className="atlas-background-stars" viewBox={viewBox} preserveAspectRatio="xMidYMid meet" aria-hidden="true">
         <Starfield idPrefix={`${sceneId}-background-stars`} preset={backgroundPreset} starsOnly />
       </svg>
+      <div className="void-overlay" aria-hidden="true" style={{ opacity: voidOpacity }} />
       <svg
         ref={svgRef}
         className={`solar-system${showOrbits ? '' : ' solar-system--orbits-hidden'}${showLabels ? '' : ' solar-system--labels-hidden'}`}
@@ -1034,9 +1061,19 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
         />
       </svg>
       </ImageArtworkContext.Provider>
+      <img
+        ref={campfireBackgroundRef}
+        className="campfire-background"
+        src={`${import.meta.env.BASE_URL}images/campfire-background.png`}
+        alt=""
+        aria-hidden="true"
+      />
       <div ref={offscreenIndicatorRef} className="offscreen-indicator" hidden aria-hidden="true">
         <span className="offscreen-indicator__chevron" aria-hidden="true" />
-        <span ref={offscreenIndicatorLabelRef} className="offscreen-indicator__label" />
+        <span className="offscreen-indicator__labels">
+          <span ref={offscreenIndicatorLabelRef} className="offscreen-indicator__label" />
+          <span ref={offscreenIndicatorDistanceRef} className="offscreen-indicator__distance" aria-hidden="true" />
+        </span>
       </div>
       <p className="map-hint">Drag to pan · scroll to zoom · select a world to learn more</p>
     </div>

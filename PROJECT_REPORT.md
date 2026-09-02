@@ -136,6 +136,10 @@ The center of the application is a scalable SVG view of the solar system. It inc
 - Star boxes are expanded to 200% of their base dimensions and their deterministic star populations are denser for testing.
 - Each enlarged box now contains roughly 30–47 stars.
 - Box placement resolves collisions from the center outward, allowing outer boxes to leave the viewport when necessary.
+- An easter-egg black overlay fades in as the camera is panned away from the solar-system origin, without modifying the underlying background artwork.
+- Blackening now begins after 1100 atlas units of camera displacement.
+- Blackening uses world-space camera displacement (offset normalized by zoom scale), so zooming does not alter opacity.
+- The blackening overlay now sits between nebulae and stars, dimming only the nebula layer while preserving star brightness.
 - Star positions within each box now use seeded pseudo-random placement instead of repeating modular patterns.
 - About half of the stars now use a deeper twinkle cycle that briefly reaches 0% opacity before returning.
 - The fixed-size star layer no longer inherits background overscan scaling and explicitly uses uniform SVG fitting.
@@ -735,6 +739,13 @@ The project is a complete, focused interactive atlas with a clear visual identit
 
 The primary maintenance item is keeping the concise README synchronized with behavior changes. The implementation itself is structured so that new bodies, copy, and orbital effects can be added without replacing the core architecture. Display names now use “The Attlerock,” “The Hourglass Twins,” and “The Interloper.”
 The small Hourglass binary orbit explicitly matches moon orbit styling, including non-scaling stroke geometry, while the large solar orbit uses the standard planet orbit styling.
+
+Offscreen indicators now show a second, opposite-side distance label. The distance is the projected pixel gap from the chevron edge to the offscreen target, while the entity name remains on its existing side.
+The indicator labels are grouped in chevron-outward order: entity name first, then distance, with layout direction adapting to each screen edge.
+The original entity label remains the sole name label; the distance label now uses the same typography and displays the target's projected distance from the viewport center at the fixed minimum zoom in kilometres.
+When that reference distance reaches 1,989 km, the campfire artwork is revealed as a non-interactive lower-right background layer.
+The campfire image uses bottom-right object anchoring so its lower-right corner stays pinned to the viewport corner.
+Its threshold visibility uses a 900ms opacity transition for smooth fading.
 
 Selecting either individual Hourglass Twin highlights their shared binary orbit without applying the composite sand-beam effect.
 

@@ -292,6 +292,10 @@ Each background defines multiple fixed star boxes with independent positions and
 Each box is rendered at 200% of its base dimensions with increased star density.
 Each box contains approximately 30–47 deterministic stars.
 Collision resolution places center-nearest boxes first and pushes outer boxes outward with a fixed gap.
+Camera displacement drives a separate black overlay for the off-screen easter egg; nebulae, stars, and map geometry remain unchanged underneath.
+The overlay begins fading in after 1100 atlas units of displacement.
+Blackening uses zoom-normalized world-space displacement, so changing zoom preserves the current opacity.
+The overlay is layered between stretched nebulae and fixed stars, so only nebulae darken.
 Each box uses a deterministic seeded pseudo-random sequence for star positions and visual properties, avoiding visible alignment patterns.
 Approximately half of the stars use an opacity animation that reaches zero during dim phases, then restores visibility.
 The star layer disables nebula overscan transforms and explicitly uses uniform `xMidYMid meet` scaling.
@@ -325,6 +329,13 @@ The display names for Attlerock, Hourglass Twins, and Interloper include the lea
 
 Selecting Ash Twin or Ember Twin individually highlights the binary orbit around the pair; the sand beam remains a composite-target effect.
 The small binary orbit explicitly matches moon orbit styling, including its non-scaling stroke width and dash spacing, while the large Hourglass solar orbit uses standard planet orbit styling.
+
+Offscreen indicator geometry is edge-clamped to the usable atlas window. Each indicator now includes the selected entity name plus a distance label on the opposite side, computed as the rounded projected pixel distance between the clamped chevron position and the target.
+The name and distance are rendered as an ordered label group, so the name is always nearest the chevron and the distance follows it outward on every edge.
+Only the existing entity-name label is rendered; the distance label shares its font styling rather than duplicating the name, and is displayed in kilometres using projected distance from a minimum-zoom reference camera.
+The campfire background asset is shown when this reference distance is at least 1,989 km; it is full-stage, lower-right artwork beneath stars and planets and does not capture pointer input.
+Its image positioning is anchored to the bottom-right, keeping that corner fixed as the viewport changes.
+Campfire visibility transitions over 900ms rather than appearing or disappearing abruptly.
 
 
 Simulation playback supports 0.5x, 1x, 2x, 4x, and 8x speed selections.
