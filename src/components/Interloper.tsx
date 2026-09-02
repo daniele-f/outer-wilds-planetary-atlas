@@ -11,7 +11,7 @@ import type { BodyId, CelestialBody as CelestialBodyRecord } from '../data/celes
 import { cometOrbitState } from '../lib/orbits';
 import type { OrbitConfig, Point } from '../types/celestial';
 import type { ActivationSource } from './CelestialBody';
-import { ImageArtworkContext, imageAssetUrl } from './CelestialBody';
+import { IMAGE_ARTWORK_SCALE, ImageArtworkContext, imageAssetUrl } from './CelestialBody';
 
 export type InterloperHandle = Readonly<{
   renderAtTime: (time: number) => void;
@@ -134,7 +134,7 @@ export const Interloper = forwardRef<InterloperHandle, InterloperProps>(function
           <path className="comet-tail__filament" d="M7,0 Q78,-7 166,2" />
         </g>
         <g className="body-visual comet-visual" pointerEvents="none">
-          {imageArtwork ? <image className="body-image" href={imageAssetUrl('the_interloper.png')} x={-12} y={-12} width={24} height={24} /> : null}
+          {imageArtwork ? <image className="body-image" href={imageAssetUrl('the_interloper.png')} x={-24 * IMAGE_ARTWORK_SCALE} y={-24 * IMAGE_ARTWORK_SCALE} width={48 * IMAGE_ARTWORK_SCALE} height={48 * IMAGE_ARTWORK_SCALE} /> : null}
           <circle className="comet-coma comet-coma--outer" r="21" />
           <circle className="comet-coma comet-coma--inner" r="15" />
           <path className="comet-nucleus" d="M-10,-4 L-5,-10 L4,-9 L11,-2 L8,8 L-1,11 L-10,5 Z" />

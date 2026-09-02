@@ -29,6 +29,7 @@ type CelestialBodyProps = Readonly<{
 }>;
 
 export const ImageArtworkContext = createContext(false);
+export const IMAGE_ARTWORK_SCALE = 1.35;
 export function imageAssetUrl(file: string): string {
   return `${import.meta.env.BASE_URL}images/${file}`;
 }
@@ -109,7 +110,8 @@ function BodyArtwork({ id, radius, idPrefix, musicPulseKey }: Readonly<{ id: Bod
   const imageArtwork = useContext(ImageArtworkContext);
   const imageFile = IMAGE_ARTWORK_FILES[id];
   if (imageArtwork && imageFile !== undefined) {
-    return <image className={`body-image body-image--${id}`} href={imageAssetUrl(imageFile)} x={-radius} y={-radius} width={radius * 2} height={radius * 2} preserveAspectRatio="xMidYMid meet" />;
+    const artworkRadius = radius * IMAGE_ARTWORK_SCALE;
+    return <image className={`body-image body-image--${id}`} href={imageAssetUrl(imageFile)} x={-artworkRadius} y={-artworkRadius} width={artworkRadius * 2} height={artworkRadius * 2} preserveAspectRatio="xMidYMid meet" />;
   }
   const clipId = `${idPrefix}-clip`;
 
