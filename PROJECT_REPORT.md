@@ -128,6 +128,7 @@ The center of the application is a scalable SVG view of the solar system. It inc
 - Image artwork URLs include Vite’s configured base path so assets resolve on GitHub Pages as well as local development.
 - Image artwork is rendered slightly larger than the nominal body radius to compensate for transparent padding in the source PNGs and match the SVG visual scale.
 - Settings include a procedural SVG background chooser with persisted Deep Space, Amber Drift, Violet Frontier, and Teal Clouds presets.
+- Background presets now use distinct SVG compositions and star layouts rather than recoloring the same nebula shapes.
 - The settings toggle is labeled “Use alternative artwork” and “Use default artwork.”
 - In image mode, the Interloper image keeps a fixed 180° local flip inside the anti-solar orientation wrapper, placing its pointy front toward the Sun.
 - The procedural Interloper body now follows the same orientation, keeping its darker side away from the Sun.
