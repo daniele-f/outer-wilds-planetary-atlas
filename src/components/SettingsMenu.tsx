@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { BACKGROUND_PRESETS, backgroundPresetLabel, type BackgroundPreset } from './Starfield';
 
 type SettingsMenuProps = Readonly<{
   open: boolean;
@@ -8,6 +9,7 @@ type SettingsMenuProps = Readonly<{
   spoilersEnabled: boolean;
   musicAutoplayEnabled: boolean;
   imageArtworkEnabled: boolean;
+  backgroundPreset: BackgroundPreset;
   onToggleOpen: () => void;
   onRequestClose: () => void;
   onToggleOrbits: () => void;
@@ -15,6 +17,7 @@ type SettingsMenuProps = Readonly<{
   onToggleSpoilers: () => void;
   onToggleMusicAutoplay: () => void;
   onToggleImageArtwork: () => void;
+  onChangeBackground: (preset: BackgroundPreset) => void;
 }>;
 
 export function SettingsMenu({
@@ -31,9 +34,16 @@ export function SettingsMenu({
   onToggleMusicAutoplay,
   imageArtworkEnabled,
   onToggleImageArtwork,
+  backgroundPreset,
+  onChangeBackground,
   spoilersEnabled,
 }: SettingsMenuProps) {
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const [backgroundModalOpen, setBackgroundModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) setBackgroundModalOpen(false);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -74,12 +84,23 @@ export function SettingsMenu({
             <span aria-hidden="true">{imageArtworkEnabled ? '●' : '○'}</span>
             <span>{imageArtworkEnabled ? 'Use default artwork' : 'Use alternative artwork'}</span>
           </button>
+          <button type="button" onClick={() => setBackgroundModalOpen(true)}>
+            <span aria-hidden="true">◌</span><span>Change background</span>
+          </button>
           <button className="atlas-settings__spoiler-option" type="button" aria-pressed={spoilersEnabled} onClick={onToggleSpoilers}>
             <span aria-hidden="true">{spoilersEnabled ? '●' : '○'}</span>
             <span>{spoilersEnabled ? 'Hide spoilers' : 'Show spoilers'}</span>
           </button>
         </div>
       ) : null}
+      {backgroundModalOpen ? <div className="background-modal-backdrop" onPointerDown={() => setBackgroundModalOpen(false)}>
+        <div className="background-modal" role="dialog" aria-modal="true" aria-label="Choose background" onPointerDown={(event) => event.stopPropagation()}>
+          <div className="background-modal__header"><h2>Choose background</h2><button type="button" aria-label="Close background chooser" onClick={() => setBackgroundModalOpen(false)}>×</button></div>
+          <div className="background-modal__grid">
+            {BACKGROUND_PRESETS.map((preset) => <button key={preset} className={`background-option background-option--${preset}${backgroundPreset === preset ? ' background-option--active' : ''}`} type="button" aria-pressed={backgroundPreset === preset} onClick={() => onChangeBackground(preset)}><svg viewBox="0 0 160 90" aria-hidden="true"><rect width="160" height="90" /><circle cx="28" cy="24" r="1.3" /><circle cx="116" cy="20" r="1" /><circle cx="84" cy="62" r="1.2" /><ellipse cx="46" cy="46" rx="42" ry="24" /><ellipse cx="124" cy="62" rx="32" ry="18" /></svg><span>{backgroundPresetLabel(preset)}</span></button>)}
+          </div>
+        </div>
+      </div> : null}
     </div>
   );
 }

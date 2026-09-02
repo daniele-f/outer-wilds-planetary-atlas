@@ -283,6 +283,10 @@ The symbol is an inline SVG using the same inherited color as the tooltip text.
 The settings menu includes a persisted artwork toggle labeled “Use alternative artwork” / “Use default artwork”; bodies with matching assets render them while interaction geometry remains unchanged, and the White Hole stays procedural as an asset fallback.
 Image asset URLs are built from the configured Vite base path for correct local and GitHub Pages resolution.
 Image artwork uses a modest scale-up over the nominal radius so transparent PNG padding does not make image-mode bodies appear smaller than their SVG counterparts.
+The background is selected from procedural SVG presets and persisted in local storage; no raster background assets are required.
+Each preset uses its own procedural SVG geometry, nebula composition, and deterministic star distribution.
+The chooser modal remains open for repeated selection and dismisses through its close button or outside-click backdrop.
+The Deep Space preset uses layered curved ribbons, haze pockets, and a subtle trace while preserving its restrained navy palette.
 The Interloper image keeps a fixed 180° local flip within the anti-solar orientation wrapper, placing its pointy front toward the Sun. The procedural comet visual follows that wrapper, keeping its darker shading away from the Sun.
 The orientation wrapper remains independent from hover/focus scaling, preserving the solar-facing direction during interaction.
 Alternative artwork mode uses `the_interloper_tail.png` for the Interloper tail while retaining live anti-solar rotation.
