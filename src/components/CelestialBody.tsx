@@ -29,6 +29,9 @@ type CelestialBodyProps = Readonly<{
 }>;
 
 export const ImageArtworkContext = createContext(false);
+export function imageAssetUrl(file: string): string {
+  return `${import.meta.env.BASE_URL}images/${file}`;
+}
 const IMAGE_ARTWORK_FILES: Partial<Record<BodyId, string>> = {
   sun: 'sun.png', 'sun-station': 'sun_station.png', 'white-hole-station': 'white_hole_station.png', 'orbital-probe-cannon': 'orbital_probe_cannon.png',
   'timber-hearth': 'timber_hearth.png', attlerock: 'attlerock.png', 'brittle-hollow': 'brittle_hollow.png', 'hollows-lantern': 'hollows_lantern.png', 'giants-deep': 'giants_deep.png', 'dark-bramble': 'dark_bramble.png', 'ash-twin': 'ash_twin.png', 'ember-twin': 'ember_twin.png', interloper: 'the_interloper.png', 'quantum-moon': 'quantum_moon.png',
@@ -106,7 +109,7 @@ function BodyArtwork({ id, radius, idPrefix, musicPulseKey }: Readonly<{ id: Bod
   const imageArtwork = useContext(ImageArtworkContext);
   const imageFile = IMAGE_ARTWORK_FILES[id];
   if (imageArtwork && imageFile !== undefined) {
-    return <image className={`body-image body-image--${id}`} href={`images/${imageFile}`} x={-radius} y={-radius} width={radius * 2} height={radius * 2} preserveAspectRatio="xMidYMid meet" />;
+    return <image className={`body-image body-image--${id}`} href={imageAssetUrl(imageFile)} x={-radius} y={-radius} width={radius * 2} height={radius * 2} preserveAspectRatio="xMidYMid meet" />;
   }
   const clipId = `${idPrefix}-clip`;
 

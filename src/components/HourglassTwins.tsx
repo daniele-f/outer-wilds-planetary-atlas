@@ -19,7 +19,7 @@ import {
 } from '../lib/orbits';
 import type { OrbitConfig, Point } from '../types/celestial';
 import type { ActivationSource } from './CelestialBody';
-import { ImageArtworkContext } from './CelestialBody';
+import { ImageArtworkContext, imageAssetUrl } from './CelestialBody';
 
 const TWIN_CONFIG = Object.freeze({
   separation: 58,
@@ -253,7 +253,7 @@ function TwinEntity({
       onKeyDown={onKeyDown}
     >
       <g className="body-visual twin-visual" pointerEvents="none">
-        {imageArtwork ? <image className="body-image" href={`/images/${variant === 'ash' ? 'ash_twin.png' : 'ember_twin.png'}`} x={-BASE_RADIUS} y={-BASE_RADIUS} width={BASE_RADIUS * 2} height={BASE_RADIUS * 2} /> : null}
+        {imageArtwork ? <image className="body-image" href={imageAssetUrl(variant === 'ash' ? 'ash_twin.png' : 'ember_twin.png')} x={-BASE_RADIUS} y={-BASE_RADIUS} width={BASE_RADIUS * 2} height={BASE_RADIUS * 2} /> : null}
         <g ref={visualRef} className="twin-radius" transform={`scale(${visualScale})`}>
           <circle className="twin-sphere" r={BASE_RADIUS} />
           <g clipPath={`url(#${clipId})`}>

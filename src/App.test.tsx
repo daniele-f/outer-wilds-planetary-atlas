@@ -249,7 +249,7 @@ describe('planetary atlas application UI', () => {
     await user.click(screen.getByRole('button', { name: 'Map settings' }));
     await user.click(screen.getByRole('button', { name: 'Use image artwork' }));
     expect(localStorage.getItem('outer-wilds-atlas.image-artwork')).toBe('true');
-    expect(document.querySelector('.body-image--sun')).toHaveAttribute('href', '/images/sun.png');
+    expect(document.querySelector('.body-image--sun')?.getAttribute('href')).toMatch(/\/images\/sun\.png$/);
   });
 
   it('moves the settings trigger beside an open information panel', async () => {
