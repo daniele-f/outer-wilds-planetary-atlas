@@ -242,6 +242,17 @@ describe('planetary atlas application UI', () => {
     expect(localStorage.getItem('outer-wilds-atlas.music-autoplay')).toBe('true');
   });
 
+  it('toggles and persists image artwork mode from settings', async () => {
+    const user = userEvent.setup();
+    localStorage.setItem('outer-wilds-atlas.spoilers-enabled', 'true');
+    render(<App />);
+    await user.click(screen.getByRole('button', { name: 'Map settings' }));
+    await user.click(screen.getByRole('button', { name: 'Use image artwork' }));
+    expect(localStorage.getItem('outer-wilds-atlas.image-artwork')).toBe('true');
+    expect(document.querySelector('.body-image--sun')?.getAttribute('href')).toMatch(/\/images\/sun\.png$/);
+    expect(Number(document.querySelector('.body-image--sun')?.getAttribute('width'))).toBeGreaterThan(86);
+  });
+
   it('moves the settings trigger beside an open information panel', async () => {
     const user = userEvent.setup();
     render(<App />);

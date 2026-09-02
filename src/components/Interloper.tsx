@@ -1,5 +1,6 @@
 import {
   forwardRef,
+  useContext,
   useCallback,
   useImperativeHandle,
   useRef,
@@ -10,6 +11,7 @@ import type { BodyId, CelestialBody as CelestialBodyRecord } from '../data/celes
 import { cometOrbitState } from '../lib/orbits';
 import type { OrbitConfig, Point } from '../types/celestial';
 import type { ActivationSource } from './CelestialBody';
+import { IMAGE_ARTWORK_SCALE, ImageArtworkContext, imageAssetUrl } from './CelestialBody';
 
 export type InterloperHandle = Readonly<{
   renderAtTime: (time: number) => void;
@@ -25,6 +27,9 @@ type InterloperFrame = Readonly<{
   bodyId: BodyId;
   position: AttributeTarget | null;
   tail: AttributeTarget | null;
+  /** Image artwork is locally flipped once in JSX; frame updates must not rotate it again. */
+  image?: AttributeTarget | null;
+  orientation?: AttributeTarget | null;
   onPositionUpdate: (id: BodyId, position: Point) => void;
 }>;
 
@@ -35,6 +40,7 @@ export function renderInterloperFrame({
   bodyId,
   position,
   tail,
+  orientation,
   onPositionUpdate,
 }: InterloperFrame): void {
   const state = cometOrbitState(orbit, time);
@@ -43,6 +49,7 @@ export function renderInterloperFrame({
     `translate(${state.position.x.toFixed(3)} ${state.position.y.toFixed(3)})`,
   );
   tail?.setAttribute('transform', `rotate(${state.tailRotationDegrees.toFixed(3)})`);
+  orientation?.setAttribute('transform', `rotate(${state.tailRotationDegrees.toFixed(3)})`);
   onPositionUpdate(bodyId, state.position);
 }
 
@@ -61,10 +68,12 @@ export const Interloper = forwardRef<InterloperHandle, InterloperProps>(function
   { body, selected, hovered, hitRadius, idPrefix, onActivate, onPositionUpdate, labelFontSize = 10 },
   ref,
 ) {
+  const imageArtwork = useContext(ImageArtworkContext);
   if (body.orbit === undefined) throw new Error('Interloper requires an eccentric orbit.');
   const orbit = body.orbit;
   const rootRef = useRef<SVGGElement | null>(null);
   const tailRef = useRef<SVGGElement | null>(null);
+  const orientationRef = useRef<SVGGElement | null>(null);
   const initialState = cometOrbitState(orbit, 0);
   const eccentricity = orbit.eccentricity ?? 0;
   const semiMinor = orbit.radius * Math.sqrt(1 - eccentricity * eccentricity);
@@ -76,6 +85,7 @@ export const Interloper = forwardRef<InterloperHandle, InterloperProps>(function
       bodyId: body.id,
       position: rootRef.current,
       tail: tailRef.current,
+      orientation: orientationRef.current,
       onPositionUpdate,
     });
   }, [body.id, onPositionUpdate, orbit]);
@@ -104,7 +114,7 @@ export const Interloper = forwardRef<InterloperHandle, InterloperProps>(function
       </g>
       <g
         ref={rootRef}
-        className={`interloper-position celestial-entity${selected ? ' celestial-entity--selected' : ''}${hovered ? ' celestial-entity--hovered' : ''}`}
+        className={`interloper-position celestial-entity${selected ? ' celestial-entity--selected' : ''}${hovered ? ' celestial-entity--hovered' : ''}${imageArtwork ? ' interloper-position--image-artwork' : ''}`}
         data-body-id={body.id}
         role="button"
         tabIndex={0}
@@ -130,13 +140,16 @@ export const Interloper = forwardRef<InterloperHandle, InterloperProps>(function
           <path className="comet-tail__plume" d="M4,-7 C50,-17 118,-13 190,0 C118,13 50,17 4,7 Z" fill={`url(#${tailGradientId})`} />
           <path className="comet-tail__filament" d="M7,0 Q78,-7 166,2" />
         </g>
+        <g ref={orientationRef} className="comet-orientation" pointerEvents="none" transform={`rotate(${initialState.tailRotationDegrees})`}>
         <g className="body-visual comet-visual" pointerEvents="none">
+          {imageArtwork ? <image className="body-image" href={imageAssetUrl('the_interloper.png')} x={-24 * IMAGE_ARTWORK_SCALE} y={-24 * IMAGE_ARTWORK_SCALE} width={48 * IMAGE_ARTWORK_SCALE} height={48 * IMAGE_ARTWORK_SCALE} transform="rotate(180)" /> : null}
           <circle className="comet-coma comet-coma--outer" r="21" />
           <circle className="comet-coma comet-coma--inner" r="15" />
           <path className="comet-nucleus" d="M-10,-4 L-5,-10 L4,-9 L11,-2 L8,8 L-1,11 L-10,5 Z" />
           <path className="comet-ice" d="M-5,-6 L1,-7 L5,-3 L1,0 Z M-4,4 L2,2 L6,6 L-1,8 Z" />
           <path className="comet-shadow" d="M0,-10 Q12,-5 8,8 Q2,13 -2,9 Q4,2 0,-10 Z" />
           <path className="comet-rim" d="M-10,-4 L-5,-10 L4,-9 L11,-2 L8,8 L-1,11 L-10,5 Z" />
+        </g>
         </g>
         <text
           className="body-label comet-label"

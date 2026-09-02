@@ -1,11 +1,12 @@
-import { forwardRef, type KeyboardEvent, type MouseEvent } from 'react';
+import { forwardRef, useContext, type KeyboardEvent, type MouseEvent } from 'react';
 import type {
   BodyId,
   CelestialBody as CelestialBodyRecord,
 } from '../data/celestialBodies';
 import type { QuantumHostId } from '../lib/quantum';
 import type { Point } from '../types/celestial';
-import { BODY_VISUAL_RADII, type ActivationSource } from './CelestialBody';
+import { BODY_VISUAL_RADII, IMAGE_ARTWORK_SCALE, type ActivationSource } from './CelestialBody';
+import { ImageArtworkContext, imageAssetUrl } from './CelestialBody';
 
 export type QuantumMoonProps = Readonly<{
   body: CelestialBodyRecord;
@@ -34,6 +35,7 @@ export const QuantumMoon = forwardRef<SVGGElement, QuantumMoonProps>(function Qu
   },
   ref,
 ) {
+  const imageArtwork = useContext(ImageArtworkContext);
   const radius = BODY_VISUAL_RADII['quantum-moon'];
   const clipId = `${idPrefix}-clip`;
   const textureId = `${idPrefix}-texture`;
@@ -74,6 +76,7 @@ export const QuantumMoon = forwardRef<SVGGElement, QuantumMoonProps>(function Qu
         </filter>
       </defs>
       <g className="body-visual quantum-visual" pointerEvents="none" filter={`url(#${distortionId})`}>
+        {imageArtwork ? <image className="body-image" href={imageAssetUrl('quantum_moon.png')} x={-radius * IMAGE_ARTWORK_SCALE} y={-radius * IMAGE_ARTWORK_SCALE} width={radius * 2 * IMAGE_ARTWORK_SCALE} height={radius * 2 * IMAGE_ARTWORK_SCALE} /> : null}
         <circle className="quantum-sphere" r={radius} fill={`url(#${textureId})`} />
         <g clipPath={`url(#${clipId})`}>
           <path className="quantum-mottle quantum-mottle--one" d="M-11,-1 Q-5,-8 1,-5 T11,-7 L12,1 Q5,4 0,2 T-11,5 Z" />

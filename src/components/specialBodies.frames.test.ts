@@ -189,6 +189,29 @@ describe('HourglassTwins controllable stream frames', () => {
 });
 
 describe('Interloper controllable frames', () => {
+  it('leaves image artwork at its fixed local flip while the wrapper follows the anti-solar direction', () => {
+    const position = new AttributeTarget();
+    const tail = new AttributeTarget();
+    const orientation = new AttributeTarget();
+    const image = new AttributeTarget();
+    image.setAttribute('transform', 'rotate(180)');
+    const orbit = { radius: 690, period: 160, phase: 0.25, eccentricity: 0.68 } as const;
+
+    renderInterloperFrame({
+      time: 10,
+      orbit,
+      bodyId: 'interloper',
+      position,
+      tail,
+      orientation,
+      image,
+      onPositionUpdate: () => {},
+    });
+
+    expect(orientation.getAttribute('transform')).toMatch(/^rotate\(/);
+    expect(image.getAttribute('transform')).toBe('rotate(180)');
+  });
+
   it('updates its live position and anti-solar tail transform beyond time zero', () => {
     const position = new AttributeTarget();
     const tail = new AttributeTarget();

@@ -124,6 +124,12 @@ The center of the application is a scalable SVG view of the solar system. It inc
 - It now sits above the minimized player box and includes a volume symbol before the percentage.
 - The minimized tooltip icon is an inline SVG that inherits the percentage text color.
 - The minimized icon is slightly larger with a clearer gap before the percentage.
+- Settings include a persisted artwork-mode toggle that swaps available procedural body artwork for matching `public/images` assets while preserving hit areas, labels, and orbit behavior; the White Hole remains procedural because no matching asset exists.
+- Image artwork URLs include Vite’s configured base path so assets resolve on GitHub Pages as well as local development.
+- Image artwork is rendered slightly larger than the nominal body radius to compensate for transparent padding in the source PNGs and match the SVG visual scale.
+- In image mode, the Interloper image keeps a fixed 180° local flip inside the anti-solar orientation wrapper, placing its pointy front toward the Sun.
+- The procedural Interloper body now follows the same orientation, keeping its darker side away from the Sun.
+- Orientation is kept on a separate wrapper so hover/focus scaling cannot overwrite it.
 - Hourglass Twins use standard planet-style shared solar orbit lines and moon-style binary orbit lines; hovering or selecting/following the composite twin target highlights the binary orbit and sand beam without affecting individual twin hovers.
 - Composite hover now limits the highlight to the twins’ binary orbit and sand beam; the shared solar orbit receives no hover styling and responds only to selection/focus.
 - The pause/play control uses CSS-drawn bars and a triangle, avoiding platform-dependent text glyphs.
