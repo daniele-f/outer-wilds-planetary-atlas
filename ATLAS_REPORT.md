@@ -335,6 +335,7 @@ The name and distance are rendered as an ordered label group, so the name is alw
 Only the existing entity-name label is rendered; the distance label shares its font styling rather than duplicating the name, and is displayed in kilometres using projected distance from a minimum-zoom reference camera.
 The campfire background asset is shown when this reference distance is at least 1,989 km; it is full-stage, lower-right artwork beneath stars and planets and does not capture pointer input.
 Its image positioning is anchored to the bottom-right, keeping that corner fixed as the viewport changes.
+Campfire visibility transitions over 900ms rather than appearing or disappearing abruptly.
 
 
 Simulation playback supports 0.5x, 1x, 2x, 4x, and 8x speed selections.

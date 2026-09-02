@@ -585,7 +585,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       );
       indicator.hidden = placement === null;
       const campfire = campfireBackgroundRef.current;
-      if (campfire !== null && placement === null) campfire.hidden = true;
+      if (campfire !== null && placement === null) campfire.style.opacity = '0';
       if (placement !== null) {
         const angleRadians = placement.angle * Math.PI / 180;
         const tipInset = 13.6;
@@ -615,7 +615,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
           ATLAS_VIEW_BOX,
         );
         const distance = Math.round(Math.hypot(referenceTarget.x - bounds.width / 2, referenceTarget.y - bounds.height / 2));
-        if (campfire !== null) campfire.hidden = distance < 1989;
+        if (campfire !== null) campfire.style.opacity = distance >= 1989 ? '1' : '0';
         indicator.setAttribute('aria-label', `${placement.label} is offscreen, ${distance} kilometers away`);
         if (offscreenIndicatorLabelRef.current !== null) offscreenIndicatorLabelRef.current.textContent = placement.label;
         if (offscreenIndicatorDistanceRef.current !== null) offscreenIndicatorDistanceRef.current.textContent = `${distance} km`;
@@ -1066,7 +1066,6 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
         className="campfire-background"
         src={`${import.meta.env.BASE_URL}images/campfire-background.png`}
         alt=""
-        hidden
         aria-hidden="true"
       />
       <div ref={offscreenIndicatorRef} className="offscreen-indicator" hidden aria-hidden="true">

@@ -17,6 +17,8 @@
   height: 100%;
   object-fit: cover;
   object-position: right bottom;
+  opacity: 0;
+  transition: opacity 900ms ease-in-out;
   pointer-events: none;
 }
 
