@@ -93,10 +93,12 @@ export function SettingsMenu({
           </button>
         </div>
       ) : null}
-      {backgroundModalOpen ? <div className="background-modal" role="dialog" aria-modal="true" aria-label="Choose background">
-        <div className="background-modal__header"><h2>Choose background</h2><button type="button" aria-label="Close background chooser" onClick={() => setBackgroundModalOpen(false)}>×</button></div>
-        <div className="background-modal__grid">
-          {BACKGROUND_PRESETS.map((preset) => <button key={preset} className={`background-option background-option--${preset}${backgroundPreset === preset ? ' background-option--active' : ''}`} type="button" aria-pressed={backgroundPreset === preset} onClick={() => { onChangeBackground(preset); setBackgroundModalOpen(false); }}><svg viewBox="0 0 160 90" aria-hidden="true"><rect width="160" height="90" /><circle cx="28" cy="24" r="1.3" /><circle cx="116" cy="20" r="1" /><circle cx="84" cy="62" r="1.2" /><ellipse cx="46" cy="46" rx="42" ry="24" /><ellipse cx="124" cy="62" rx="32" ry="18" /></svg><span>{backgroundPresetLabel(preset)}</span></button>)}
+      {backgroundModalOpen ? <div className="background-modal-backdrop" onPointerDown={() => setBackgroundModalOpen(false)}>
+        <div className="background-modal" role="dialog" aria-modal="true" aria-label="Choose background" onPointerDown={(event) => event.stopPropagation()}>
+          <div className="background-modal__header"><h2>Choose background</h2><button type="button" aria-label="Close background chooser" onClick={() => setBackgroundModalOpen(false)}>×</button></div>
+          <div className="background-modal__grid">
+            {BACKGROUND_PRESETS.map((preset) => <button key={preset} className={`background-option background-option--${preset}${backgroundPreset === preset ? ' background-option--active' : ''}`} type="button" aria-pressed={backgroundPreset === preset} onClick={() => onChangeBackground(preset)}><svg viewBox="0 0 160 90" aria-hidden="true"><rect width="160" height="90" /><circle cx="28" cy="24" r="1.3" /><circle cx="116" cy="20" r="1" /><circle cx="84" cy="62" r="1.2" /><ellipse cx="46" cy="46" rx="42" ry="24" /><ellipse cx="124" cy="62" rx="32" ry="18" /></svg><span>{backgroundPresetLabel(preset)}</span></button>)}
+          </div>
         </div>
       </div> : null}
     </div>

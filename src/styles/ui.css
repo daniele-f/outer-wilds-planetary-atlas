@@ -492,6 +492,7 @@
   background: rgb(7 12 25 / .96);
   box-shadow: 0 18px 45px rgb(0 0 0 / .45);
 }
+.background-modal-backdrop { position: fixed; inset: 0; z-index: 19; background: rgb(0 0 0 / .28); }
 .background-modal__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .8rem; }
 .background-modal__header h2 { margin: 0; color: #f1dfbc; font-size: 1rem; }
 .background-modal__header button { color: #f1dfbc; background: none; border: 0; font-size: 1.4rem; cursor: pointer; }
