@@ -59,8 +59,10 @@ export function Starfield({ idPrefix, preset = 'deep-space' }: StarfieldProps & 
         <filter id={softFilterId}><feGaussianBlur stdDeviation="24" /></filter>
       </defs>
       {preset === 'deep-space' ? <>
-        <ellipse className="nebula" cx="-310" cy="-95" rx="360" ry="210" fill={`url(#${blueGradientId})`} filter={`url(#${softFilterId})`} />
-        <ellipse className="nebula" cx="390" cy="165" rx="300" ry="180" fill={`url(#${amberGradientId})`} filter={`url(#${softFilterId})`} />
+        <path className="nebula nebula--deep-ribbon" d="M-760 -80 C-530 -300 -250 -250 -40 -110 S380 70 760 -130 V180 C410 330 190 170 -80 40 S-480 -10 -760 190Z" fill={`url(#${blueGradientId})`} filter={`url(#${softFilterId})`} />
+        <ellipse className="nebula nebula--deep-pocket" cx="-330" cy="-85" rx="300" ry="155" fill={`url(#${blueGradientId})`} filter={`url(#${softFilterId})`} />
+        <ellipse className="nebula nebula--deep-pocket" cx="390" cy="165" rx="255" ry="135" fill={`url(#${amberGradientId})`} filter={`url(#${softFilterId})`} />
+        <path className="nebula nebula--deep-trace" d="M-720 285 Q-350 60 0 230 T760 145" fill="none" stroke="#42698a" strokeOpacity=".09" strokeWidth="34" filter={`url(#${softFilterId})`} />
       </> : null}
       {preset === 'amber-drift' ? <g className="nebula nebula--amber-drift" filter={`url(#${softFilterId})`}><path d="M-760 250 C-420 40 -180 160 40 -40 S460 -220 760 -90 L760 170 C430 20 220 120 -10 180 S-450 410 -760 430Z" fill={`url(#${amberGradientId})`} /><path d="M-760 330 C-420 130 -230 220 30 30 S480 -140 760 -40" fill="none" stroke="#d88b4c" strokeOpacity=".16" strokeWidth="48" /></g> : null}
       {preset === 'violet-frontier' ? <g className="nebula nebula--violet-frontier" filter={`url(#${softFilterId})`}><path d="M-720 -330 Q-420 -80 -180 -210 T250 -150 T720 -300 V120 Q430 40 160 160 T-300 110 T-720 260Z" fill="#4f3976" fillOpacity=".3" /><circle cx="-360" cy="-40" r="170" fill="#a56bc4" fillOpacity=".16" /><circle cx="420" cy="160" r="220" fill="#5d76c7" fillOpacity=".14" /></g> : null}
