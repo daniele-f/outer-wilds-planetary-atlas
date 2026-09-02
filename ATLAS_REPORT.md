@@ -336,6 +336,8 @@ Only the existing entity-name label is rendered; the distance label shares its f
 The campfire background asset is shown when this reference distance is at least 1,989 km; it is full-stage, lower-right artwork beneath stars and planets and does not capture pointer input.
 Its image positioning is anchored to the bottom-right, keeping that corner fixed as the viewport changes.
 Campfire visibility transitions over 900ms rather than appearing or disappearing abruptly; the PNG is displayed at its native 1920×1080 dimensions.
+Side-edge indicators use the same vertical name-then-distance label order as top-edge indicators.
+The side-edge label groups center-align both lines for a unified marker.
 
 
 Simulation playback supports 0.5x, 1x, 2x, 4x, and 8x speed selections.

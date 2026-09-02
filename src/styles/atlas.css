@@ -78,10 +78,10 @@
 }
 
 .offscreen-indicator--left .offscreen-indicator__labels {
-  top: 50%; left: 100%; transform: translateY(-50%); margin-left: .45rem; align-items: center; flex-direction: row; gap: .45rem;
+  top: 50%; left: 100%; transform: translateY(-50%); margin-left: .45rem; align-items: center;
 }
 .offscreen-indicator--right .offscreen-indicator__labels {
-  top: 50%; right: 100%; left: auto; transform: translateY(-50%); margin-right: .45rem; align-items: center; flex-direction: row-reverse; gap: .45rem;
+  top: 50%; right: 100%; left: auto; transform: translateY(-50%); margin-right: .45rem; align-items: center;
 }
 .offscreen-indicator--bottom .offscreen-indicator__labels {
   top: auto; bottom: calc(100% + .45rem); transform: translateX(-50%); flex-direction: column-reverse;

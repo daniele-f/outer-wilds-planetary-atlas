@@ -746,6 +746,8 @@ The original entity label remains the sole name label; the distance label now us
 When that reference distance reaches 1,989 km, the campfire artwork is revealed as a non-interactive lower-right background layer.
 The campfire image uses bottom-right object anchoring so its lower-right corner stays pinned to the viewport corner.
 Its threshold visibility uses a 900ms opacity transition for smooth fading, while the artwork remains at its native 1920×1080 size.
+Offscreen name and distance labels stack vertically on side edges, keeping distance beneath the name consistently.
+Side-edge label groups center-align the distance beneath the entity name.
 
 Selecting either individual Hourglass Twin highlights their shared binary orbit without applying the composite sand-beam effect.
 
