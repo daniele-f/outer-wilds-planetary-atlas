@@ -124,6 +124,7 @@ The center of the application is a scalable SVG view of the solar system. It inc
 - It now sits above the minimized player box and includes a volume symbol before the percentage.
 - The minimized tooltip icon is an inline SVG that inherits the percentage text color.
 - The minimized icon is slightly larger with a clearer gap before the percentage.
+- Settings include a persisted artwork-mode toggle that swaps available procedural body artwork for matching `public/images` assets while preserving hit areas, labels, and orbit behavior; the White Hole remains procedural because no matching asset exists.
 - Hourglass Twins use standard planet-style shared solar orbit lines and moon-style binary orbit lines; hovering or selecting/following the composite twin target highlights the binary orbit and sand beam without affecting individual twin hovers.
 - Composite hover now limits the highlight to the twins’ binary orbit and sand beam; the shared solar orbit receives no hover styling and responds only to selection/focus.
 - The pause/play control uses CSS-drawn bars and a triangle, avoiding platform-dependent text glyphs.

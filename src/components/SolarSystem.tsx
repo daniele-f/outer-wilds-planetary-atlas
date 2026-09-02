@@ -54,6 +54,7 @@ import { applyLabelCollisionOffsets, syncForegroundLabels } from '../lib/labelCo
 import {
   BODY_HIT_RADII,
   CelestialBody,
+  ImageArtworkContext,
   CelestialHitArea,
   type ActivationSource,
 } from './CelestialBody';
@@ -132,6 +133,7 @@ export type SolarSystemProps = Readonly<{
   focusViewportOffsetY?: number;
   /** CSS pixels occupied by overlays that should not contain an indicator. */
   offscreenInsets?: Readonly<{ right: number; bottom: number }>;
+  imageArtworkEnabled?: boolean;
 }>;
 
 type Gesture = {
@@ -202,6 +204,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
     focusViewportOffsetX = 0,
     focusViewportOffsetY = 0,
     offscreenInsets = { right: 0, bottom: 0 },
+    imageArtworkEnabled = false,
   },
   ref,
 ) {
@@ -817,6 +820,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       onWheel={camera.handlers.onWheel}
       onDragStart={camera.handlers.onDragStart}
     >
+      <ImageArtworkContext.Provider value={imageArtworkEnabled}>
       <svg
         ref={svgRef}
         className={`solar-system${showOrbits ? '' : ' solar-system--orbits-hidden'}${showLabels ? '' : ' solar-system--labels-hidden'}`}
@@ -1022,6 +1026,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
           }}
         />
       </svg>
+      </ImageArtworkContext.Provider>
       <div ref={offscreenIndicatorRef} className="offscreen-indicator" hidden aria-hidden="true">
         <span className="offscreen-indicator__chevron" aria-hidden="true" />
         <span ref={offscreenIndicatorLabelRef} className="offscreen-indicator__label" />

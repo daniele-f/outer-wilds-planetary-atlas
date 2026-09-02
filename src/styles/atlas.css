@@ -109,6 +109,7 @@
 .hourglass-binary-orbit { fill: none; vector-effect: non-scaling-stroke; stroke: #c3a471; stroke-dasharray: 3 4 1 5; stroke-linecap: round; stroke-opacity: .26; stroke-width: 1.1; pointer-events: none; }
 .hourglass-system--hovered .hourglass-binary-orbit { stroke: #f1b85d; stroke-opacity: .62; stroke-width: 1.5; }
 .hourglass-system--selected .hourglass-binary-orbit { stroke: #f1b85d; stroke-opacity: .62; stroke-width: 1.5; }
+.hourglass-system--image-artwork .twin-radius > * { display: none; }
 
 .celestial-entity {
   cursor: pointer;
@@ -245,6 +246,8 @@
 .sand-gradient--middle { stop-color: #e5a443; stop-opacity: .82; }
 .sand-gradient--destination { stop-color: #8c4d25; stop-opacity: .28; }
 .sand-grain { fill: #ffd88a; }
+.interloper-position--image-artwork .comet-visual > *:not(.body-image),
+.quantum-moon .body-image ~ * { display: none; }
 
 .atlas-eccentric-orbit { pointer-events: none; }
 .atlas-eccentric-orbit__line {

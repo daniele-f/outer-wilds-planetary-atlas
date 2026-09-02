@@ -7,12 +7,14 @@ type SettingsMenuProps = Readonly<{
   labelsHidden: boolean;
   spoilersEnabled: boolean;
   musicAutoplayEnabled: boolean;
+  imageArtworkEnabled: boolean;
   onToggleOpen: () => void;
   onRequestClose: () => void;
   onToggleOrbits: () => void;
   onToggleLabels: () => void;
   onToggleSpoilers: () => void;
   onToggleMusicAutoplay: () => void;
+  onToggleImageArtwork: () => void;
 }>;
 
 export function SettingsMenu({
@@ -27,6 +29,8 @@ export function SettingsMenu({
   onToggleSpoilers,
   musicAutoplayEnabled,
   onToggleMusicAutoplay,
+  imageArtworkEnabled,
+  onToggleImageArtwork,
   spoilersEnabled,
 }: SettingsMenuProps) {
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -65,6 +69,10 @@ export function SettingsMenu({
           <button type="button" aria-pressed={musicAutoplayEnabled} onClick={onToggleMusicAutoplay}>
             <span aria-hidden="true">{musicAutoplayEnabled ? '●' : '○'}</span>
             <span>{musicAutoplayEnabled ? 'Disable autoplay on load' : 'Enable autoplay on load'}</span>
+          </button>
+          <button type="button" aria-pressed={imageArtworkEnabled} onClick={onToggleImageArtwork}>
+            <span aria-hidden="true">{imageArtworkEnabled ? '●' : '○'}</span>
+            <span>{imageArtworkEnabled ? 'Use default bodies' : 'Use image artwork'}</span>
           </button>
           <button className="atlas-settings__spoiler-option" type="button" aria-pressed={spoilersEnabled} onClick={onToggleSpoilers}>
             <span aria-hidden="true">{spoilersEnabled ? '●' : '○'}</span>

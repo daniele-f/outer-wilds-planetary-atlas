@@ -280,6 +280,7 @@ The minimized player’s Play button provides the same wheel volume control and 
 That minimized volume percentage is centered directly above the Play button.
 It is positioned above the minimized player box and includes a volume symbol before the number.
 The symbol is an inline SVG using the same inherited color as the tooltip text.
+The settings menu includes a persisted image-artwork toggle; bodies with matching assets render them while interaction geometry remains unchanged, and the White Hole stays procedural as an asset fallback.
 It is sized slightly larger with a clearer gap before the percentage.
 It is rendered as the final settings-menu option with a separator above it.
 Orbit and label controls use matching state-aware Show/Hide wording.

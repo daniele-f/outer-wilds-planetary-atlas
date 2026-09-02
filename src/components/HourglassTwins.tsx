@@ -1,5 +1,6 @@
 import {
   forwardRef,
+  useContext,
   useCallback,
   useImperativeHandle,
   useRef,
@@ -18,6 +19,7 @@ import {
 } from '../lib/orbits';
 import type { OrbitConfig, Point } from '../types/celestial';
 import type { ActivationSource } from './CelestialBody';
+import { ImageArtworkContext } from './CelestialBody';
 
 const TWIN_CONFIG = Object.freeze({
   separation: 58,
@@ -231,6 +233,7 @@ function TwinEntity({
   onActivate,
   labelFontSize,
 }: TwinEntityProps) {
+  const imageArtwork = useContext(ImageArtworkContext);
   const onKeyDown = (event: KeyboardEvent<SVGGElement>) => {
     if (event.key !== 'Enter' && event.key !== ' ') return;
     event.preventDefault();
@@ -250,6 +253,7 @@ function TwinEntity({
       onKeyDown={onKeyDown}
     >
       <g className="body-visual twin-visual" pointerEvents="none">
+        {imageArtwork ? <image className="body-image" href={`/images/${variant === 'ash' ? 'ash_twin.png' : 'ember_twin.png'}`} x={-BASE_RADIUS} y={-BASE_RADIUS} width={BASE_RADIUS * 2} height={BASE_RADIUS * 2} /> : null}
         <g ref={visualRef} className="twin-radius" transform={`scale(${visualScale})`}>
           <circle className="twin-sphere" r={BASE_RADIUS} />
           <g clipPath={`url(#${clipId})`}>
@@ -299,6 +303,7 @@ export const HourglassTwins = forwardRef<HourglassTwinsHandle, HourglassTwinsPro
     },
     ref,
   ) {
+    const imageArtwork = useContext(ImageArtworkContext);
     if (ashTwin.orbit === undefined) throw new Error('Ash Twin requires a shared barycenter orbit.');
     const sharedOrbit = ashTwin.orbit;
     const barycenterRef = useRef<SVGGElement | null>(null);
@@ -347,7 +352,7 @@ export const HourglassTwins = forwardRef<HourglassTwinsHandle, HourglassTwinsPro
     return (
       <g
         ref={barycenterRef}
-        className={`hourglass-system${hoveredId === 'hourglass-twins' || selectedId === 'hourglass-twins' ? ' hourglass-system--hovered' : ''}${selectedId === 'ash-twin' || selectedId === 'ember-twin' ? ' hourglass-system--selected' : ''}`}
+        className={`hourglass-system${hoveredId === 'hourglass-twins' || selectedId === 'hourglass-twins' ? ' hourglass-system--hovered' : ''}${selectedId === 'ash-twin' || selectedId === 'ember-twin' ? ' hourglass-system--selected' : ''}${imageArtwork ? ' hourglass-system--image-artwork' : ''}`}
         transform={`translate(${initialBarycenter.x} ${initialBarycenter.y})`}
       >
         <circle

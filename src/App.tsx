@@ -13,6 +13,7 @@ const ORBITS_HIDDEN_STORAGE_KEY = 'outer-wilds-atlas.orbits-hidden';
 const LABELS_HIDDEN_STORAGE_KEY = 'outer-wilds-atlas.labels-hidden';
 const SPOILERS_ENABLED_STORAGE_KEY = 'outer-wilds-atlas.spoilers-enabled';
 const MUSIC_AUTOPLAY_STORAGE_KEY = 'outer-wilds-atlas.music-autoplay';
+const IMAGE_ARTWORK_STORAGE_KEY = 'outer-wilds-atlas.image-artwork';
 const PANEL_ANIMATION_MILLISECONDS = 220;
 
 function readStoredBoolean(key: string): boolean {
@@ -49,6 +50,7 @@ export default function App() {
   const [labelsHidden, setLabelsHidden] = useState(() => readStoredBoolean(LABELS_HIDDEN_STORAGE_KEY));
   const [spoilersEnabled, setSpoilersEnabled] = useState(() => readStoredBoolean(SPOILERS_ENABLED_STORAGE_KEY));
   const [musicAutoplayEnabled, setMusicAutoplayEnabled] = useState(() => readStoredBoolean(MUSIC_AUTOPLAY_STORAGE_KEY));
+  const [imageArtworkEnabled, setImageArtworkEnabled] = useState(() => readStoredBoolean(IMAGE_ARTWORK_STORAGE_KEY));
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [musicPlayerMinimized, setMusicPlayerMinimized] = useState(false);
   const [spoilerPromptOpen, setSpoilerPromptOpen] = useState(() => !hasStoredValue(SPOILERS_ENABLED_STORAGE_KEY));
@@ -96,6 +98,7 @@ export default function App() {
     if (!spoilerPromptOpen) writeStoredBoolean(SPOILERS_ENABLED_STORAGE_KEY, spoilersEnabled);
   }, [spoilerPromptOpen, spoilersEnabled]);
   useEffect(() => writeStoredBoolean(MUSIC_AUTOPLAY_STORAGE_KEY, musicAutoplayEnabled), [musicAutoplayEnabled]);
+  useEffect(() => writeStoredBoolean(IMAGE_ARTWORK_STORAGE_KEY, imageArtworkEnabled), [imageArtworkEnabled]);
   useEffect(() => {
     if (!spoilersEnabled && (selectedId === 'quantum-moon' || selectedId === 'sun-station' || selectedId === 'white-hole-station' || selectedId === 'white-hole' || selectedId === 'orbital-probe-cannon')) {
       solarSystemRef.current?.unfocusBody();
@@ -197,6 +200,7 @@ export default function App() {
           focusViewportOffsetX={focusViewportOffsetX}
           focusViewportOffsetY={focusViewportOffsetY}
           offscreenInsets={offscreenInsets}
+          imageArtworkEnabled={imageArtworkEnabled}
         />
         {!panelVisible ? null : (
           <InfoPanel
@@ -223,6 +227,8 @@ export default function App() {
           onToggleSpoilers={() => setSpoilersEnabled((current) => !current)}
           musicAutoplayEnabled={musicAutoplayEnabled}
           onToggleMusicAutoplay={() => setMusicAutoplayEnabled((current) => !current)}
+          imageArtworkEnabled={imageArtworkEnabled}
+          onToggleImageArtwork={() => setImageArtworkEnabled((current) => !current)}
         />
         <Controls
           paused={paused}

@@ -1,6 +1,8 @@
 import {
   forwardRef,
+  createContext,
   useId,
+  useContext,
   type KeyboardEvent,
   type MouseEvent,
   type PointerEvent,
@@ -25,6 +27,12 @@ type CelestialBodyProps = Readonly<{
   artworkRef?: Ref<SVGGElement>;
   musicPulseKey?: number | undefined;
 }>;
+
+export const ImageArtworkContext = createContext(false);
+const IMAGE_ARTWORK_FILES: Partial<Record<BodyId, string>> = {
+  sun: 'sun.png', 'sun-station': 'sun_station.png', 'white-hole-station': 'white_hole_station.png', 'orbital-probe-cannon': 'orbital_probe_cannon.png',
+  'timber-hearth': 'timber_hearth.png', attlerock: 'attlerock.png', 'brittle-hollow': 'brittle_hollow.png', 'hollows-lantern': 'hollows_lantern.png', 'giants-deep': 'giants_deep.png', 'dark-bramble': 'dark_bramble.png', 'ash-twin': 'ash_twin.png', 'ember-twin': 'ember_twin.png', interloper: 'the_interloper.png', 'quantum-moon': 'quantum_moon.png',
+};
 
 export const BODY_VISUAL_RADII: Readonly<Record<BodyId, number>> = {
   sun: 43,
@@ -95,6 +103,11 @@ export function CelestialHitArea({ body, radius, onActivate, onHoverChange }: Ce
 }
 
 function BodyArtwork({ id, radius, idPrefix, musicPulseKey }: Readonly<{ id: BodyId; radius: number; idPrefix: string; musicPulseKey?: number | undefined }>) {
+  const imageArtwork = useContext(ImageArtworkContext);
+  const imageFile = IMAGE_ARTWORK_FILES[id];
+  if (imageArtwork && imageFile !== undefined) {
+    return <image className={`body-image body-image--${id}`} href={`images/${imageFile}`} x={-radius} y={-radius} width={radius * 2} height={radius * 2} preserveAspectRatio="xMidYMid meet" />;
+  }
   const clipId = `${idPrefix}-clip`;
 
   if (id === 'sun') {
