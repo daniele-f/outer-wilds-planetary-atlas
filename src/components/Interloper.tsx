@@ -28,6 +28,7 @@ type InterloperFrame = Readonly<{
   position: AttributeTarget | null;
   tail: AttributeTarget | null;
   image?: AttributeTarget | null;
+  orientation?: AttributeTarget | null;
   onPositionUpdate: (id: BodyId, position: Point) => void;
 }>;
 
@@ -39,6 +40,7 @@ export function renderInterloperFrame({
   position,
   tail,
   image,
+  orientation,
   onPositionUpdate,
 }: InterloperFrame): void {
   const state = cometOrbitState(orbit, time);
@@ -48,6 +50,7 @@ export function renderInterloperFrame({
   );
   tail?.setAttribute('transform', `rotate(${state.tailRotationDegrees.toFixed(3)})`);
   image?.setAttribute('transform', `rotate(${state.tailRotationDegrees.toFixed(3)})`);
+  orientation?.setAttribute('transform', `rotate(${state.tailRotationDegrees.toFixed(3)})`);
   onPositionUpdate(bodyId, state.position);
 }
 
@@ -72,6 +75,7 @@ export const Interloper = forwardRef<InterloperHandle, InterloperProps>(function
   const rootRef = useRef<SVGGElement | null>(null);
   const tailRef = useRef<SVGGElement | null>(null);
   const imageRef = useRef<SVGImageElement | null>(null);
+  const orientationRef = useRef<SVGGElement | null>(null);
   const initialState = cometOrbitState(orbit, 0);
   const eccentricity = orbit.eccentricity ?? 0;
   const semiMinor = orbit.radius * Math.sqrt(1 - eccentricity * eccentricity);
@@ -84,6 +88,7 @@ export const Interloper = forwardRef<InterloperHandle, InterloperProps>(function
       position: rootRef.current,
       tail: tailRef.current,
       image: imageRef.current,
+      orientation: orientationRef.current,
       onPositionUpdate,
     });
   }, [body.id, onPositionUpdate, orbit]);
@@ -138,6 +143,7 @@ export const Interloper = forwardRef<InterloperHandle, InterloperProps>(function
           <path className="comet-tail__plume" d="M4,-7 C50,-17 118,-13 190,0 C118,13 50,17 4,7 Z" fill={`url(#${tailGradientId})`} />
           <path className="comet-tail__filament" d="M7,0 Q78,-7 166,2" />
         </g>
+        <g ref={orientationRef} className="comet-orientation" pointerEvents="none" transform={`rotate(${initialState.tailRotationDegrees})`}>
         <g className="body-visual comet-visual" pointerEvents="none">
           {imageArtwork ? <image ref={imageRef} className="body-image" href={imageAssetUrl('the_interloper.png')} x={-24 * IMAGE_ARTWORK_SCALE} y={-24 * IMAGE_ARTWORK_SCALE} width={48 * IMAGE_ARTWORK_SCALE} height={48 * IMAGE_ARTWORK_SCALE} transform={`rotate(${initialState.tailRotationDegrees})`} /> : null}
           <circle className="comet-coma comet-coma--outer" r="21" />
@@ -146,6 +152,7 @@ export const Interloper = forwardRef<InterloperHandle, InterloperProps>(function
           <path className="comet-ice" d="M-5,-6 L1,-7 L5,-3 L1,0 Z M-4,4 L2,2 L6,6 L-1,8 Z" />
           <path className="comet-shadow" d="M0,-10 Q12,-5 8,8 Q2,13 -2,9 Q4,2 0,-10 Z" />
           <path className="comet-rim" d="M-10,-4 L-5,-10 L4,-9 L11,-2 L8,8 L-1,11 L-10,5 Z" />
+        </g>
         </g>
         <text
           className="body-label comet-label"

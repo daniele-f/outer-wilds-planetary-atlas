@@ -283,7 +283,8 @@ The symbol is an inline SVG using the same inherited color as the tooltip text.
 The settings menu includes a persisted image-artwork toggle; bodies with matching assets render them while interaction geometry remains unchanged, and the White Hole stays procedural as an asset fallback.
 Image asset URLs are built from the configured Vite base path for correct local and GitHub Pages resolution.
 Image artwork uses a modest scale-up over the nominal radius so transparent PNG padding does not make image-mode bodies appear smaller than their SVG counterparts.
-The Interloper image orientation is updated each frame so its front points toward the Sun; its procedural comet artwork is unchanged.
+The Interloper image orientation is updated each frame so its front points toward the Sun. The procedural comet visual follows the same anti-solar frame, keeping its darker shading away from the Sun.
+The orientation wrapper remains independent from hover/focus scaling, preserving the solar-facing direction during interaction.
 It is sized slightly larger with a clearer gap before the percentage.
 It is rendered as the final settings-menu option with a separator above it.
 Orbit and label controls use matching state-aware Show/Hide wording.
