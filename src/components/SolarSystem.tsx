@@ -253,6 +253,7 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
   const labelLayerRef = useRef<SVGGElement | null>(null);
   const offscreenIndicatorRef = useRef<HTMLDivElement | null>(null);
   const offscreenIndicatorLabelRef = useRef<HTMLSpanElement | null>(null);
+  const offscreenIndicatorDistanceRef = useRef<HTMLSpanElement | null>(null);
   const focusedBodyRef = useRef<BodyId | null>('sun');
   const displayedCameraRef = useRef<Camera>(camera.camera);
   const cameraTransitionRef = useRef<CameraTransition | null>(null);
@@ -593,8 +594,10 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
         indicator.style.setProperty('--offscreen-angle', `${placement.angle}deg`);
         const horizontalEdge = placement.x <= indicatorWindow.left ? 'left-edge' : placement.x >= indicatorWindow.right ? 'right-edge' : '';
         indicator.className = `offscreen-indicator offscreen-indicator--${placement.edge}${horizontalEdge === '' ? '' : ` offscreen-indicator--${placement.edge}-${horizontalEdge}`}`;
-        indicator.setAttribute('aria-label', `${placement.label} is offscreen`);
+        const distance = Math.round(Math.hypot(targetScreen!.x - placement.x, targetScreen!.y - placement.y));
+        indicator.setAttribute('aria-label', `${placement.label} is offscreen, ${distance} kilometers away`);
         if (offscreenIndicatorLabelRef.current !== null) offscreenIndicatorLabelRef.current.textContent = placement.label;
+        if (offscreenIndicatorDistanceRef.current !== null) offscreenIndicatorDistanceRef.current.textContent = `${distance} km`;
       }
     }
   }, [applyCameraTransform, focusedCamera, getDisplayedCamera, offscreenInsets, registry, selectedId, selectableRegistry, showQuantumMoon]);
@@ -1039,7 +1042,10 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       </ImageArtworkContext.Provider>
       <div ref={offscreenIndicatorRef} className="offscreen-indicator" hidden aria-hidden="true">
         <span className="offscreen-indicator__chevron" aria-hidden="true" />
-        <span ref={offscreenIndicatorLabelRef} className="offscreen-indicator__label" />
+        <span className="offscreen-indicator__labels">
+          <span ref={offscreenIndicatorLabelRef} className="offscreen-indicator__label" />
+          <span ref={offscreenIndicatorDistanceRef} className="offscreen-indicator__distance" aria-hidden="true" />
+        </span>
       </div>
       <p className="map-hint">Drag to pan · scroll to zoom · select a world to learn more</p>
     </div>

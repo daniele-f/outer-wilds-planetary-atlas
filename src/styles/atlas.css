@@ -32,12 +32,21 @@
   transform: rotate(var(--offscreen-angle, 0deg));
 }
 
-.offscreen-indicator__label {
+.offscreen-indicator__labels {
   position: absolute;
   top: calc(100% + .45rem);
   left: 50%;
   width: max-content;
   max-width: 12rem;
+  display: flex;
+  flex-direction: column;
+  gap: .18rem;
+  align-items: center;
+  transform: translateX(-50%);
+}
+
+.offscreen-indicator__label,
+.offscreen-indicator__distance {
   color: #fff1ce;
   font-family: Inter, 'Segoe UI', sans-serif;
   font-size: .72rem;
@@ -48,16 +57,26 @@
   text-shadow: 0 1px 4px #000;
 }
 
-.offscreen-indicator--left .offscreen-indicator__label { left: 100%; text-align: left; }
-.offscreen-indicator--left .offscreen-indicator__label { top: 50%; transform: translateY(calc(-50%)); margin-left: .45rem; }
-.offscreen-indicator--right .offscreen-indicator__label { top: 50%; right: 100%; left: auto; transform: translateY(calc(-50%)); margin-right: .45rem; text-align: right; }
-.offscreen-indicator--top .offscreen-indicator__label,
-.offscreen-indicator--top .offscreen-indicator__label { transform: translateX(-50%); }
-.offscreen-indicator--bottom .offscreen-indicator__label { top: auto; bottom: calc(100% + .45rem); transform: translateX(-50%); }
-.offscreen-indicator--top-left-edge .offscreen-indicator__label,
-.offscreen-indicator--bottom-left-edge .offscreen-indicator__label { left: 0; transform: none; text-align: left; }
-.offscreen-indicator--top-right-edge .offscreen-indicator__label,
-.offscreen-indicator--bottom-right-edge .offscreen-indicator__label { right: 0; left: auto; transform: none; text-align: right; }
+.offscreen-indicator__distance {
+  color: #fff1ce;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.offscreen-indicator--left .offscreen-indicator__labels {
+  top: 50%; left: 100%; transform: translateY(-50%); margin-left: .45rem; align-items: center; flex-direction: row; gap: .45rem;
+}
+.offscreen-indicator--right .offscreen-indicator__labels {
+  top: 50%; right: 100%; left: auto; transform: translateY(-50%); margin-right: .45rem; align-items: center; flex-direction: row-reverse; gap: .45rem;
+}
+.offscreen-indicator--bottom .offscreen-indicator__labels {
+  top: auto; bottom: calc(100% + .45rem); transform: translateX(-50%); flex-direction: column-reverse;
+}
+.offscreen-indicator--top-left-edge .offscreen-indicator__labels,
+.offscreen-indicator--bottom-left-edge .offscreen-indicator__labels { left: 0; transform: none; align-items: flex-start; text-align: left; }
+.offscreen-indicator--top-right-edge .offscreen-indicator__labels,
+.offscreen-indicator--bottom-right-edge .offscreen-indicator__labels { right: 0; left: auto; transform: none; align-items: flex-end; text-align: right; }
 
 .offscreen-indicator[hidden] { display: none; }
 

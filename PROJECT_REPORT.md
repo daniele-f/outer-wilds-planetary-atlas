@@ -740,6 +740,10 @@ The project is a complete, focused interactive atlas with a clear visual identit
 The primary maintenance item is keeping the concise README synchronized with behavior changes. The implementation itself is structured so that new bodies, copy, and orbital effects can be added without replacing the core architecture. Display names now use “The Attlerock,” “The Hourglass Twins,” and “The Interloper.”
 The small Hourglass binary orbit explicitly matches moon orbit styling, including non-scaling stroke geometry, while the large solar orbit uses the standard planet orbit styling.
 
+Offscreen indicators now show a second, opposite-side distance label. The distance is the projected pixel gap from the chevron edge to the offscreen target, while the entity name remains on its existing side.
+The indicator labels are grouped in chevron-outward order: entity name first, then distance, with layout direction adapting to each screen edge.
+The original entity label remains the sole name label; the distance label now uses the same typography and displays its value in kilometres.
+
 Selecting either individual Hourglass Twin highlights their shared binary orbit without applying the composite sand-beam effect.
 
 - Simulation speed controls now include faster 4x and 8x options.
