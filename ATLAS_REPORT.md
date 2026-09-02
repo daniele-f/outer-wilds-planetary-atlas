@@ -286,6 +286,14 @@ Image artwork uses a modest scale-up over the nominal radius so transparent PNG 
 The background is selected from procedural SVG presets and persisted in local storage; no raster background assets are required.
 Each preset uses its own procedural SVG geometry, nebula composition, and deterministic star distribution.
 The chooser modal remains open for repeated selection and dismisses through its close button or outside-click backdrop.
+Background artwork overscans the fixed atlas viewBox to keep nebula compositions filled on widescreen layouts.
+Stars use a separate meet-scaled SVG layer to preserve their original radius and spacing while nebula artwork stretches.
+Each background defines multiple fixed star boxes with independent positions and star distributions; responsive spacing keeps the center boxes anchored and pushes outer boxes outward when needed.
+The star layer disables nebula overscan transforms and explicitly uses uniform `xMidYMid meet` scaling.
+Star twinkle uses opacity-only animation so circles remain round under all viewport sizes.
+The background is rendered in a separate full-stage SVG with non-uniform viewport fitting so ultra-wide screens remain filled without distorting orbital geometry.
+The SVG background layer provides the base fill beneath the transparent planetary map.
+The Violet Frontier cloud ribbon extends beyond the viewBox horizontally so its filtered edges fade naturally.
 The Deep Space preset uses layered curved ribbons, haze pockets, and a subtle trace while preserving its restrained navy palette.
 The music preference is labeled “Enable autoplay music” / “Disable autoplay music.”
 The Interloper image keeps a fixed 180° local flip within the anti-solar orientation wrapper, placing its pointy front toward the Sun. The procedural comet visual follows that wrapper, keeping its darker shading away from the Sun.

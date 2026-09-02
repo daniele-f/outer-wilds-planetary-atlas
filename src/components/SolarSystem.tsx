@@ -823,6 +823,12 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
       onDragStart={camera.handlers.onDragStart}
     >
       <ImageArtworkContext.Provider value={imageArtworkEnabled}>
+      <svg className="atlas-background" viewBox={viewBox} preserveAspectRatio="none" aria-hidden="true">
+        <Starfield idPrefix={`${sceneId}-background`} preset={backgroundPreset} />
+      </svg>
+      <svg className="atlas-background-stars" viewBox={viewBox} preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <Starfield idPrefix={`${sceneId}-background-stars`} preset={backgroundPreset} starsOnly />
+      </svg>
       <svg
         ref={svgRef}
         className={`solar-system${showOrbits ? '' : ' solar-system--orbits-hidden'}${showLabels ? '' : ' solar-system--labels-hidden'}`}
@@ -831,7 +837,6 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
         aria-label="Animated map of the Outer Wilds solar system"
         preserveAspectRatio="xMidYMid meet"
       >
-        <Starfield idPrefix={`${sceneId}-stars`} preset={backgroundPreset} />
         <g ref={cameraWorldRef} className="camera-world" transform={displayedCameraTransform}>
           <g className="ordinary-orbits">
             {showQuantumMoon && SUN_STATION.orbit !== undefined ? <Orbit orbit={SUN_STATION.orbit} selected={selectedId === SUN_STATION.id} /> : null}
