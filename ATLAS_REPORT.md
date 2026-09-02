@@ -285,6 +285,9 @@ Image asset URLs are built from the configured Vite base path for correct local 
 Image artwork uses a modest scale-up over the nominal radius so transparent PNG padding does not make image-mode bodies appear smaller than their SVG counterparts.
 The Interloper image keeps a fixed 180° local flip within the anti-solar orientation wrapper, placing its pointy front toward the Sun. The procedural comet visual follows that wrapper, keeping its darker shading away from the Sun.
 The orientation wrapper remains independent from hover/focus scaling, preserving the solar-facing direction during interaction.
+Alternative artwork mode uses `the_interloper_tail.png` for the Interloper tail while retaining live anti-solar rotation.
+It is also locally translated so the illustrated comet head is centered on the Interloper’s orbital position.
+The alternative tail includes a tunable fixed 10° local rotation.
 It is sized slightly larger with a clearer gap before the percentage.
 It is rendered as the final settings-menu option with a separator above it.
 Orbit and label controls use matching state-aware Show/Hide wording.
