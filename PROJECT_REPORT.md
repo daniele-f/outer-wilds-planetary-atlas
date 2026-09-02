@@ -743,6 +743,8 @@ The small Hourglass binary orbit explicitly matches moon orbit styling, includin
 Offscreen indicators now show a second, opposite-side distance label. The distance is the projected pixel gap from the chevron edge to the offscreen target, while the entity name remains on its existing side.
 The indicator labels are grouped in chevron-outward order: entity name first, then distance, with layout direction adapting to each screen edge.
 The original entity label remains the sole name label; the distance label now uses the same typography and displays the target's projected distance from the viewport center at the fixed minimum zoom in kilometres.
+When that reference distance reaches 1,989 km, the campfire artwork is revealed as a non-interactive lower-right background layer.
+The campfire image uses bottom-right object anchoring so its lower-right corner stays pinned to the viewport corner.
 
 Selecting either individual Hourglass Twin highlights their shared binary orbit without applying the composite sand-beam effect.
 

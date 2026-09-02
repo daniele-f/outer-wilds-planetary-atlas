@@ -333,6 +333,8 @@ The small binary orbit explicitly matches moon orbit styling, including its non-
 Offscreen indicator geometry is edge-clamped to the usable atlas window. Each indicator now includes the selected entity name plus a distance label on the opposite side, computed as the rounded projected pixel distance between the clamped chevron position and the target.
 The name and distance are rendered as an ordered label group, so the name is always nearest the chevron and the distance follows it outward on every edge.
 Only the existing entity-name label is rendered; the distance label shares its font styling rather than duplicating the name, and is displayed in kilometres using projected distance from a minimum-zoom reference camera.
+The campfire background asset is shown when this reference distance is at least 1,989 km; it is full-stage, lower-right artwork beneath stars and planets and does not capture pointer input.
+Its image positioning is anchored to the bottom-right, keeping that corner fixed as the viewport changes.
 
 
 Simulation playback supports 0.5x, 1x, 2x, 4x, and 8x speed selections.
