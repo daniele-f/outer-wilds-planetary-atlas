@@ -17,7 +17,7 @@ import {
 } from '../data/celestialBodies';
 import { useAnimationClock } from '../hooks/useAnimationClock';
 import { MAP_DRAG_THRESHOLD, useMapCamera } from '../hooks/useMapCamera';
-import type { Camera } from '../lib/camera';
+import { MIN_ZOOM, type Camera } from '../lib/camera';
 import { circularPosition, composePoint } from '../lib/orbits';
 import {
   attemptQuantumEscape,
@@ -594,7 +594,24 @@ export const SolarSystem = forwardRef<SolarSystemHandle, SolarSystemProps>(funct
         indicator.style.setProperty('--offscreen-angle', `${placement.angle}deg`);
         const horizontalEdge = placement.x <= indicatorWindow.left ? 'left-edge' : placement.x >= indicatorWindow.right ? 'right-edge' : '';
         indicator.className = `offscreen-indicator offscreen-indicator--${placement.edge}${horizontalEdge === '' ? '' : ` offscreen-indicator--${placement.edge}-${horizontalEdge}`}`;
-        const distance = Math.round(Math.hypot(targetScreen!.x - placement.x, targetScreen!.y - placement.y));
+        // Measure against a virtual camera fixed at the minimum zoom. This keeps
+        // the displayed distance tied to the fully zoomed-out view, regardless of
+        // the user's current zoom level.
+        const displayedCamera = getDisplayedCamera();
+        const referenceCamera: Camera = {
+          scale: MIN_ZOOM,
+          offset: {
+            x: displayedCamera.offset.x * MIN_ZOOM / Math.max(displayedCamera.scale, Number.EPSILON),
+            y: displayedCamera.offset.y * MIN_ZOOM / Math.max(displayedCamera.scale, Number.EPSILON),
+          },
+        };
+        const referenceTarget = worldPointToClient(
+          target!,
+          referenceCamera,
+          { width: bounds.width, height: bounds.height },
+          ATLAS_VIEW_BOX,
+        );
+        const distance = Math.round(Math.hypot(referenceTarget.x - bounds.width / 2, referenceTarget.y - bounds.height / 2));
         indicator.setAttribute('aria-label', `${placement.label} is offscreen, ${distance} kilometers away`);
         if (offscreenIndicatorLabelRef.current !== null) offscreenIndicatorLabelRef.current.textContent = placement.label;
         if (offscreenIndicatorDistanceRef.current !== null) offscreenIndicatorDistanceRef.current.textContent = `${distance} km`;
