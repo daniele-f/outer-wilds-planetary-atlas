@@ -1,4 +1,4 @@
-export type SimulationSpeed = 0.5 | 1 | 2;
+export type SimulationSpeed = 0.5 | 1 | 2 | 4 | 8;
 
 type ControlsProps = Readonly<{
   paused: boolean;
@@ -10,7 +10,7 @@ type ControlsProps = Readonly<{
   onSpeedChange: (speed: SimulationSpeed) => void;
 }>;
 
-const SPEEDS: readonly SimulationSpeed[] = [0.5, 1, 2];
+const SPEEDS: readonly SimulationSpeed[] = [0.5, 1, 2, 4, 8];
 
 function ToolButton({
   label,
