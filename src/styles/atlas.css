@@ -6,6 +6,8 @@
   touch-action: none;
   user-select: none;
 }
+.atlas-background { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
+.atlas-background-stars { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
 
 .atlas-map-surface:active { cursor: grabbing; }
 
@@ -59,27 +61,30 @@
 .offscreen-indicator[hidden] { display: none; }
 
 .solar-system {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: 100%;
-  background:
-    radial-gradient(circle at 50% 50%, rgb(26 42 69 / .34), transparent 45%),
-    linear-gradient(145deg, #070c19, #0b1327 52%, #080b18);
+  background: transparent;
 }
 
 .atlas-star {
   fill: #fff4d2;
-  transform-box: fill-box;
-  transform-origin: center;
   animation: star-twinkle 5.5s ease-in-out infinite alternate;
 }
 
 .atlas-star:nth-of-type(3n) { fill: #aed6e6; animation-duration: 7s; }
 .atlas-star:nth-of-type(5n) { fill: #e6b17b; animation-duration: 4.5s; }
+.atlas-star--dim { animation-name: star-twinkle-deep; }
 
 @keyframes star-twinkle {
-  0%, 35% { opacity: .3; transform: scale(.75); }
-  100% { opacity: .92; transform: scale(1.15); }
+  0%, 35% { opacity: .3; }
+  100% { opacity: .92; }
+}
+@keyframes star-twinkle-deep {
+  0%, 35% { opacity: 0; }
+  100% { opacity: .92; }
 }
 
 .atlas-orbit { pointer-events: none; }
