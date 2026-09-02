@@ -72,7 +72,7 @@ export function SettingsMenu({
           </button>
           <button type="button" aria-pressed={imageArtworkEnabled} onClick={onToggleImageArtwork}>
             <span aria-hidden="true">{imageArtworkEnabled ? '●' : '○'}</span>
-            <span>{imageArtworkEnabled ? 'Use default bodies' : 'Use image artwork'}</span>
+            <span>{imageArtworkEnabled ? 'Use default artwork' : 'Use alternative artwork'}</span>
           </button>
           <button className="atlas-settings__spoiler-option" type="button" aria-pressed={spoilersEnabled} onClick={onToggleSpoilers}>
             <span aria-hidden="true">{spoilersEnabled ? '●' : '○'}</span>

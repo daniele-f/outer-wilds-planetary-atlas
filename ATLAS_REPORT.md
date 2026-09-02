@@ -280,7 +280,7 @@ The minimized player’s Play button provides the same wheel volume control and 
 That minimized volume percentage is centered directly above the Play button.
 It is positioned above the minimized player box and includes a volume symbol before the number.
 The symbol is an inline SVG using the same inherited color as the tooltip text.
-The settings menu includes a persisted image-artwork toggle; bodies with matching assets render them while interaction geometry remains unchanged, and the White Hole stays procedural as an asset fallback.
+The settings menu includes a persisted artwork toggle labeled “Use alternative artwork” / “Use default artwork”; bodies with matching assets render them while interaction geometry remains unchanged, and the White Hole stays procedural as an asset fallback.
 Image asset URLs are built from the configured Vite base path for correct local and GitHub Pages resolution.
 Image artwork uses a modest scale-up over the nominal radius so transparent PNG padding does not make image-mode bodies appear smaller than their SVG counterparts.
 The Interloper image keeps a fixed 180° local flip within the anti-solar orientation wrapper, placing its pointy front toward the Sun. The procedural comet visual follows that wrapper, keeping its darker shading away from the Sun.

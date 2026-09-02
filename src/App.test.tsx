@@ -247,7 +247,7 @@ describe('planetary atlas application UI', () => {
     localStorage.setItem('outer-wilds-atlas.spoilers-enabled', 'true');
     render(<App />);
     await user.click(screen.getByRole('button', { name: 'Map settings' }));
-    await user.click(screen.getByRole('button', { name: 'Use image artwork' }));
+    await user.click(screen.getByRole('button', { name: 'Use alternative artwork' }));
     expect(localStorage.getItem('outer-wilds-atlas.image-artwork')).toBe('true');
     expect(document.querySelector('.body-image--sun')?.getAttribute('href')).toMatch(/\/images\/sun\.png$/);
     expect(Number(document.querySelector('.body-image--sun')?.getAttribute('width'))).toBeGreaterThan(86);
